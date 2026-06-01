@@ -1,6 +1,6 @@
 # ADL runtime (WASM)
 
-**ADL** (Agent Description Language) is the declarative DSL for describing agentic
+**ADL** is the agent language — a declarative DSL for describing agentic
 domain models — entities and relations, brains and minds, beliefs, constitutions
 and policies, HTTP APIs, functions, and SurrealDB/SurrealML bindings.
 

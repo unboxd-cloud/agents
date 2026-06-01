@@ -1,0 +1,88 @@
+// agent.adl — an executable AGENTS.md for the Unboxd platform support agent.
+//
+// ADL is the agent language — the structured, machine-checked
+// counterpart to a freeform AGENTS.md: instead of prose, it declares the
+// agent's world so the runtime can parse, validate, and act on it.
+//
+// Validate or run it with the canonical runtime in pkg/adl (Go) or, in the
+// tooling, via the shared WASM build in web/adl-runtime.
+
+namespace unboxd.support
+
+vocabulary support {
+    term tenant means "an isolated customer account on the platform"
+    term sev1 means "highest-severity incident" maps to unboxd.support.Incident
+    term mrr maps to unboxd.support.Subscription
+}
+
+entity Tenant {
+    id: string required
+    name: string required
+    plan: string
+}
+
+entity Subscription {
+    tenant: Tenant required
+    product: string required
+    monthlyCents: int required
+    active: bool
+}
+
+entity Incident {
+    tenant: Tenant required
+    severity: string required
+    summary: string required
+    openedAt: datetime
+    resolved: bool
+}
+
+entity TriageNote extends Incident {
+    assignee: string
+    nextStep: string
+}
+
+relation Affects Incident -> Subscription {
+    impact: string
+}
+
+brain SupportBrain {
+    owns data
+    owns business_logic
+    owns policy
+    owns events
+    owns live_queries
+    owns memory
+    owns beliefs
+    owns decisions
+}
+
+mind IncidentMind for Incident {
+    hypothesis: string
+    recommendedAction: string
+    confidence: float
+}
+
+belief LikelyChurn {
+    subject Tenant
+    claim "tenant is at risk of churn after repeated sev1 incidents"
+    confidence 0.66
+    source "incident-history-model"
+}
+
+constitution SupportConstitution {
+    rule privacy: "never reveal one tenant's data to another tenant"
+    rule honesty: "never report an incident status that is not backed by data"
+    rule escalation: "always escalate unresolved sev1 incidents within one hour"
+}
+
+policy AccessPolicy {
+    rule readIncidents: "agents may read incidents only for the acting tenant"
+    rule mutate: "only resolve incidents through the audited api"
+}
+
+api get "/v1/tenants/{id}/incidents" returns surrealdb
+api post "/v1/incidents/{id}/resolve" returns surrealdb
+
+function unboxd.support.riskScore(tenant: Tenant, window: int) returns float as surrealml
+
+surrealml ChurnRisk for scoring input Tenant output Incident

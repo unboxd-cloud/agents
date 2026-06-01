@@ -1,4 +1,4 @@
-// Package adl implements ADL, the Agent Description Language.
+// Package adl implements ADL, the agent language.
 //
 // ADL is the executable counterpart to a freeform agent.md / AGENTS.md
 // instructions file: instead of natural-language prose, an ADL document declares
