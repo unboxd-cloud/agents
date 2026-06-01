@@ -3,12 +3,12 @@ GO ?= go
 BIN := bin
 # All commands under ./cmd are built; these get OCI images.
 SERVICES := metering billing catalog compliance admin operator orgconsole
-# Every buildable command (services + CLI + agents). agentql-wasm is built for
-# GOOS=js only (see the agentql-wasm target), so it is excluded from the native
+# Every buildable command (services + CLI + agents). adl-wasm is built for
+# GOOS=js only (see the adl-wasm target), so it is excluded from the native
 # build loop.
-CMDS := $(filter-out agentql-wasm,$(notdir $(wildcard cmd/*)))
-# Where the AgentQL WASM runtime and its JS glue live (consumed by the tooling).
-AGENTQL_WEB := web/agentql-runtime
+CMDS := $(filter-out adl-wasm,$(notdir $(wildcard cmd/*)))
+# Where the ADL WASM runtime and its JS glue live (consumed by the tooling).
+ADL_WEB := web/adl-runtime
 # Container manager for the local sandbox: podman (default) or docker.
 CONTAINER ?= podman
 IMAGE_PREFIX ?= localhost/unboxd-cloud
@@ -46,11 +46,11 @@ fmt: ## Format code
 .PHONY: check
 check: vet test ## Vet + test (CI gate)
 
-.PHONY: agentql-wasm
-agentql-wasm: ## Build the AgentQL runtime as WASM for the TS tooling
-	GOOS=js GOARCH=wasm $(GO) build -o $(AGENTQL_WEB)/agentql.wasm ./cmd/agentql-wasm
-	cp "$$($(GO) env GOROOT)/lib/wasm/wasm_exec.js" $(AGENTQL_WEB)/wasm_exec.js
-	@echo "AgentQL runtime built -> $(AGENTQL_WEB)/agentql.wasm"
+.PHONY: adl-wasm
+adl-wasm: ## Build the ADL runtime as WASM for the TS tooling
+	GOOS=js GOARCH=wasm $(GO) build -o $(ADL_WEB)/adl.wasm ./cmd/adl-wasm
+	cp "$$($(GO) env GOROOT)/lib/wasm/wasm_exec.js" $(ADL_WEB)/wasm_exec.js
+	@echo "ADL runtime built -> $(ADL_WEB)/adl.wasm"
 
 .PHONY: e2e
 e2e: ## End-to-end test: run the stack and exercise the full flow

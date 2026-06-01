@@ -1,4 +1,4 @@
-package agentql
+package adl
 
 import (
 	"fmt"
@@ -77,7 +77,7 @@ func (t token) describe() string {
 	}
 }
 
-// lexer turns AgentQL source into a token slice, honouring the grammar's hidden
+// lexer turns ADL source into a token slice, honouring the grammar's hidden
 // terminals (whitespace, // line comments and /* */ block comments).
 type lexer struct {
 	src   string

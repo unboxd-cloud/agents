@@ -1,4 +1,4 @@
-package agentql
+package adl
 
 import (
 	"os"
@@ -8,7 +8,7 @@ import (
 
 func loadSample(t *testing.T) string {
 	t.Helper()
-	b, err := os.ReadFile(filepath.Join("testdata", "sample.agentql"))
+	b, err := os.ReadFile(filepath.Join("testdata", "sample.adl"))
 	if err != nil {
 		t.Fatalf("reading sample: %v", err)
 	}

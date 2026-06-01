@@ -1,4 +1,4 @@
-// Sample AgentQL program exercising every top-level construct.
+// Sample ADL program exercising every top-level construct.
 namespace acme.crm
 
 vocabulary sales {

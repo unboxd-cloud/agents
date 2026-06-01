@@ -1,11 +1,11 @@
-package agentql
+package adl
 
 import (
 	"fmt"
 	"strconv"
 )
 
-// parser is a hand-written recursive-descent parser that follows the AgentQL
+// parser is a hand-written recursive-descent parser that follows the ADL
 // Langium grammar rule for rule. Each top-level declaration is parsed inside a
 // recover boundary so a syntax error in one declaration is reported and then
 // skipped, letting the rest of the file still parse (important for editor use).

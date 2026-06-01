@@ -1,7 +1,7 @@
-// Type definitions for the AgentQL runtime.
+// Type definitions for the ADL runtime.
 //
-// The runtime itself is the Go implementation in pkg/agentql, compiled to
-// WebAssembly (agentql.wasm). These types describe the JSON it returns so the
+// The runtime itself is the Go implementation in pkg/adl, compiled to
+// WebAssembly (adl.wasm). These types describe the JSON it returns so the
 // Langium tooling can consume the shared runtime with full type safety instead
 // of maintaining a second parser.
 
@@ -98,7 +98,7 @@ export interface Result {
   diagnostics: Diagnostic[];
 }
 
-export interface AgentQLRuntime {
+export interface ADLRuntime {
   /** Lex, parse, and validate (resolve references). The canonical pipeline. */
   compile(source: string): Result;
   /** Lex and parse only (syntax), without reference resolution. */
@@ -106,7 +106,7 @@ export interface AgentQLRuntime {
 }
 
 /**
- * Load the AgentQL runtime. Pass the URL/path to agentql.wasm; defaults to the
- * agentql.wasm sitting next to this module. Works in Node and the browser.
+ * Load the ADL runtime. Pass the URL/path to adl.wasm; defaults to the
+ * adl.wasm sitting next to this module. Works in Node and the browser.
  */
-export function loadAgentQL(wasmUrl?: string | URL): Promise<AgentQLRuntime>;
+export function loadADL(wasmUrl?: string | URL): Promise<ADLRuntime>;

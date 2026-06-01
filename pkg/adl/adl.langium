@@ -1,4 +1,4 @@
-grammar AgentQL
+grammar ADL
 
 entry Model:
     declarations+=Declaration*;

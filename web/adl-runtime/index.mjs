@@ -1,8 +1,8 @@
-// AgentQL runtime loader.
+// ADL runtime loader.
 //
-// This module instantiates the Go-built WebAssembly runtime (agentql.wasm) and
+// This module instantiates the Go-built WebAssembly runtime (adl.wasm) and
 // exposes compile()/parse(). The Langium tooling uses this instead of its own
-// generated parser, so there is a single AgentQL runtime shared with the Go
+// generated parser, so there is a single ADL runtime shared with the Go
 // backend.
 //
 // Works in both Node (>=18) and the browser. The Go WASM support shim
@@ -25,7 +25,7 @@ async function ensureGo() {
     await import(/* @vite-ignore */ shimUrl.href);
   }
   if (typeof globalThis.Go !== "function") {
-    throw new Error("agentql: wasm_exec.js did not define globalThis.Go");
+    throw new Error("adl: wasm_exec.js did not define globalThis.Go");
   }
 }
 
@@ -36,13 +36,13 @@ async function loadWasmBytes(wasmUrl) {
   }
   const resp = await fetch(wasmUrl);
   if (!resp.ok) {
-    throw new Error(`agentql: failed to fetch ${wasmUrl}: ${resp.status}`);
+    throw new Error(`adl: failed to fetch ${wasmUrl}: ${resp.status}`);
   }
   return new Uint8Array(await resp.arrayBuffer());
 }
 
-export async function loadAgentQL(wasmUrl) {
-  const url = wasmUrl ?? new URL("./agentql.wasm", import.meta.url);
+export async function loadADL(wasmUrl) {
+  const url = wasmUrl ?? new URL("./adl.wasm", import.meta.url);
   await ensureGo();
 
   const go = new globalThis.Go();
@@ -55,15 +55,15 @@ export async function loadAgentQL(wasmUrl) {
 
   const call = (fn, source) => {
     if (typeof globalThis[fn] !== "function") {
-      throw new Error(`agentql: runtime did not register ${fn}`);
+      throw new Error(`adl: runtime did not register ${fn}`);
     }
     return JSON.parse(globalThis[fn](source));
   };
 
   return {
-    compile: (source) => call("agentqlCompile", source),
-    parse: (source) => call("agentqlParse", source),
+    compile: (source) => call("adlCompile", source),
+    parse: (source) => call("adlParse", source),
   };
 }
 
-export default loadAgentQL;
+export default loadADL;

@@ -4,8 +4,8 @@
 *.test
 *.out
 
-# Built AgentQL WASM runtime (reproducible via `make agentql-wasm`)
-/web/agentql-runtime/agentql.wasm
+# Built ADL WASM runtime (reproducible via `make adl-wasm`)
+/web/adl-runtime/adl.wasm
 
 # Go
 /vendor/
