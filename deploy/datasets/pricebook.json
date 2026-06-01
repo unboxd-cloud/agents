@@ -64,6 +64,18 @@
     "build.minute": {
       "meter": "build.minute", "allowance": 500, "currency": "USD",
       "tiers": [{"upTo": 0, "unitPrice": 0.008}]
+    },
+    "notebook.hour": {
+      "meter": "notebook.hour", "allowance": 25, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.06}]
+    },
+    "assistant.hour": {
+      "meter": "assistant.hour", "allowance": 40, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.05}]
+    },
+    "codespace.hour": {
+      "meter": "codespace.hour", "allowance": 60, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.07}]
     }
   }
 }

@@ -22,6 +22,8 @@ unit so usage, pricing, and invoices are unambiguous. Convention:
 | `s3.request.million` | 10⁶ requests | one million S3-compatible API requests | Rook/Ceph RGW |
 | `agent.run.hour` | run·hour | one agent runtime instance-hour | Dapr Agents |
 | `email.sent.thousand` | 10³ emails | one thousand emails sent (SES model) | Postal/Haraka |
+| `notebook.hour` | notebook·hour | one running notebook server-hour | JupyterHub |
+| `assistant.hour` | assistant·hour | one active per-user coding-assistant-hour | Continue/Tabby |
 
 ## Rules
 - **Counters** (egress, messages, tokens, build minutes) accumulate over the

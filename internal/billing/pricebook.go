@@ -45,6 +45,13 @@ func SamplePriceBook() PriceBook {
 			// Build stack (app builder) metered per build-minute.
 			"build.minute": {Meter: "build.minute", Allowance: 500, Currency: usd,
 				Tiers: []Tier{{UpTo: 0, UnitPrice: 0.008}}},
+			// Developer experience: notebooks and per-user coding assistants.
+			"notebook.hour": {Meter: "notebook.hour", Allowance: 25, Currency: usd,
+				Tiers: []Tier{{UpTo: 0, UnitPrice: 0.06}}},
+			"assistant.hour": {Meter: "assistant.hour", Allowance: 40, Currency: usd,
+				Tiers: []Tier{{UpTo: 0, UnitPrice: 0.05}}},
+			"codespace.hour": {Meter: "codespace.hour", Allowance: 60, Currency: usd,
+				Tiers: []Tier{{UpTo: 0, UnitPrice: 0.07}}},
 		},
 	}
 }

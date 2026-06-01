@@ -171,6 +171,17 @@ func Seeded() *MemStore {
 		// agentcore (agent runtime)
 		{ID: "agentcore", Name: "Agent Runtime (AgentCore-compatible)", Project: "Dapr Agents (open-source)", Category: "ai",
 			Composition: "xagentcore.platform.unboxd/v1", Meters: []string{"agent.run.hour", "ai.tokens.million", "compute.vcpu.hour"}, Profiles: tech, Certifications: []string{"SOC2"}},
+		// notebooks (data science / dev)
+		{ID: "notebooks", Name: "Notebooks", Project: "JupyterHub", Category: "dev",
+			Composition: "xnotebooks.platform.unboxd/v1", Meters: []string{"notebook.hour", "compute.vcpu.hour", "storage.gb.month"}, Profiles: all, Certifications: []string{"SOC2"}},
+		// per-user coding assistant (open-source, CPU LLMs); provisioned per user
+		// with channel config loaded at first login (see docs/coding-assistants.md).
+		{ID: "coding-assistant", Name: "Coding Assistant (per user)", Project: "Continue / Tabby / OpenHands (open-source)", Category: "ai",
+			Composition: "xassistant.platform.unboxd/v1", Meters: []string{"assistant.hour", "ai.tokens.million", "ai.cpu.hour"}, Profiles: all, Certifications: []string{"SOC2"}},
+		// codespace: a per-user/org cloud dev workspace bundling compute +
+		// notebooks + coding-assistant + scoped catalog (see docs/codespaces.md).
+		{ID: "codespace", Name: "Codespace (cloud dev workspace)", Project: "DevContainers + code-server (open-source)", Category: "dev",
+			Composition: "xcodespace.platform.unboxd/v1", Meters: []string{"codespace.hour", "compute.vcpu.hour", "storage.gb.month"}, Profiles: all, Certifications: []string{"SOC2"}},
 	} {
 		s.Add(o)
 	}

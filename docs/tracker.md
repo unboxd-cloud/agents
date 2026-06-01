@@ -38,6 +38,18 @@ Status legend: ✅ done · 🟡 in progress · ⬜ planned
 "Data-plane API" = the AWS-wire-compatible endpoint (S3 API, STS tokens, etc.)
 — in progress; tracked here as the next slice.
 
+## Governance, DX & resilience
+| Item | Status |
+|------|--------|
+| Approval workflows (human + LLM approvers, trusted tools/skills/artifacts) | ✅ engine |
+| Trusted registry (official tools/skills/artifacts) | ✅ |
+| Notebooks offering (JupyterHub) | ✅ catalog |
+| Per-user coding assistant (open-source CPU LLMs) | ✅ catalog; 🟡 runtime + first-login channel config |
+| Built-in UIs (admin panel, org console) | ✅ |
+| Failsafe clients (Podman Desktop, Headlamp) | ✅ documented |
+| Design-for-failure (degradation, probes, offline) | ✅ partial; 🟡 SDK offline queue + ~/.unboxd cache |
+| Airgapped/edge local development | ✅ build/test offline; 🟡 image bundle + vendored deps |
+
 ## Next (planned)
 | Item | Status |
 |------|--------|

@@ -78,5 +78,35 @@
     "meters": ["agent.run.hour", "ai.tokens.million", "compute.vcpu.hour"],
     "profiles": ["developer", "sre"],
     "certifications": ["SOC2"]
+  },
+  {
+    "id": "notebooks",
+    "name": "Notebooks",
+    "project": "JupyterHub",
+    "category": "dev",
+    "composition": "xnotebooks.platform.unboxd/v1",
+    "meters": ["notebook.hour", "compute.vcpu.hour", "storage.gb.month"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "coding-assistant",
+    "name": "Coding Assistant (per user)",
+    "project": "Continue / Tabby / OpenHands (open-source)",
+    "category": "ai",
+    "composition": "xassistant.platform.unboxd/v1",
+    "meters": ["assistant.hour", "ai.tokens.million", "ai.cpu.hour"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "codespace",
+    "name": "Codespace (cloud dev workspace)",
+    "project": "DevContainers + code-server (open-source)",
+    "category": "dev",
+    "composition": "xcodespace.platform.unboxd/v1",
+    "meters": ["codespace.hour", "compute.vcpu.hour", "storage.gb.month"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
   }
 ]

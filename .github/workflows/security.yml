@@ -1,11 +1,17 @@
 name: security
 
-# Security scanning is informational on PRs (does not block the draft), and runs
-# on a weekly schedule for visibility. The authoritative gate is ci.yml.
+# Real (non-bypassing) security scanning. Runs on PRs, weekly, and on demand.
+# - govulncheck: Go package/stdlib vulnerabilities (fails on findings).
+# - Trivy: image scan for HIGH/CRITICAL (fails on findings). Our images are
+#   scratch + a single static, stdlib-only binary, so the scannable surface is
+#   minimal — this passes on a clean tree rather than being silenced.
+# Secret scanning is handled by GitHub's native secret scanning / push
+# protection (enable in repo settings); gitleaks-action needs an org license and
+# is intentionally not used here.
 on:
   pull_request:
   schedule:
-    - cron: "0 6 * * 1" # weekly
+    - cron: "0 6 * * 1"
   workflow_dispatch:
 
 concurrency:
@@ -15,20 +21,18 @@ concurrency:
 jobs:
   vuln-go:
     runs-on: ubuntu-latest
-    continue-on-error: true # informational: stdlib CVEs shouldn't block a draft
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: "1.24"
-      - name: govulncheck (Go package vulnerabilities)
+      - name: govulncheck
         run: |
           go install golang.org/x/vuln/cmd/govulncheck@latest
           govulncheck ./...
 
   scan-images:
     runs-on: ubuntu-latest
-    continue-on-error: true # informational
     strategy:
       fail-fast: false
       matrix:
@@ -37,23 +41,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build image (podman)
         run: podman build --build-arg SERVICE=${{ matrix.service }} -t scan/${{ matrix.service }}:ci .
-      - name: Trivy image scan (report-only)
+      - name: Trivy image scan (HIGH,CRITICAL)
         uses: aquasecurity/trivy-action@0.28.0
         with:
           image-ref: scan/${{ matrix.service }}:ci
           format: table
-          exit-code: "0" # report findings; do not fail the job
+          exit-code: "1"
           ignore-unfixed: true
           severity: HIGH,CRITICAL
-
-  secrets:
-    runs-on: ubuntu-latest
-    continue-on-error: true # gitleaks-action needs an org license; keep non-blocking
-    steps:
-      - uses: actions/checkout@v4
-        with: { fetch-depth: 0 }
-      - name: gitleaks (secret scanning)
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
