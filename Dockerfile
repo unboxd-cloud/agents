@@ -4,7 +4,8 @@
 #
 #   docker build --build-arg SERVICE=billing -t ghcr.io/unboxd-cloud/billing .
 #
-ARG GO_VERSION=1.24
+# Track the latest stable Go so images carry patched stdlib (go.mod stays 1.24).
+ARG GO_VERSION=1.25
 
 FROM golang:${GO_VERSION} AS build
 ARG SERVICE

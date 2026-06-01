@@ -25,7 +25,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
-          go-version: "1.24"
+          go-version: "stable" # scan on the latest patched Go toolchain
       - name: govulncheck
         run: |
           go install golang.org/x/vuln/cmd/govulncheck@latest
@@ -39,12 +39,16 @@ jobs:
         service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
     steps:
       - uses: actions/checkout@v4
-      - name: Build image (podman)
-        run: podman build --build-arg SERVICE=${{ matrix.service }} -t scan/${{ matrix.service }}:ci .
+      - name: Build image (podman) and export to tar
+        run: |
+          podman build --build-arg SERVICE=${{ matrix.service }} -t scan/${{ matrix.service }}:ci .
+          # Export so Trivy can scan the podman-built image without a Docker daemon.
+          podman save -o /tmp/${{ matrix.service }}.tar scan/${{ matrix.service }}:ci
       - name: Trivy image scan (HIGH,CRITICAL)
         uses: aquasecurity/trivy-action@0.28.0
         with:
-          image-ref: scan/${{ matrix.service }}:ci
+          input: /tmp/${{ matrix.service }}.tar
+          scan-type: image
           format: table
           exit-code: "1"
           ignore-unfixed: true

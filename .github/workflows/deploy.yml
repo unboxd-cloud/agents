@@ -56,3 +56,14 @@ jobs:
             --set-file datasets.files.pricebook\.json=deploy/datasets/pricebook.json \
             --set-file datasets.files.tax-rules\.json=deploy/datasets/tax-rules.json \
             --set-file datasets.files.compliance-frameworks\.json=deploy/datasets/compliance-frameworks.json
+      - name: Post-deploy sanity
+        # Port-forward services and run read-only sanity checks against the live
+        # deployment. Rolls back the release if sanity fails.
+        run: |
+          kubectl rollout status deploy/catalog --timeout=120s
+          kubectl port-forward svc/catalog 8083:8083 &
+          kubectl port-forward svc/billing 8082:8082 &
+          kubectl port-forward svc/compliance 8084:8084 &
+          kubectl port-forward svc/metering 8081:8081 &
+          sleep 5
+          ./scripts/post-deploy-sanity.sh || { helm rollback platform; exit 1; }

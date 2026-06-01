@@ -42,6 +42,14 @@ fmt: ## Format code
 .PHONY: check
 check: vet test ## Vet + test (CI gate)
 
+.PHONY: e2e
+e2e: ## End-to-end test: run the stack and exercise the full flow
+	./scripts/e2e.sh
+
+.PHONY: sanity
+sanity: ## Post-deploy sanity checks (set *_URL env for a remote deployment)
+	./scripts/post-deploy-sanity.sh
+
 .PHONY: scan
 scan: ## Scan Go packages for known vulnerabilities (govulncheck)
 	@command -v govulncheck >/dev/null 2>&1 || $(GO) install golang.org/x/vuln/cmd/govulncheck@latest

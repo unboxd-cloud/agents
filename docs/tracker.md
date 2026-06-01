@@ -2,6 +2,18 @@
 
 Status legend: ✅ done · 🟡 in progress · ⬜ planned
 
+## Engineering lifecycle & community
+| Item | Status | Next step |
+|------|--------|-----------|
+| Design principles defined (`docs/design-principles.md`) | ✅ | enforce in review |
+| CI gate (vet + test + build) green | ✅ | keep required |
+| Image build via podman | ✅ | — |
+| Security scans real (govulncheck + Trivy on podman tar, latest Go) | ✅ | add SBOM/SLSA/signing |
+| End-to-end test (`make e2e`) | ✅ | wire into CI |
+| Post-deploy sanity (`make sanity`) | ✅ | run in deploy workflow |
+| Changelog published (`CHANGELOG.md`) | ✅ | cut first tagged release |
+| Community: CONTRIBUTING, CoC, SECURITY, issue/PR templates | ✅ | enable Discussions |
+
 ## Core control plane
 | Item | Status |
 |------|--------|
