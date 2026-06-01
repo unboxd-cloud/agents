@@ -39,17 +39,15 @@ jobs:
         service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
     steps:
       - uses: actions/checkout@v4
-      - name: Build image (podman) and export to tar
+      - name: Install Trivy CLI
+        run: curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.58.1
+      - name: Build image (podman) and export as docker-archive
         run: |
-          podman build --build-arg SERVICE=${{ matrix.service }} -t scan/${{ matrix.service }}:ci .
-          # Export so Trivy can scan the podman-built image without a Docker daemon.
-          podman save -o /tmp/${{ matrix.service }}.tar scan/${{ matrix.service }}:ci
-      - name: Trivy image scan (HIGH,CRITICAL)
-        uses: aquasecurity/trivy-action@0.28.0
-        with:
-          input: /tmp/${{ matrix.service }}.tar
-          scan-type: image
-          format: table
-          exit-code: "1"
-          ignore-unfixed: true
-          severity: HIGH,CRITICAL
+          podman build --build-arg SERVICE=${{ matrix.service }} -t scan-${{ matrix.service }}:ci .
+          # podman-built images aren't visible to Docker; export an explicit
+          # docker-archive tar so the Trivy CLI can scan it daemonlessly.
+          podman save --format docker-archive -o /tmp/${{ matrix.service }}.tar scan-${{ matrix.service }}:ci
+      - name: Trivy scan (HIGH,CRITICAL)
+        run: |
+          trivy image --input /tmp/${{ matrix.service }}.tar \
+            --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
