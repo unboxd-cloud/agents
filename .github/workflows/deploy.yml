@@ -30,11 +30,21 @@ jobs:
         run: |
           echo "${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}" | \
             podman login "${{ env.REGISTRY }}" -u "${{ secrets.REGISTRY_USERNAME || github.actor }}" --password-stdin
-      - name: Build & push ${{ matrix.service }} (podman)
+      - name: Build ${{ matrix.service }} (podman)
         run: |
-          IMG=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}
-          podman build --build-arg SERVICE=${{ matrix.service }} -t "$IMG" .
-          podman push "$IMG"
+          echo "IMG=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}" >> "$GITHUB_ENV"
+          podman build --build-arg SERVICE=${{ matrix.service }} \
+            -t "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}" .
+      - name: Scan image at deploy time (Trivy, HIGH/CRITICAL)
+        # We test (vuln-scan) while deploying: each image is scanned before it is
+        # published. A finding blocks the deploy. This is the authoritative image
+        # security gate (PRs are gated by govulncheck; see security.yml).
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.58.1
+          podman save --format docker-archive -o /tmp/img.tar "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}"
+          trivy image --input /tmp/img.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
+      - name: Push ${{ matrix.service }}
+        run: podman push "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}"
 
   deploy:
     needs: publish

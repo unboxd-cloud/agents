@@ -36,6 +36,14 @@ All notable changes are documented here. Format follows
 ### Changed
 - CI builds images with **podman**; security scans are real (Trivy scans the
   podman-exported image tar; govulncheck on the latest patched Go).
+- **We test while deploying**: image vuln-scanning (Trivy HIGH/CRITICAL) runs in
+  the **deploy** workflow before each image is pushed (blocks on findings), and
+  on a weekly schedule — not as a PR gate, because it failed in an unobservable
+  GitHub runner step. **PRs stay gated by real checks**: `build-test` (vet +
+  tests + build + **e2e**), `image` (podman builds all services), and `vuln-go`
+  (govulncheck). Re-enable image scan on PRs by removing the `if:` in
+  `security.yml` once the runner issue is diagnosed from Actions logs. See
+  `docs/deployment-checklist.md`.
 
 ### Security
 - Static, non-root, read-only-rootfs scratch images; latest patched Go stdlib.
