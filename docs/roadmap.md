@@ -43,3 +43,22 @@ data-plane APIs are the current build focus. Live status: `docs/tracker.md`.
 - [ ] More services: DynamoDB, SQS, KMS, etc.
 
 See **`docs/tracker.md`** for the live project tracker.
+
+## Not yet certified / verified (honest caveats)
+Declared or scaffolded but **not independently certified** — tracked here until
+verified:
+- **Compliance certifications** (SOC2/ISO-27001/GDPR/HIPAA/PCI-DSS/FedRAMP/…) are
+  declared per-offering as *intent/mapping*, not audited attestations. Real
+  certification requires third-party audit per deployment.
+- **AWS wire-compatibility** (S3/STS/SNS/SES/Bedrock/AgentCore) is designed for,
+  not yet conformance-tested against AWS APIs.
+- **Security scans** (govulncheck/Trivy/gitleaks) run **informationally**; results
+  are not a certification and gitleaks needs an org license.
+- **SBOM / SLSA provenance / image signing** are specified (`docs/versioning.md`)
+  but not yet emitted by CI.
+- **Providers** (kubernetes/cloudstack/edge/aws) are Phase-0 stubs behind the
+  seam; not production-certified.
+- **Datasets** (pricing, tax rates, framework controls) are representative samples
+  to be replaced with authoritative, jurisdiction-verified data at deployment.
+
+Anything that cannot currently be certified is tracked here by design.
