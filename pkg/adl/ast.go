@@ -1,14 +1,3 @@
-// Package adl is the canonical runtime for the ADL language.
-//
-// ADL is a declarative DSL (originally authored as a Langium grammar in the
-// Agent-Platform project) for describing agentic domain models: entities and
-// relations, brains and minds, beliefs, constitutions and policies, HTTP APIs,
-// functions, and SurrealDB/SurrealML bindings.
-//
-// This package is the single source of truth for parsing and validating
-// ADL. The TypeScript tooling consumes the very same runtime by loading the
-// WebAssembly build in cmd/adl-wasm, so there is exactly one parser and one
-// set of semantics shared across the Go backend and the editor tooling.
 package adl
 
 // Position is a 1-based line/column location in the source, plus the 0-based

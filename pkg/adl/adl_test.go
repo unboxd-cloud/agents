@@ -240,3 +240,39 @@ func indexOf(s, sub string) int {
 	}
 	return -1
 }
+
+func TestLoadAgentGroupsAndQueries(t *testing.T) {
+	agent, diags := Load(loadSample(t))
+	if HasErrors(diags) {
+		t.Fatalf("unexpected errors: %+v", diags)
+	}
+	if len(agent.Entities) != 3 || len(agent.Brains) != 1 || len(agent.Apis) != 2 {
+		t.Fatalf("grouping wrong: entities=%d brains=%d apis=%d",
+			len(agent.Entities), len(agent.Brains), len(agent.Apis))
+	}
+
+	lead, ok := agent.Entity("Lead")
+	if !ok || lead.Name != "Lead" {
+		t.Fatal("Entity(\"Lead\") not found")
+	}
+	if _, ok := agent.Entity("acme.crm.Lead"); !ok {
+		t.Error("Entity lookup by qualified name failed")
+	}
+
+	if minds := agent.MindsFor("Lead"); len(minds) != 1 || minds[0].Name != "LeadMind" {
+		t.Errorf("MindsFor(Lead) = %+v", minds)
+	}
+	if beliefs := agent.BeliefsAbout("Lead"); len(beliefs) != 1 || beliefs[0].Name != "HotLead" {
+		t.Errorf("BeliefsAbout(Lead) = %+v", beliefs)
+	}
+	if brain, ok := agent.Brain("CrmBrain"); !ok || len(brain.Owns) != 6 {
+		t.Errorf("Brain(CrmBrain) = %+v ok=%v", brain, ok)
+	}
+}
+
+func TestLoadEmptyIsNonNil(t *testing.T) {
+	agent, _ := Load("")
+	if agent == nil || len(agent.Entities) != 0 {
+		t.Fatal("Load(\"\") should return a non-nil empty agent")
+	}
+}
