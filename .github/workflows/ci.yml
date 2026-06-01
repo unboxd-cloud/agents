@@ -1,0 +1,34 @@
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.24"
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test ./... -count=1
+      - name: Build
+        run: make build
+
+  image:
+    runs-on: ubuntu-latest
+    needs: build-test
+    strategy:
+      matrix:
+        service: [catalog, metering, billing]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build OCI image (${{ matrix.service }})
+        run: |
+          docker build --build-arg SERVICE=${{ matrix.service }} \
+            -t ghcr.io/unboxd-cloud/${{ matrix.service }}:${{ github.sha }} .

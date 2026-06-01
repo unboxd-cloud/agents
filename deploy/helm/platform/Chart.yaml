@@ -1,0 +1,15 @@
+apiVersion: v2
+name: unboxd-platform
+description: Vendor-neutral, CNCF-native, multi-tenant pay-as-you-go cloud control plane
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - cncf
+  - multi-tenant
+  - billing
+  - pay-as-you-go
+  - vendor-neutral
+home: https://github.com/unboxd-cloud/platform
+sources:
+  - https://github.com/unboxd-cloud/platform

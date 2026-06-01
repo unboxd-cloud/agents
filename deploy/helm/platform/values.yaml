@@ -1,0 +1,43 @@
+# Vanilla Helm values — no cloud-specific assumptions, so the chart installs on
+# any conformant Kubernetes (transportable across clouds and edge).
+
+image:
+  registry: ghcr.io
+  repository: unboxd-cloud
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+# Each entry is one single-responsibility service. OCI images are
+# <registry>/<repository>/<name>:<tag>.
+services:
+  catalog:
+    port: 8083
+    env:
+      CATALOG_ADDR: ":8083"
+  metering:
+    port: 8081
+    env:
+      METERING_ADDR: ":8081"
+  billing:
+    port: 8082
+    env:
+      BILLING_ADDR: ":8082"
+
+replicaCount: 1
+
+resources:
+  requests:
+    cpu: 25m
+    memory: 32Mi
+  limits:
+    cpu: 250m
+    memory: 128Mi
+
+# Run as non-root, read-only rootfs — portable hardening defaults.
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop: ["ALL"]
