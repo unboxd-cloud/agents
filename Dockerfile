@@ -18,6 +18,6 @@ RUN CGO_ENABLED=0 GOFLAGS=-trimpath go build -ldflags="-s -w" \
 FROM scratch
 COPY --from=build /out/app /app
 # Document the standard ports; overridden per service via env.
-EXPOSE 8081 8082 8083
+EXPOSE 8080 8081 8082 8083 8084 8085
 USER 65532:65532
 ENTRYPOINT ["/app"]

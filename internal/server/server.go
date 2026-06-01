@@ -5,9 +5,17 @@ package server
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"sync/atomic"
 	"time"
+)
+
+var (
+	startTime    = time.Now()
+	requestCount atomic.Int64
+	errorCount   atomic.Int64
 )
 
 // JSON writes v as a JSON response with the given status.
@@ -46,6 +54,15 @@ func New(addr string, mux *http.ServeMux) *http.Server {
 	mux.HandleFunc("/readyz", func(w http.ResponseWriter, _ *http.Request) {
 		JSON(w, http.StatusOK, map[string]string{"status": "ready"})
 	})
+	// Publishable health metrics in Prometheus text format (scrapeable; ships to
+	// Prometheus/Grafana like any other CNCF workload).
+	mux.HandleFunc("/metrics", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/plain; version=0.0.4")
+		fmt.Fprintf(w, "# HELP platform_up 1 if the service is up\n# TYPE platform_up gauge\nplatform_up 1\n")
+		fmt.Fprintf(w, "# HELP platform_uptime_seconds Process uptime\n# TYPE platform_uptime_seconds gauge\nplatform_uptime_seconds %.0f\n", time.Since(startTime).Seconds())
+		fmt.Fprintf(w, "# HELP platform_http_requests_total Total HTTP requests\n# TYPE platform_http_requests_total counter\nplatform_http_requests_total %d\n", requestCount.Load())
+		fmt.Fprintf(w, "# HELP platform_http_errors_total Total HTTP 5xx responses\n# TYPE platform_http_errors_total counter\nplatform_http_errors_total %d\n", errorCount.Load())
+	})
 	return &http.Server{
 		Addr:              addr,
 		Handler:           logging(mux),
@@ -53,10 +70,25 @@ func New(addr string, mux *http.ServeMux) *http.Server {
 	}
 }
 
+type statusRecorder struct {
+	http.ResponseWriter
+	status int
+}
+
+func (s *statusRecorder) WriteHeader(code int) {
+	s.status = code
+	s.ResponseWriter.WriteHeader(code)
+}
+
 func logging(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		start := time.Now()
-		next.ServeHTTP(w, r)
-		log.Printf("%s %s %s", r.Method, r.URL.Path, time.Since(start))
+		requestCount.Add(1)
+		rec := &statusRecorder{ResponseWriter: w, status: http.StatusOK}
+		next.ServeHTTP(rec, r)
+		if rec.status >= 500 {
+			errorCount.Add(1)
+		}
+		log.Printf("%s %s %d %s", r.Method, r.URL.Path, rec.status, time.Since(start))
 	})
 }

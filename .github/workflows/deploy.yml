@@ -1,0 +1,62 @@
+name: deploy
+
+# Build + publish OCI images and deploy the Helm chart. Triggered on version
+# tags, or manually. Registry/cluster creds come from repo secrets.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: target environment
+        default: staging
+
+env:
+  REGISTRY: ${{ vars.REGISTRY || 'ghcr.io' }}
+  NAMESPACE: ${{ vars.IMAGE_NAMESPACE || github.repository_owner }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.REGISTRY_USERNAME || github.actor }}
+          password: ${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}
+      - name: Build & push ${{ matrix.service }}
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          build-args: SERVICE=${{ matrix.service }}
+          push: true
+          tags: ${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    if: ${{ secrets.KUBECONFIG != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+      - name: Helm upgrade
+        run: |
+          helm upgrade --install platform deploy/helm/platform \
+            --set image.registry=${{ env.REGISTRY }} \
+            --set image.repository=${{ env.NAMESPACE }} \
+            --set image.tag=${{ github.ref_name }} \
+            --set-file datasets.files.offerings\.json=deploy/datasets/offerings.json \
+            --set-file datasets.files.pricebook\.json=deploy/datasets/pricebook.json \
+            --set-file datasets.files.tax-rules\.json=deploy/datasets/tax-rules.json \
+            --set-file datasets.files.compliance-frameworks\.json=deploy/datasets/compliance-frameworks.json

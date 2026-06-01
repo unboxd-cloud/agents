@@ -25,7 +25,7 @@ jobs:
     needs: build-test
     strategy:
       matrix:
-        service: [catalog, metering, billing]
+        service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
     steps:
       - uses: actions/checkout@v4
       - name: Build OCI image (${{ matrix.service }})

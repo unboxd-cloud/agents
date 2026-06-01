@@ -41,6 +41,12 @@ func NewCloudStack() Provider { return &stub{name: "cloudstack"} }
 // control plane can place workloads at the edge.
 func NewEdge() Provider { return &stub{name: "edge"} }
 
+// NewAWS returns the AWS provider (stub in Phase 0). The platform is an
+// open-source AWS alternative that stays interoperable with AWS: this provider
+// targets AWS APIs, and offerings expose AWS-compatible endpoints (e.g. S3) so
+// existing AWS SDKs/tools work unchanged. See docs/aws-interop.md.
+func NewAWS() Provider { return &stub{name: "aws"} }
+
 // DefaultRegistry returns a Registry preloaded with the built-in providers,
 // demonstrating vendor neutrality and multi-cloud + edge reach: CloudStack is
 // one option among several behind the same seam.
@@ -49,5 +55,6 @@ func DefaultRegistry() *Registry {
 	r.Register(NewKubernetes()) // any conformant cluster: on-prem or any cloud
 	r.Register(NewCloudStack())
 	r.Register(NewEdge())
+	r.Register(NewAWS()) // interoperate with / migrate from AWS
 	return r
 }

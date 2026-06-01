@@ -1,0 +1,20 @@
+{{- if and .Values.datasets.enabled .Values.datasets.files }}
+# Datasets loaded at deployment time. Populate at install/upgrade, e.g.:
+#   helm install platform ./deploy/helm/platform \
+#     --set-file datasets.files.offerings\.json=deploy/datasets/offerings.json \
+#     --set-file datasets.files.pricebook\.json=deploy/datasets/pricebook.json \
+#     --set-file datasets.files.tax-rules\.json=deploy/datasets/tax-rules.json \
+#     --set-file datasets.files.compliance-frameworks\.json=deploy/datasets/compliance-frameworks.json
+# Under GitOps, Argo CD/Flux reconciles this ConfigMap from Git.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: platform-datasets
+  labels:
+    {{- include "platform.labels" . | nindent 4 }}
+data:
+  {{- range $name, $content := .Values.datasets.files }}
+  {{ $name }}: |
+{{ $content | indent 4 }}
+  {{- end }}
+{{- end }}

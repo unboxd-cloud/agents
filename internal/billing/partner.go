@@ -33,13 +33,13 @@ type Partner struct {
 
 // Settlement is the result of applying a partner overlay to a base invoice.
 type Settlement struct {
-	Invoice    Invoice       `json:"invoice"`     // the underlying rated usage
-	PartnerID  string        `json:"partnerId"`
-	Mode       OperatingMode `json:"mode"`
-	Adjustment float64       `json:"adjustment"`  // markup added or commission taken
-	NetToPlatform float64    `json:"netToPlatform"`
-	GrossToCustomer float64  `json:"grossToCustomer"`
-	Currency   string        `json:"currency"`
+	Invoice         Invoice       `json:"invoice"` // the underlying rated usage
+	PartnerID       string        `json:"partnerId"`
+	Mode            OperatingMode `json:"mode"`
+	Adjustment      float64       `json:"adjustment"` // markup added or commission taken
+	NetToPlatform   float64       `json:"netToPlatform"`
+	GrossToCustomer float64       `json:"grossToCustomer"`
+	Currency        string        `json:"currency"`
 }
 
 // Settle applies a Partner overlay to a base invoice.

@@ -4,6 +4,9 @@
 package catalog
 
 import (
+	"encoding/json"
+	"fmt"
+	"io"
 	"sort"
 	"sync"
 )
@@ -24,6 +27,28 @@ type Offering struct {
 	// publish offerings, settled via the same billing engine.
 	Publisher string  `json:"publisher,omitempty"`
 	RevShare  float64 `json:"revShare,omitempty"`
+
+	// Certifications lists the compliance frameworks this offering is certified
+	// for (e.g. "SOC2", "ISO-27001", "GDPR"). The compliance engine checks these
+	// against a tenant's required frameworks at placement time.
+	Certifications []string `json:"certifications,omitempty"`
+}
+
+// Load reads a JSON array of Offerings from r into a new MemStore. Catalog data
+// is loaded at deployment time (e.g. from a mounted ConfigMap), not baked in.
+func Load(r io.Reader) (*MemStore, error) {
+	var offerings []Offering
+	if err := json.NewDecoder(r).Decode(&offerings); err != nil {
+		return nil, fmt.Errorf("decode catalog: %w", err)
+	}
+	s := NewMemStore()
+	for _, o := range offerings {
+		if o.ID == "" {
+			return nil, fmt.Errorf("offering missing id")
+		}
+		s.Add(o)
+	}
+	return s, nil
 }
 
 // Store is the catalog persistence seam.
@@ -83,6 +108,34 @@ func (s *MemStore) ForProfile(profile string) []Offering {
 	return out
 }
 
+// ForCategory returns offerings in a CNCF-landscape category (the category-wise
+// registry view), enabling a composable full-stack picker.
+func (s *MemStore) ForCategory(category string) []Offering {
+	var out []Offering
+	for _, o := range s.List() {
+		if o.Category == category {
+			out = append(out, o)
+		}
+	}
+	return out
+}
+
+// Categories returns the distinct categories present, sorted (the registry index).
+func (s *MemStore) Categories() []string {
+	seen := map[string]bool{}
+	for _, o := range s.List() {
+		if o.Category != "" {
+			seen[o.Category] = true
+		}
+	}
+	out := make([]string, 0, len(seen))
+	for c := range seen {
+		out = append(out, c)
+	}
+	sort.Strings(out)
+	return out
+}
+
 // Seeded returns a MemStore preloaded with representative CNCF and AI-native
 // offerings. Adding an offering is data, not code — keeping the system
 // composable.
@@ -90,23 +143,34 @@ func Seeded() *MemStore {
 	s := NewMemStore()
 	all := []string{"developer", "product_manager", "sre", "billing_admin"}
 	tech := []string{"developer", "sre"}
+	// Focused MVP: the open-source, AWS-compatible service set. Each maps an AWS
+	// service to an open-source backend, exposed with an AWS-compatible API so
+	// existing AWS SDKs/tools interoperate (see docs/aws-interop.md).
 	for _, o := range []Offering{
-		{ID: "managed-kubernetes", Name: "Managed Kubernetes", Project: "vCluster", Category: "compute",
-			Composition: "xcluster.platform.unboxd/v1", Meters: []string{"compute.vcpu.hour", "compute.mem.gb.hour"}, Profiles: all},
-		{ID: "managed-prometheus", Name: "Managed Prometheus", Project: "Prometheus", Category: "observability",
-			Composition: "xmonitoring.platform.unboxd/v1", Meters: []string{"metrics.series.hour"}, Profiles: tech},
-		{ID: "managed-nats", Name: "Managed NATS", Project: "NATS", Category: "messaging",
-			Composition: "xmessaging.platform.unboxd/v1", Meters: []string{"messaging.msg.million"}, Profiles: tech},
-		{ID: "object-storage", Name: "Object Storage", Project: "Rook", Category: "data",
-			Composition: "xobjectstore.platform.unboxd/v1", Meters: []string{"storage.gb.month", "network.egress.gb"}, Profiles: all},
-		{ID: "managed-inference", Name: "Managed Model Inference", Project: "KServe", Category: "ai",
-			Composition: "xinference.platform.unboxd/v1", Meters: []string{"ai.gpu.hour", "ai.tokens.million"}, Profiles: tech},
-		{ID: "ml-pipelines", Name: "ML Pipelines", Project: "Kubeflow", Category: "ai",
-			Composition: "xpipelines.platform.unboxd/v1", Meters: []string{"ai.gpu.hour", "compute.vcpu.hour"}, Profiles: tech},
-		// Example third-party marketplace listing with a publisher revenue share.
-		{ID: "vector-db", Name: "Vector Database", Project: "Milvus", Category: "ai",
-			Composition: "xvectordb.partner.example/v1", Meters: []string{"storage.gb.month", "ai.tokens.million"},
-			Profiles: tech, Publisher: "partner-acme", RevShare: 0.80},
+		// compute (EC2-compatible)
+		{ID: "compute", Name: "Compute (EC2-compatible)", Project: "Kubernetes + KubeVirt", Category: "compute",
+			Composition: "xcompute.platform.unboxd/v1", Meters: []string{"compute.vcpu.hour", "compute.mem.gb.hour"}, Profiles: all, Certifications: []string{"SOC2", "ISO-27001"}},
+		// lambda (Lambda-compatible functions)
+		{ID: "lambda", Name: "Functions (Lambda-compatible)", Project: "Knative / OpenFaaS", Category: "serverless",
+			Composition: "xfunctions.platform.unboxd/v1", Meters: []string{"function.invocation.million", "function.gb.second"}, Profiles: tech, Certifications: []string{"SOC2"}},
+		// sts (Security Token Service)
+		{ID: "sts", Name: "Security Token Service (STS-compatible)", Project: "Dex + SPIFFE/SPIRE", Category: "security",
+			Composition: "xsts.platform.unboxd/v1", Meters: []string{"token.issued.million"}, Profiles: tech, Certifications: []string{"SOC2", "ISO-27001"}},
+		// sns (notifications / pub-sub)
+		{ID: "sns", Name: "Notifications (SNS-compatible)", Project: "NATS", Category: "messaging",
+			Composition: "xsns.platform.unboxd/v1", Meters: []string{"messaging.msg.million"}, Profiles: tech, Certifications: []string{"SOC2"}},
+		// ses (email)
+		{ID: "ses", Name: "Email (SES-compatible)", Project: "Postal / Haraka SMTP", Category: "messaging",
+			Composition: "xses.platform.unboxd/v1", Meters: []string{"email.sent.thousand"}, Profiles: tech, Certifications: []string{"SOC2", "GDPR"}},
+		// s3 (S3-compatible object storage)
+		{ID: "s3", Name: "Object Storage (S3-compatible)", Project: "Rook/Ceph RGW", Category: "storage",
+			Composition: "xs3.platform.unboxd/v1", Meters: []string{"storage.gb.month", "network.egress.gb", "s3.request.million"}, Profiles: all, Certifications: []string{"SOC2", "ISO-27001", "GDPR"}},
+		// bedrock (model inference on open-source CPU LLMs)
+		{ID: "bedrock", Name: "Model Inference (Bedrock-compatible)", Project: "KServe + llama.cpp/Ollama", Category: "ai",
+			Composition: "xbedrock.platform.unboxd/v1", Meters: []string{"ai.tokens.million", "ai.cpu.hour", "ai.gpu.hour"}, Profiles: tech, Certifications: []string{"SOC2"}},
+		// agentcore (agent runtime)
+		{ID: "agentcore", Name: "Agent Runtime (AgentCore-compatible)", Project: "Dapr Agents (open-source)", Category: "ai",
+			Composition: "xagentcore.platform.unboxd/v1", Meters: []string{"agent.run.hour", "ai.tokens.million", "compute.vcpu.hour"}, Profiles: tech, Certifications: []string{"SOC2"}},
 	} {
 		s.Add(o)
 	}

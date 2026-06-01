@@ -1,70 +1,86 @@
 # Unboxd Platform
 
-A **vendor-neutral, CNCF-native cloud platform** that turns any underlying
-infrastructure (Kubernetes clusters, Apache CloudStack, public clouds) into a
-self-service, **multi-tenant**, **pay-as-you-go** cloud.
+**The open-source AWS alternative — completely interoperable with AWS.**
 
-The platform does **not** reinvent infrastructure primitives. It is a thin
-**control plane** that composes existing, graduated/incubating
-[CNCF projects](https://landscape.cncf.io/) as building blocks and adds the glue
-that an end-to-end product needs: tenancy, a service catalog, metering, rating,
-and billing.
+A **vendor-neutral, CNCF-native, multi-tenant, pay-as-you-go** cloud platform. It
+is a lightweight, framework-agnostic Go **control plane** that *composes existing
+CNCF projects* (Crossplane, Argo CD, OpenCost, Prometheus, OPA, OpenFGA, KServe,
+…) rather than rebuilding infrastructure — and exposes them as AWS-compatible,
+metered services that run on any cloud, on-prem, or the edge.
 
-> Status: **early scaffold + reference architecture**. The repository contains a
-> working, dependency-light Go control plane (tenancy, catalog, metering
-> ingestion, and a pay-as-you-go rating/billing engine with tests) plus the
-> architecture docs and Kubernetes/Helm deployment manifests that describe how
-> the full system fits together. See [`docs/roadmap.md`](docs/roadmap.md).
+> Status: working scaffold + reference architecture. Builds with Go 1.24,
+> stdlib-only, all tests green. See [`docs/tracker.md`](docs/tracker.md) for live
+> status and [`docs/roadmap.md`](docs/roadmap.md) for the plan.
 
 ## Principles
+- **Open-source AWS alternative**, wire-compatible where possible (S3, STS, …) —
+  migrate by changing an endpoint, not your code. See [`docs/aws-interop.md`](docs/aws-interop.md).
+- **Vendor-neutral**: one `provider` seam (Kubernetes, Apache CloudStack, edge,
+  AWS). CloudStack is optional, not foundational ([ADR-0004](docs/adr/0004-cloudstack-optional.md)).
+- **CNCF-native, compose don't rebuild**: capability → project map in [`docs/cncf-stack.md`](docs/cncf-stack.md).
+- **Multi-tenant + pay-as-you-go**: one `TenantID` axis; one rating engine for
+  tiers, allowances, taxes, and partner settlement.
+- **Headless / API-first**: every capability is an API; UIs are optional.
+- **Data, not code**: catalog, pricing, taxes, and compliance frameworks load as
+  datasets at deployment time.
 
-1. **Vendor-neutral.** No hard dependency on any single cloud or hypervisor.
-   Infrastructure is reached through a pluggable `Provider` abstraction;
-   Apache CloudStack and Kubernetes are two providers, not the foundation.
-2. **CNCF-native, compose don't rebuild.** Each platform capability maps to an
-   existing CNCF project (see [`docs/cncf-stack.md`](docs/cncf-stack.md)). Our
-   code orchestrates them.
-3. **Multi-tenant by default.** Every resource, usage record, and invoice is
-   scoped to a tenant.
-4. **Pay-as-you-go.** Usage is metered continuously and rated against a
-   versioned price book with support for graduated tiers and free allowances.
+## AWS-compatible modules (MVP)
+| Module | AWS | Open-source backend |
+|--------|-----|---------------------|
+| compute | EC2 | Kubernetes + KubeVirt |
+| lambda | Lambda | Knative / OpenFaaS |
+| sts | STS | Dex + SPIFFE/SPIRE |
+| sns | SNS | NATS |
+| ses | SES | Postal / Haraka |
+| s3 | S3 | Rook/Ceph RGW |
+| bedrock | Bedrock | KServe + open-source **CPU** LLMs (llama.cpp/Ollama) |
+| agentcore | Bedrock AgentCore | Dapr Agents |
 
-## What's in this repo
-
-| Path | What it is |
-|------|------------|
-| [`docs/architecture.md`](docs/architecture.md) | Reference architecture & component map |
-| [`docs/cncf-stack.md`](docs/cncf-stack.md) | Capability → CNCF project mapping |
-| [`docs/roadmap.md`](docs/roadmap.md) | Phased implementation plan |
-| [`docs/adr/`](docs/adr/) | Architecture Decision Records |
-| `internal/tenant` | Tenant / account model |
-| `internal/catalog` | Service catalog of CNCF offerings |
-| `internal/metering` | Usage event ingestion + provider adapters |
-| `internal/billing` | Pay-as-you-go rating engine + invoicing |
-| `internal/provider` | Vendor-neutral infrastructure provider abstraction |
-| `cmd/{metering,billing,catalog}` | Control-plane service entrypoints |
-| `deploy/helm` | Kubernetes deployment (Helm chart) |
+## Services & binaries (`cmd/`)
+| Binary | Role | Port |
+|--------|------|------|
+| `catalog` | service catalog + category registries | 8083 |
+| `metering` | usage ingestion (pull + streaming) | 8081 |
+| `billing` | rating + tax + partner settlement | 8082 |
+| `compliance` | frameworks + residency evaluation | 8084 |
+| `admin` | platform admin panel (htmx chat + APM + BI) | 8080 |
+| `orgconsole` | organization admin console | 8085 |
+| `operator` | GitOps + Kubernetes-orchestrator agents | — |
+| `platform` | unified CLI (`compose`, catalog, rate, …) | — |
 
 ## Quick start
-
 ```bash
-make build      # build all service binaries into ./bin
-make test       # run the test suite
-make check      # vet + test (the CI gate)
-
-# run a control-plane service locally
-./bin/catalog   # service catalog API on :8083
-./bin/metering  # usage ingestion API on :8081
-./bin/billing   # rating/billing API on :8082
+make check          # vet + tests
+make build          # all binaries -> ./bin
+make sandbox-up     # run the stack locally via podman (see docs/sandbox.md)
+```
+Drive it:
+```bash
+./bin/platform catalog            # list offerings (via SDK)
+./bin/platform compose up         # podman play kube the sandbox
+curl localhost:8083/v1/categories # category-wise registry index
 ```
 
-Then explore:
-
-```bash
-curl localhost:8083/v1/catalog                       # list CNCF service offerings
-curl localhost:8081/healthz                          # liveness
+## Architecture at a glance
 ```
+Experience:  admin panel · org console · CLI · SDK · Backstage
+Control plane (this repo): tenant · catalog · metering · billing · compliance · operator
+Platform services (CNCF): Crossplane · Argo CD · Capsule · OpenCost · Prometheus ·
+                          OpenTelemetry · Dex/SPIFFE · OPA · OpenFGA · KEDA
+Providers (one seam): Kubernetes/k3s · CloudStack · edge · AWS/GCP/Azure
+```
+Full diagrams: [`docs/stack-diagram.md`](docs/stack-diagram.md) ·
+data model: [`docs/data-model.md`](docs/data-model.md).
+
+## Documentation
+- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md)
+- CNCF & registries: [`cncf-stack.md`](docs/cncf-stack.md), [`registries.md`](docs/registries.md)
+- Billing: [`meters.md`](docs/meters.md), [`unit-economics.md`](docs/unit-economics.md), [`operating-models.md`](docs/operating-models.md)
+- Compliance & standards: [`compliance.md`](docs/compliance.md), [`standards.md`](docs/standards.md)
+- AWS & publishing: [`aws-interop.md`](docs/aws-interop.md), [`publishing-routes.md`](docs/publishing-routes.md), [`registry-publish.md`](docs/registry-publish.md)
+- Extend & operate: [`extensions.md`](docs/extensions.md), [`gitops.md`](docs/gitops.md), [`observability.md`](docs/observability.md), [`ui.md`](docs/ui.md)
+- Deploy & test: [`requirements.md`](docs/requirements.md), [`sandbox.md`](docs/sandbox.md), [`deploy-k3s.md`](docs/deploy-k3s.md), [`versioning.md`](docs/versioning.md)
+- Plan: [`roadmap.md`](docs/roadmap.md), [`tracker.md`](docs/tracker.md), ADRs in [`docs/adr/`](docs/adr/)
 
 ## License
-
 [Apache 2.0](LICENSE).

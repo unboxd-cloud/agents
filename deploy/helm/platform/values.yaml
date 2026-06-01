@@ -7,13 +7,25 @@ image:
   tag: "0.1.0"
   pullPolicy: IfNotPresent
 
+# Datasets are loaded at deployment time from a ConfigMap mounted at this path.
+# Populate `files` via `--set-file` (see templates/configmap-datasets.yaml) or a
+# GitOps values overlay. When empty, services fall back to built-in dev defaults.
+datasets:
+  enabled: true
+  mountPath: /etc/platform/datasets
+  files: {}
+  # offerings.json: |
+  #   [ ... ]
+
 # Each entry is one single-responsibility service. OCI images are
-# <registry>/<repository>/<name>:<tag>.
+# <registry>/<repository>/<name>:<tag>. The dataset env vars point at files in
+# the mounted ConfigMap (see templates/configmap-datasets.yaml).
 services:
   catalog:
     port: 8083
     env:
       CATALOG_ADDR: ":8083"
+      CATALOG_DATASET: /etc/platform/datasets/offerings.json
   metering:
     port: 8081
     env:
@@ -22,6 +34,37 @@ services:
     port: 8082
     env:
       BILLING_ADDR: ":8082"
+      PRICEBOOK_DATASET: /etc/platform/datasets/pricebook.json
+      TAX_DATASET: /etc/platform/datasets/tax-rules.json
+  compliance:
+    port: 8084
+    env:
+      COMPLIANCE_ADDR: ":8084"
+      COMPLIANCE_DATASET: /etc/platform/datasets/compliance-frameworks.json
+  admin:
+    port: 8080
+    env:
+      ADMIN_ADDR: ":8080"
+      CATALOG_URL: "http://catalog:8083"
+      BILLING_URL: "http://billing:8082"
+      COMPLIANCE_URL: "http://compliance:8084"
+      METERING_URL: "http://metering:8081"
+  orgconsole:
+    port: 8085
+    env:
+      ORGCONSOLE_ADDR: ":8085"
+      CATALOG_URL: "http://catalog:8083"
+      BILLING_URL: "http://billing:8082"
+      COMPLIANCE_URL: "http://compliance:8084"
+      METERING_URL: "http://metering:8081"
+
+# The operator agent (GitOps + Kubernetes orchestrator). No service port.
+operator:
+  enabled: true
+  env:
+    GITOPS_DIR: /etc/platform/datasets
+    RECONCILE_INTERVAL: "30s"
+    PROVIDER: kubernetes
 
 replicaCount: 1
 

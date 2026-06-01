@@ -1,0 +1,12 @@
+{
+  "EU-DE": [{"jurisdiction": "EU-DE", "name": "VAT", "kind": "vat", "rate": 0.19}],
+  "EU-FR": [{"jurisdiction": "EU-FR", "name": "VAT", "kind": "vat", "rate": 0.20}],
+  "GB":    [{"jurisdiction": "GB", "name": "VAT", "kind": "vat", "rate": 0.20}],
+  "IN":    [{"jurisdiction": "IN", "name": "GST", "kind": "gst", "rate": 0.18}],
+  "AE":    [{"jurisdiction": "AE", "name": "VAT", "kind": "vat", "rate": 0.05}],
+  "US-CA": [{"jurisdiction": "US-CA", "name": "CA Sales Tax", "kind": "sales_tax", "rate": 0.0725}],
+  "CA-QC": [
+    {"jurisdiction": "CA", "name": "GST", "kind": "gst", "rate": 0.05},
+    {"jurisdiction": "CA-QC", "name": "QST", "kind": "sales_tax", "rate": 0.09975, "compoundOn": ["GST"]}
+  ]
+}

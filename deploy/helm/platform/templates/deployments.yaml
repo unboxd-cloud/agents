@@ -50,4 +50,16 @@ spec:
             allowPrivilegeEscalation: {{ $root.Values.securityContext.allowPrivilegeEscalation }}
             capabilities:
               {{- toYaml $root.Values.securityContext.capabilities | nindent 14 }}
+          {{- if and $root.Values.datasets.enabled $root.Values.datasets.files }}
+          volumeMounts:
+            - name: datasets
+              mountPath: {{ $root.Values.datasets.mountPath }}
+              readOnly: true
+          {{- end }}
+      {{- if and $root.Values.datasets.enabled $root.Values.datasets.files }}
+      volumes:
+        - name: datasets
+          configMap:
+            name: platform-datasets
+      {{- end }}
 {{- end }}

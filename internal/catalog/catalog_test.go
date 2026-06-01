@@ -7,8 +7,11 @@ func TestSeededHasOfferings(t *testing.T) {
 	if len(s.List()) == 0 {
 		t.Fatal("seeded catalog is empty")
 	}
-	if _, ok := s.Get("managed-inference"); !ok {
-		t.Error("expected AI-native managed-inference offering")
+	if _, ok := s.Get("bedrock"); !ok {
+		t.Error("expected AWS-compatible bedrock offering")
+	}
+	if _, ok := s.Get("s3"); !ok {
+		t.Error("expected AWS-compatible s3 offering")
 	}
 }
 
@@ -25,14 +28,21 @@ func TestForProfileFilters(t *testing.T) {
 		if !found {
 			t.Errorf("offering %s leaked to product_manager", o.ID)
 		}
-	}
-	// product_manager should not see SRE-only managed-prometheus
-	if _, ok := s.Get("managed-prometheus"); !ok {
-		t.Fatal("fixture missing")
-	}
-	for _, o := range pm {
-		if o.ID == "managed-prometheus" {
-			t.Error("product_manager should not see managed-prometheus")
+		// sns is tech-only and must not appear for product_manager.
+		if o.ID == "sns" {
+			t.Error("product_manager should not see sns")
 		}
+	}
+}
+
+func TestForCategoryAndCategories(t *testing.T) {
+	s := Seeded()
+	ai := s.ForCategory("ai")
+	if len(ai) == 0 {
+		t.Fatal("expected ai-category offerings")
+	}
+	cats := s.Categories()
+	if len(cats) == 0 {
+		t.Fatal("expected non-empty category index")
 	}
 }
