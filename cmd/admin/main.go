@@ -21,6 +21,7 @@ import (
 	"time"
 
 	"github.com/unboxd-cloud/platform/internal/api"
+	"github.com/unboxd-cloud/platform/internal/asset"
 	"github.com/unboxd-cloud/platform/internal/billing"
 	"github.com/unboxd-cloud/platform/internal/metering"
 	"github.com/unboxd-cloud/platform/internal/observe"
@@ -119,6 +120,47 @@ func main() {
 	// OTLP/JSON export for analysis in CNCF tools.
 	mux.HandleFunc("/debug/traces.json", func(w http.ResponseWriter, _ *http.Request) {
 		server.JSON(w, http.StatusOK, tracer.OTLP())
+	})
+
+	// Asset discovery & catalog for IT admins.
+	assets := asset.NewMemStore()
+	servicesSrc := func() []asset.Asset {
+		out := []asset.Asset{}
+		for name, url := range map[string]string{
+			"catalog": client.Catalog, "billing": client.Billing,
+			"compliance": client.Compliance, "metering": client.Metering,
+		} {
+			out = append(out, asset.Asset{ID: "service:" + name, Kind: "service", Name: name, Source: url})
+		}
+		return out
+	}
+	providersSrc := func() []asset.Asset {
+		out := []asset.Asset{}
+		for _, p := range provider.DefaultRegistry().Names() {
+			out = append(out, asset.Asset{ID: "provider:" + p, Kind: "provider", Name: p, Source: "registry"})
+		}
+		return out
+	}
+	asset.Discover(assets, servicesSrc, providersSrc)
+
+	mux.HandleFunc("/assets", func(w http.ResponseWriter, _ *http.Request) {
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write([]byte(renderAssets(assets)))
+	})
+	mux.HandleFunc("/assets/discover", func(w http.ResponseWriter, _ *http.Request) {
+		asset.Discover(assets, servicesSrc, providersSrc)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write([]byte(renderAssets(assets)))
+	})
+	mux.HandleFunc("/assets/tag", func(w http.ResponseWriter, r *http.Request) {
+		if a, ok := assets.Get(r.FormValue("id")); ok {
+			if tag := strings.TrimSpace(r.FormValue("tag")); tag != "" {
+				a.Tags = append(a.Tags, tag)
+				_, _ = assets.Upsert(a)
+			}
+		}
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		_, _ = w.Write([]byte(renderAssets(assets)))
 	})
 
 	addr := envOr("ADMIN_ADDR", ":8080")
@@ -260,6 +302,25 @@ func list(items []string) string {
 	return strings.Join(items, "\n")
 }
 
+func renderAssets(store *asset.MemStore) string {
+	assets := store.List("")
+	if len(assets) == 0 {
+		return `<em>no assets cataloged — click Discover</em>`
+	}
+	var b strings.Builder
+	b.WriteString(`<table><tr><th>kind</th><th>name</th><th>source</th><th>status</th><th>tags</th></tr>`)
+	for _, a := range assets {
+		fmt.Fprintf(&b, `<tr><td><span class="pill">%s</span></td><td>%s</td><td><code>%s</code></td><td>%s</td><td>`,
+			html.EscapeString(a.Kind), html.EscapeString(a.Name), html.EscapeString(a.Source), html.EscapeString(a.Status))
+		for _, t := range a.Tags {
+			fmt.Fprintf(&b, `<span class="pill">%s</span>`, html.EscapeString(t))
+		}
+		b.WriteString(`</td></tr>`)
+	}
+	b.WriteString(`</table>`)
+	return b.String()
+}
+
 func operatingModes() []string {
 	return []string{
 		string(billing.ModeDirect), string(billing.ModeReseller), string(billing.ModeAgency),
@@ -333,6 +394,16 @@ var pageTemplate = ui.Head("Unboxd Platform — Admin Control Panel") + `
       <input type="text" name="schedule" value="{{.S3.Schedule}}" placeholder="cron e.g. 0 */6 * * *">
       <input type="text" name="retentionDays" value="{{if .S3.RetentionDays}}{{.S3.RetentionDays}}{{end}}" placeholder="retention days">
       <button type="submit">Save S3 settings</button>
+    </form>
+  </div>
+
+  <div class="card span2"><h2>Asset catalog (IT admin)
+      &nbsp;<button hx-post="/assets/discover" hx-target="#asset-table" hx-swap="innerHTML" style="font-size:11px;padding:4px 8px">Discover</button></h2>
+    <div id="asset-table" hx-get="/assets" hx-trigger="load">loading…</div>
+    <form hx-post="/assets/tag" hx-target="#asset-table" hx-swap="innerHTML" style="margin-top:8px">
+      <input type="text" name="id" placeholder="asset id (e.g. service:catalog)">
+      <input type="text" name="tag" placeholder="tag">
+      <button type="submit">Tag</button>
     </form>
   </div>
 
