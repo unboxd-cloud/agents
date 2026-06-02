@@ -1,18 +1,22 @@
-// agent.adl — an executable AGENTS.md for the Unboxd platform support agent.
+// platform.agent — the orchestrator of the Unboxd platform.
 //
-// ADL is the agent language — the structured, machine-checked
-// counterpart to a freeform AGENTS.md: instead of prose, it declares the
-// agent's world so the runtime can parse, validate, and act on it.
+// This is an executable agent definition in ADL, the agent language: the
+// structured, machine-checked counterpart to a freeform AGENTS.md. It describes
+// the platform's top-level orchestrator agent — the one that owns the reconcile
+// loop and drives tenants, services, providers, and deployments toward their
+// desired state.
 //
-// Validate or run it with the canonical runtime in pkg/adl (Go) or, in the
-// tooling, via the shared WASM build in web/adl-runtime.
+// Persistence and inference targets (surrealdb / surrealml) resolve to the
+// SurrealDB-backed store provided by the agent-platform repo. The same runtime
+// (pkg/adl, and via WASM the editor tooling) parses and validates this file;
+// run it with `platform agent check platform.agent`.
 
-namespace unboxd.support
+namespace unboxd.platform
 
-vocabulary support {
+vocabulary platform {
     term tenant means "an isolated customer account on the platform"
-    term sev1 means "highest-severity incident" maps to unboxd.support.Incident
-    term mrr maps to unboxd.support.Subscription
+    term reconcile means "drive observed state toward desired state"
+    term service maps to unboxd.platform.Service
 }
 
 entity Tenant {
@@ -21,34 +25,37 @@ entity Tenant {
     plan: string
 }
 
-entity Subscription {
-    tenant: Tenant required
-    product: string required
-    monthlyCents: int required
-    active: bool
+entity Service {
+    name: string required
+    image: string required
+    tenant: Tenant
+    replicas: int
 }
 
-entity Incident {
-    tenant: Tenant required
-    severity: string required
-    summary: string required
-    openedAt: datetime
-    resolved: bool
+entity Provider {
+    name: string required
+    kind: string required
+    region: string
 }
 
-entity TriageNote extends Incident {
-    assignee: string
-    nextStep: string
+entity Deployment {
+    service: Service required
+    provider: Provider required
+    desiredReplicas: int required
+    healthy: bool
+    updatedAt: datetime
 }
 
-relation Affects Incident -> Subscription {
-    impact: string
+relation RunsOn Deployment -> Provider {
+    region: string
 }
 
-brain SupportBrain {
+brain PlatformOrchestrator {
     owns data
     owns business_logic
     owns policy
+    owns api
+    owns permissions
     owns events
     owns live_queries
     owns memory
@@ -56,33 +63,41 @@ brain SupportBrain {
     owns decisions
 }
 
-mind IncidentMind for Incident {
-    hypothesis: string
-    recommendedAction: string
+mind ReconcileMind for Deployment {
+    desiredState: string
+    observedState: string
+    nextAction: string
     confidence: float
 }
 
-belief LikelyChurn {
-    subject Tenant
-    claim "tenant is at risk of churn after repeated sev1 incidents"
-    confidence 0.66
-    source "incident-history-model"
+belief DriftDetected {
+    subject Deployment
+    claim "deployment has drifted from its desired replica count"
+    confidence 0.74
+    source "reconcile-loop"
 }
 
-constitution SupportConstitution {
-    rule privacy: "never reveal one tenant's data to another tenant"
-    rule honesty: "never report an incident status that is not backed by data"
-    rule escalation: "always escalate unresolved sev1 incidents within one hour"
+constitution PlatformConstitution {
+    rule isolation: "never let one tenant's workload affect another tenant"
+    rule leastPrivilege: "grant each service only the permissions it declares"
+    rule auditable: "every state change must emit an event"
+}
+
+policy ReconcilePolicy {
+    rule converge: "continuously reconcile deployments toward desired state"
+    rule backoff: "exponentially back off retries on provider errors"
 }
 
 policy AccessPolicy {
-    rule readIncidents: "agents may read incidents only for the acting tenant"
-    rule mutate: "only resolve incidents through the audited api"
+    rule scoped: "orchestrator actions are scoped to the owning tenant"
 }
 
-api get "/v1/tenants/{id}/incidents" returns surrealdb
-api post "/v1/incidents/{id}/resolve" returns surrealdb
+api get "/v1/services" returns surrealdb
+api get "/v1/deployments" returns surrealdb
+api post "/v1/deployments/{id}/reconcile" returns surrealdb
 
-function unboxd.support.riskScore(tenant: Tenant, window: int) returns float as surrealml
+function unboxd.platform.reconcile(deployment: Deployment, force: bool) returns bool as surrealdb
+function unboxd.platform.schedule(service: Service, replicas: int) returns Provider as surrealml
 
-surrealml ChurnRisk for scoring input Tenant output Incident
+surrealml DriftScorer for scoring input Deployment output Deployment
+surrealml PlacementRanker for ranking input Service output Provider
