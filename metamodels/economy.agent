@@ -20,11 +20,23 @@ vocabulary subsistence {
     term unit_of_work means "success is defined by the unit of work you deliver — value created — not by capital or position; merit is measured in contribution"
     term no_hidden_logic means "no hidden logic and no hidden transformation: every rule and every transformation is explicit on the graph, visible and auditable — trust comes from transparency, not opacity"
     term graph_is_your_proof means "justifying your skills is not required — your graph shows them: validated contributions, provenance, and track record are the proof; the graph speaks for you, not credentials or claims"
+    term new_roles means "like the computer, agents open up entirely new roles — for humans and agents alike — that did not exist before; work is created, not only displaced, and the unit of work defines each new role"
 }
 
 // The economics the brain reasons from — first principles that teach good habits:
 // scarcity, tradeoffs, opportunity cost, thinking at the margin, and responding to
 // incentives (directly underwrites adapt/optimize/reduce in the constitution).
+// New roles the agent economy opens up — like the computer before it. Anyone can
+// take up a role; the unit of work defines success, and the graph shows the proof.
+vocabulary roles {
+    term infrastructure means "provide and operate infrastructure — compute, storage, clusters, edge — for agents"
+    term learning means "provide learning and training — curricula, skills, and knowledge for agents and humans"
+    term consulting means "provide expertise and advisory — design, validate, and improve the model"
+    term platform_provider means "provide and operate platform instances and golden paths for others"
+    term compliance means "provide compliance services — frameworks, audits, attestations"
+    term security means "provide security services — gates, threat detection, hardening"
+}
+
 vocabulary canon {
     term principles_of_economics means "N. Gregory Mankiw, Principles of Economics — tradeoffs, opportunity cost, marginal thinking, incentives"
     term wealth_of_nations means "Adam Smith, The Wealth of Nations (1776) — division of labor, markets, the invisible hand"
