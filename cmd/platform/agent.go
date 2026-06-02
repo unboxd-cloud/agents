@@ -3,6 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"os/exec"
+	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/unboxd-cloud/platform/pkg/adl"
@@ -50,12 +53,7 @@ func agentCmd(args []string) error {
 		if res.HasErrors() {
 			return fmt.Errorf("%s: cannot deploy, validation failed", path)
 		}
-		ag := adl.NewAgent(res.Model)
-		fmt.Fprintf(os.Stderr,
-			"deploying %s: %d entities, %d relations, %d brains, %d minds, %d beliefs, %d policies, %d apis, %d functions\n",
-			path, len(ag.Entities), len(ag.Relations), len(ag.Brains), len(ag.Minds),
-			len(ag.Beliefs), len(ag.Policies), len(ag.Apis), len(ag.Functions))
-		return printJSON(ag)
+		return deployAgent(path, adl.NewAgent(res.Model))
 	case "bench":
 		printDiags()
 		if res.HasErrors() {
@@ -97,6 +95,48 @@ func exportModel(paths []string) error {
 	}
 	d.Count = len(d.Models)
 	return printJSON(d)
+}
+
+// deployAgent deploys an agent definition to the targeted cluster (current
+// kubeconfig) via the agent-chart Helm chart. Set AGENT_PLAN=1 to print the plan
+// and the resolved agent instead of applying. Overridable via AGENT_KIND,
+// AGENT_RELEASE, and AGENT_CHART.
+func deployAgent(path string, ag *adl.Agent) error {
+	name := agentName(path)
+	kind := envOr("AGENT_KIND", "container")
+	chart := envOr("AGENT_CHART", "deploy/helm/agent-chart")
+	release := envOr("AGENT_RELEASE", name)
+
+	fmt.Fprintf(os.Stderr, "deploying %s as %q (kind=%s): %d entities, %d relations, %d policies, %d functions\n",
+		path, release, kind, len(ag.Entities), len(ag.Relations), len(ag.Policies), len(ag.Functions))
+
+	args := []string{"upgrade", "--install", release, chart,
+		"--set", "agent.name=" + name,
+		"--set", "agent.kind=" + kind,
+		"--set-file", "agent.definition=" + path}
+
+	if os.Getenv("AGENT_PLAN") != "" {
+		fmt.Fprintf(os.Stderr, "plan: helm %s\n", strings.Join(args, " "))
+		return printJSON(ag)
+	}
+	cmd := exec.Command("helm", args...)
+	cmd.Stdout, cmd.Stderr = os.Stdout, os.Stderr
+	if err := cmd.Run(); err != nil {
+		return fmt.Errorf("helm deploy failed (set AGENT_PLAN=1 to print the plan instead): %w", err)
+	}
+	return nil
+}
+
+func agentName(path string) string {
+	b := filepath.Base(path)
+	return strings.TrimSuffix(b, filepath.Ext(b))
+}
+
+func envOr(k, def string) string {
+	if v := os.Getenv(k); v != "" {
+		return v
+	}
+	return def
 }
 
 // benchAgent runs a blueprint conformance benchmark: it scores the agent
