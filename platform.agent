@@ -812,6 +812,7 @@ constitution PlatformConstitution {
     rule determinism: "all produced automation must be deterministic: same input, same output; keep nondeterministic AI out of the hot path"
     rule outcomes: "deliver measurable, deterministic outcomes that bring real commercial value"
     rule observability: "observe every action through Cortex and land APM data in ClickHouse; no blind spots"
+    rule events: "all agent events conform to the CNCF CloudEvents spec"
     rule tooling: "compose existing CNCF projects rather than rebuilding infrastructure"
     rule snapshots: "always keep current cluster snapshots in S3"
     rule privacy: "respect data residency and collect only the data a task needs"

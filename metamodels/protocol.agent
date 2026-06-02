@@ -28,6 +28,19 @@ entity Message {
     payload: string
 }
 
+// CloudEvent — events conform to the CNCF CloudEvents spec
+// (https://github.com/cloudevents/spec): a standard envelope for event data.
+entity CloudEvent {
+    id: string required
+    source: string required
+    specversion: string required
+    type: string required
+    subject: string
+    time: datetime
+    datacontenttype: string
+    data: string
+}
+
 // A2ACall is one agent-to-agent invocation. It is always gated (see GatedBy and
 // GovernedBy): the call is mediated by a Tool and bound by a Policy.
 entity A2ACall {
@@ -51,4 +64,13 @@ relation GovernedBy A2ACall -> Policy {
 
 relation OverChannel Message -> Channel {
     seq: int
+}
+
+// Agent events conform to CloudEvents: agents emit them, messages carry them.
+relation Carries Message -> CloudEvent {
+    contentType: string
+}
+
+relation Emits Agent -> CloudEvent {
+    at: datetime
 }
