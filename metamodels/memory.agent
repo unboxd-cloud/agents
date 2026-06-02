@@ -1,0 +1,86 @@
+// memory.agent — the cognitive memory metamodel, aligned to AGenNext
+// Agent-Memory (embedded SurrealDB). Memory is a cognitive process, not a
+// database lookup: memories form, strengthen with use, decay without
+// reinforcement, reconstruct from temporal anchors, and conflict (requiring
+// resolution).
+//
+// Ebbinghaus decay:
+//   effectiveConfidence = baseConfidence * e^(-lambda * daysSinceReinforcement)
+namespace unboxd.meta.memory
+
+// Six memory categories with their default decay lambda.
+vocabulary categories {
+    term episodic means "raw conversation turns; immutable canonical truth; never decays (lambda 0)"
+    term identity means "who the person is and how they operate; very slow decay (lambda 0.001)"
+    term knowledge means "learned facts; decays without reinforcement (lambda 0.020)"
+    term context means "current session state; fades in days (lambda 0.5)"
+    term instruction means "behavioural directives; never decays (lambda 0)"
+    term uncertainty means "known unknowns emitted by the reconciler (lambda 0.03)"
+}
+
+entity Agent {
+    id: string required
+}
+
+entity Memory {
+    agent: Agent required
+    content: string required
+    category: string required
+    importance: float
+    baseConfidence: float
+    lastReinforcedAt: datetime
+    effectiveConfidence: float
+}
+
+entity Reinforcement {
+    memory: Memory required
+    at: datetime
+    delta: float
+}
+
+// Escalating recall has five tiers; if all miss, it raises a gap and asks.
+entity Recall {
+    agent: Agent required
+    query: string required
+    tier: int
+    found: bool
+}
+
+entity Gap {
+    recall: Recall required
+    suggestedPrompt: string
+}
+
+// Conflicts come in three types and are resolved with a logged decision.
+entity Conflict {
+    kind: string required
+    resolved: bool
+    decision: string
+}
+
+// Episodic replay reconstructs a session from a temporal anchor.
+entity Episode {
+    agent: Agent required
+    anchor: datetime
+    summary: string
+}
+
+relation Reinforces Reinforcement -> Memory {
+    strengthen: float
+}
+
+relation Escalates Recall -> Memory {
+    tier: int
+}
+
+relation Raises Recall -> Gap {
+    insistence: float
+}
+
+relation Between Conflict -> Memory {
+    role: string
+}
+
+relation Replays Episode -> Memory {
+    order: int
+}
