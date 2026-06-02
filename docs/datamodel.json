@@ -1,6 +1,6 @@
 {
-  "generatedAt": "2026-06-02T08:10:54.097916189Z",
-  "count": 37,
+  "generatedAt": "2026-06-02T08:12:07.46990499Z",
+  "count": 38,
   "models": [
     {
       "path": "platform.agent",
@@ -30661,6 +30661,564 @@
                   "line": 59,
                   "column": 5,
                   "offset": 1438
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "metamodels/offerings.agent",
+      "valid": true,
+      "diagnostics": 0,
+      "model": {
+        "declarations": [
+          {
+            "kind": "Namespace",
+            "pos": {
+              "line": 6,
+              "column": 1,
+              "offset": 389
+            },
+            "name": "unboxd.meta.offerings"
+          },
+          {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 9,
+              "column": 1,
+              "offset": 496
+            },
+            "name": "catalog",
+            "terms": [
+              {
+                "name": "platform",
+                "meaning": "the governed graph control plane — the brain: model, runtime, and digital twin in one",
+                "pos": {
+                  "line": 10,
+                  "column": 5,
+                  "offset": 521
+                }
+              },
+              {
+                "name": "agents_as_a_service",
+                "meaning": "provision, run, govern, and retire agents (kernel, container, scoped, plugin, smol, jit)",
+                "pos": {
+                  "line": 11,
+                  "column": 5,
+                  "offset": 635
+                }
+              },
+              {
+                "name": "decision_intelligence",
+                "meaning": "the north star: hybrid human+AI decisions, trust-calibrated and explainable",
+                "pos": {
+                  "line": 12,
+                  "column": 5,
+                  "offset": 761
+                }
+              },
+              {
+                "name": "community_research",
+                "meaning": "the community-development and research platform — the governed innovation funnel",
+                "pos": {
+                  "line": 13,
+                  "column": 5,
+                  "offset": 876
+                }
+              },
+              {
+                "name": "governance_compliance",
+                "meaning": "constitution enforcement, audit, provenance, and compliance frameworks as a service",
+                "pos": {
+                  "line": 14,
+                  "column": 5,
+                  "offset": 995
+                }
+              },
+              {
+                "name": "security",
+                "meaning": "zero-trust gates, threat detection, JIT credentials, and hardening as a service",
+                "pos": {
+                  "line": 15,
+                  "column": 5,
+                  "offset": 1118
+                }
+              },
+              {
+                "name": "infrastructure",
+                "meaning": "the k3s-native runtime, decentralized federation, and edge as a service",
+                "pos": {
+                  "line": 16,
+                  "column": 5,
+                  "offset": 1224
+                }
+              },
+              {
+                "name": "learning",
+                "meaning": "training, skills, curricula, and knowledge for agents and humans",
+                "pos": {
+                  "line": 17,
+                  "column": 5,
+                  "offset": 1328
+                }
+              },
+              {
+                "name": "consulting",
+                "meaning": "advisory and professional services that design, validate, and improve the model",
+                "pos": {
+                  "line": 18,
+                  "column": 5,
+                  "offset": 1419
+                }
+              },
+              {
+                "name": "model_router",
+                "meaning": "the pluggable, cost-aware cortex — LLM routing under non-stationarity",
+                "pos": {
+                  "line": 19,
+                  "column": 5,
+                  "offset": 1527
+                }
+              },
+              {
+                "name": "digital_twin",
+                "meaning": "the live, time-travelling twin for simulation, projection, and what-if analysis",
+                "pos": {
+                  "line": 20,
+                  "column": 5,
+                  "offset": 1629
+                }
+              },
+              {
+                "name": "marketplace",
+                "meaning": "the marketplace of agents, tools, and skills — discover, compose, transact",
+                "pos": {
+                  "line": 21,
+                  "column": 5,
+                  "offset": 1739
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 25,
+              "column": 1,
+              "offset": 1927
+            },
+            "name": "tiers",
+            "terms": [
+              {
+                "name": "free",
+                "meaning": "survival tier — basic necessities met at zero marginal cost",
+                "pos": {
+                  "line": 26,
+                  "column": 5,
+                  "offset": 1950
+                }
+              },
+              {
+                "name": "metered",
+                "meaning": "pay-as-you-go for capacity, scale, and premium beyond the basics",
+                "pos": {
+                  "line": 27,
+                  "column": 5,
+                  "offset": 2034
+                }
+              },
+              {
+                "name": "enterprise",
+                "meaning": "committed capacity, dedicated SLAs, and governance assurances",
+                "pos": {
+                  "line": 28,
+                  "column": 5,
+                  "offset": 2124
+                }
+              },
+              {
+                "name": "partner",
+                "meaning": "delivered through a partnership model (alliance, JV, consortium, revenue-share, white-label)",
+                "pos": {
+                  "line": 29,
+                  "column": 5,
+                  "offset": 2214
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Entity",
+            "pos": {
+              "line": 33,
+              "column": 1,
+              "offset": 2387
+            },
+            "name": "Offering",
+            "fields": [
+              {
+                "name": "name",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 34,
+                    "column": 11,
+                    "offset": 2415
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 34,
+                  "column": 5,
+                  "offset": 2409
+                }
+              },
+              {
+                "name": "category",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 35,
+                    "column": 15,
+                    "offset": 2445
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 35,
+                  "column": 5,
+                  "offset": 2435
+                }
+              },
+              {
+                "name": "solutionAsAService",
+                "type": {
+                  "primitive": "bool",
+                  "pos": {
+                    "line": 36,
+                    "column": 25,
+                    "offset": 2485
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 36,
+                  "column": 5,
+                  "offset": 2465
+                }
+              },
+              {
+                "name": "description",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 37,
+                    "column": 18,
+                    "offset": 2507
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 37,
+                  "column": 5,
+                  "offset": 2494
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Entity",
+            "pos": {
+              "line": 41,
+              "column": 1,
+              "offset": 2585
+            },
+            "name": "Package",
+            "fields": [
+              {
+                "name": "offering",
+                "type": {
+                  "ref": {
+                    "name": "Offering",
+                    "resolved": "unboxd.meta.offerings.Offering",
+                    "pos": {
+                      "line": 42,
+                      "column": 15,
+                      "offset": 2616
+                    }
+                  },
+                  "pos": {
+                    "line": 42,
+                    "column": 15,
+                    "offset": 2616
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 42,
+                  "column": 5,
+                  "offset": 2606
+                }
+              },
+              {
+                "name": "tier",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 43,
+                    "column": 11,
+                    "offset": 2644
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 43,
+                  "column": 5,
+                  "offset": 2638
+                }
+              },
+              {
+                "name": "meter",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 44,
+                    "column": 12,
+                    "offset": 2671
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 44,
+                  "column": 5,
+                  "offset": 2664
+                }
+              },
+              {
+                "name": "sla",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 45,
+                    "column": 10,
+                    "offset": 2687
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 45,
+                  "column": 5,
+                  "offset": 2682
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Entity",
+            "pos": {
+              "line": 49,
+              "column": 1,
+              "offset": 2764
+            },
+            "name": "Subscription",
+            "fields": [
+              {
+                "name": "package",
+                "type": {
+                  "ref": {
+                    "name": "Package",
+                    "resolved": "unboxd.meta.offerings.Package",
+                    "pos": {
+                      "line": 50,
+                      "column": 14,
+                      "offset": 2799
+                    }
+                  },
+                  "pos": {
+                    "line": 50,
+                    "column": 14,
+                    "offset": 2799
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 50,
+                  "column": 5,
+                  "offset": 2790
+                }
+              },
+              {
+                "name": "subscriber",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 51,
+                    "column": 17,
+                    "offset": 2832
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 51,
+                  "column": 5,
+                  "offset": 2820
+                }
+              },
+              {
+                "name": "active",
+                "type": {
+                  "primitive": "bool",
+                  "pos": {
+                    "line": 52,
+                    "column": 13,
+                    "offset": 2860
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 52,
+                  "column": 5,
+                  "offset": 2852
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 55,
+              "column": 1,
+              "offset": 2868
+            },
+            "name": "Packages",
+            "source": {
+              "name": "Offering",
+              "resolved": "unboxd.meta.offerings.Offering",
+              "pos": {
+                "line": 55,
+                "column": 19,
+                "offset": 2886
+              }
+            },
+            "target": {
+              "name": "Package",
+              "resolved": "unboxd.meta.offerings.Package",
+              "pos": {
+                "line": 55,
+                "column": 31,
+                "offset": 2898
+              }
+            },
+            "fields": [
+              {
+                "name": "tier",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 56,
+                    "column": 11,
+                    "offset": 2918
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 56,
+                  "column": 5,
+                  "offset": 2912
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 59,
+              "column": 1,
+              "offset": 2928
+            },
+            "name": "Subscribes",
+            "source": {
+              "name": "Subscription",
+              "resolved": "unboxd.meta.offerings.Subscription",
+              "pos": {
+                "line": 59,
+                "column": 21,
+                "offset": 2948
+              }
+            },
+            "target": {
+              "name": "Package",
+              "resolved": "unboxd.meta.offerings.Package",
+              "pos": {
+                "line": 59,
+                "column": 37,
+                "offset": 2964
+              }
+            },
+            "fields": [
+              {
+                "name": "since",
+                "type": {
+                  "primitive": "datetime",
+                  "pos": {
+                    "line": 60,
+                    "column": 12,
+                    "offset": 2985
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 60,
+                  "column": 5,
+                  "offset": 2978
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 65,
+              "column": 1,
+              "offset": 3122
+            },
+            "name": "Composes",
+            "source": {
+              "name": "Offering",
+              "resolved": "unboxd.meta.offerings.Offering",
+              "pos": {
+                "line": 65,
+                "column": 19,
+                "offset": 3140
+              }
+            },
+            "target": {
+              "name": "Offering",
+              "resolved": "unboxd.meta.offerings.Offering",
+              "pos": {
+                "line": 65,
+                "column": 31,
+                "offset": 3152
+              }
+            },
+            "fields": [
+              {
+                "name": "role",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 66,
+                    "column": 11,
+                    "offset": 3173
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 66,
+                  "column": 5,
+                  "offset": 3167
                 }
               }
             ]

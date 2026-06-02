@@ -1,0 +1,67 @@
+// offerings.agent — the platform's offerings: what it provides, packaged as
+// solutions-as-a-service. The offering is solution-as-a-service (constitution
+// rule `offering`): every capability is productized, metered above a free
+// survival tier, backed by an SLA, and deliverable directly or through a
+// partnership model. These are the products the rest of the model rolls up into.
+namespace unboxd.meta.offerings
+
+// The offering catalog — the productized capabilities of the platform.
+vocabulary catalog {
+    term platform means "the governed graph control plane — the brain: model, runtime, and digital twin in one"
+    term agents_as_a_service means "provision, run, govern, and retire agents (kernel, container, scoped, plugin, smol, jit)"
+    term decision_intelligence means "the north star: hybrid human+AI decisions, trust-calibrated and explainable"
+    term community_research means "the community-development and research platform — the governed innovation funnel"
+    term governance_compliance means "constitution enforcement, audit, provenance, and compliance frameworks as a service"
+    term security means "zero-trust gates, threat detection, JIT credentials, and hardening as a service"
+    term infrastructure means "the k3s-native runtime, decentralized federation, and edge as a service"
+    term learning means "training, skills, curricula, and knowledge for agents and humans"
+    term consulting means "advisory and professional services that design, validate, and improve the model"
+    term model_router means "the pluggable, cost-aware cortex — LLM routing under non-stationarity"
+    term digital_twin means "the live, time-travelling twin for simulation, projection, and what-if analysis"
+    term marketplace means "the marketplace of agents, tools, and skills — discover, compose, transact"
+}
+
+// Packaging tiers — survival is free; money applies only above basic necessity.
+vocabulary tiers {
+    term free means "survival tier — basic necessities met at zero marginal cost"
+    term metered means "pay-as-you-go for capacity, scale, and premium beyond the basics"
+    term enterprise means "committed capacity, dedicated SLAs, and governance assurances"
+    term partner means "delivered through a partnership model (alliance, JV, consortium, revenue-share, white-label)"
+}
+
+// An Offering is productized as solution-as-a-service.
+entity Offering {
+    name: string required
+    category: string required
+    solutionAsAService: bool
+    description: string
+}
+
+// A Package wraps an offering at a tier, with metering and an SLA.
+entity Package {
+    offering: Offering required
+    tier: string required
+    meter: string
+    sla: string
+}
+
+// Subscription is a customer's (or agent's) take-up of a package.
+entity Subscription {
+    package: Package required
+    subscriber: string required
+    active: bool
+}
+
+relation Packages Offering -> Package {
+    tier: string
+}
+
+relation Subscribes Subscription -> Package {
+    since: datetime
+}
+
+// Every offering composes platform capabilities — the offering is the
+// productized face of what the graph already does.
+relation Composes Offering -> Offering {
+    role: string
+}
