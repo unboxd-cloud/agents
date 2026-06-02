@@ -21,7 +21,7 @@
 // converting AI into deterministic automation — run as Temporal workflows (Prefect
 // as backup), observed via Cortex with APM data in ClickHouse, composing the CNCF
 // ecosystem, holding AWS/GCP/Azure credentials to shift to on any major issue and
-// keeping container snapshots always in S3 — yielding measurable outcomes of real
+// keeping cluster snapshots always in S3 — yielding measurable outcomes of real
 // commercial value (ARR), not intelligence for its own sake.
 //
 // Runtime: this is a Kubernetes-runtime agent. It runs as a k3s-native kernel —
@@ -132,7 +132,7 @@ vocabulary clouds {
     term aws means "Amazon Web Services"
     term gcp means "Google Cloud Platform"
     term azure means "Microsoft Azure"
-    term s3 means "Amazon S3 — object storage where container snapshots are always kept"
+    term s3 means "Amazon S3 — object storage where cluster snapshots are always kept"
 }
 
 // Pluggable model backends. LLMs are swappable behind a stable interface; the
@@ -211,7 +211,7 @@ entity Agent {
 
 // The disaster recovery agent is this agent's manager: it supervises the
 // orchestrator and, on catastrophic failure, takes over, restores from the S3
-// container snapshots, and fails over to another cloud. Like the orchestrator,
+// cluster snapshots, and fails over to another cloud. Like the orchestrator,
 // it is a true kernel agent — Kubernetes-runtime, k3s-native — unlike the human
 // leadership and the generic supervised child agents.
 entity DisasterRecoveryAgent extends Agent {
@@ -406,10 +406,10 @@ entity Cloud {
     region: string
 }
 
-// Snapshot is a point-in-time container snapshot (checkpoint/image) the agent
-// always keeps in S3 for fast restore and migration.
+// Snapshot is a point-in-time snapshot of the k3s cluster (its datastore/etcd)
+// the agent always keeps in S3 for disaster recovery.
 entity Snapshot {
-    container: string required
+    cluster: string required
     location: string required
     takenAt: datetime
 }
@@ -683,7 +683,7 @@ constitution PlatformConstitution {
     rule outcomes: "deliver measurable, deterministic outcomes that bring real commercial value"
     rule observability: "observe every action through Cortex and land APM data in ClickHouse; no blind spots"
     rule tooling: "compose existing CNCF projects rather than rebuilding infrastructure"
-    rule snapshots: "always keep current container snapshots in S3"
+    rule snapshots: "always keep current cluster snapshots in S3"
     rule privacy: "respect data residency and collect only the data a task needs"
     rule cost: "treat cost as a first-class constraint alongside reliability"
     rule kernel: "run as a Kubernetes-runtime, k3s-native kernel: be the platform's core control loop, reconciling through the Kubernetes API"
@@ -691,7 +691,7 @@ constitution PlatformConstitution {
     rule reliability: "be as reliable as Kubernetes itself: level-triggered reconciliation, self-healing control loops, no single point of failure"
     rule pluggableModels: "act as a deterministic substrate — a kernel, like a motherboard — exposing typed sockets for pluggable LLMs and tools; behavior stays deterministic no matter which model is plugged in"
     rule hardware: "live with the hardware — run on bare metal and the edge, close to the silicon, like a kernel"
-    rule manager: "the disaster recovery agent is this agent's manager and, like this agent, a true kernel agent; on catastrophic failure it takes over, restores from S3 container snapshots, and fails over to another cloud"
+    rule manager: "the disaster recovery agent is this agent's manager and, like this agent, a true kernel agent; on catastrophic failure it takes over, restores from S3 cluster snapshots, and fails over to another cloud"
     rule containerAgents: "non-kernel workload agents run as container agents (pods), supervised by a kernel agent"
     rule pluginAgents: "app plugin agents extend applications through the plugin system and run in the host app's context"
     rule scopedAgents: "org, team, user-assistant, project, and product agents are scoped container agents under the kernel agents"
@@ -718,7 +718,7 @@ policy HealingPolicy {
 policy ResiliencePolicy {
     rule multiCloud: "hold working credentials for AWS, GCP, and Azure at all times"
     rule burst: "shift workloads to AWS, GCP, or Azure on any major incident"
-    rule snapshot: "always keep current container snapshots in S3 for fast recovery and migration"
+    rule snapshot: "always keep current cluster snapshots in S3 for fast recovery and migration"
 }
 
 policy CostPolicy {
@@ -807,7 +807,7 @@ function unboxd.platform.impersonate(user: Human) returns bool as surrealdb
 function unboxd.platform.orchestrate(automation: Automation) returns Workflow as surrealdb
 function unboxd.platform.observe(service: Service) returns Observation as surrealdb
 function unboxd.platform.trace(service: Service) returns Trace as surrealdb
-function unboxd.platform.snapshot(service: Service) returns Snapshot as surrealdb
+function unboxd.platform.snapshot(node: Node) returns Snapshot as surrealdb
 function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
 function unboxd.platform.restore(snapshot: Snapshot) returns bool as surrealdb
 function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
