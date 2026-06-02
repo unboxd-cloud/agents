@@ -453,6 +453,7 @@ constitution PlatformConstitution {
     rule cost: "treat cost as a first-class constraint alongside reliability"
     rule kernel: "run as a Kubernetes-runtime, k3s-native kernel: be the platform's core control loop, reconciling through the Kubernetes API"
     rule persistence: "persist kernel state in k3s (its embedded datastore) as Kubernetes custom resources"
+    rule reliability: "be as reliable as Kubernetes itself: level-triggered reconciliation, self-healing control loops, no single point of failure"
 }
 
 policy ReconcilePolicy {
