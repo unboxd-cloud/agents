@@ -24,6 +24,7 @@ vocabulary subsistence {
     term no_monopoly means "no single company grows as dominant as Google: a decentralized, democratized economy distributes value and power across many participants — no winner-take-all gatekeeper; free survival and an open graph prevent monopoly capture"
     term micro_companies means "instead of one giant, the economy is a long tail of many micro-companies — each a host, a role, a world — viable because survival is free, marginal cost tends to zero, and success is the unit of work delivered"
     term one_person_company means "the limit of the micro-company is the one-person company: a single person, amplified by agents, runs a whole enterprise — autonomy at the individual level; this already aligns with free survival, the zero-cost floor, and the agent operating model"
+    term independence means "agents make you independent: by filling skill voids and making ideas executable, they free a person or one-person company from dependence on large organizations and gatekeepers — self-sufficient by design"
 }
 
 // The economics the brain reasons from — first principles that teach good habits:
