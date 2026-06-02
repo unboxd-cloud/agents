@@ -957,6 +957,7 @@ constitution PlatformConstitution {
     rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
     rule ui: "build the UI once: a single design system (htmx over stdlib templates, no build step) reused across every surface — admin, org console, and IDE"
     rule home: "the default home is a chat with the user's assistant agent loaded, alongside a canvas and search; every capability is a tool, a skill, and grounded in theory"
+    rule complementsHuman: "agents complement humans, never merely replace them: they fill the skill voids a person lacks and make ideas executable — an idea plus agents becomes execution without requiring the full skill set (the .agent is itself executable); AI does data-scale work, humans bring intuition, context, and values; the pair is stronger than either, and new roles are created, not only displaced; the agent is the tool you need to realize your true potential"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule serviceOrNative: "everything the platform does not produce natively — frameworks, runtimes, tools — is consumed as a service behind a stable interface; native capabilities are produced by the platform itself"
     rule externalAppsAreTools: "every external app or system (GitHub, cloud APIs, SaaS) is a tool the agent operates through a stable, governed interface"
