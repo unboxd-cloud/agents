@@ -442,8 +442,8 @@ entity Composer {
 }
 
 // Anything the platform does not produce natively — frameworks, runtimes, tools
-// — is consumed as a Service behind a stable interface.
-entity Service {
+// — is consumed as an ExternalService behind a stable interface.
+entity ExternalService {
     name: string required
     provider: string
     native: bool
@@ -712,7 +712,7 @@ relation ExposedAsTool Composer -> Tool {
     iface: string
 }
 
-relation Consumes Agent -> Service {
+relation Consumes Agent -> ExternalService {
     iface: string
 }
 
