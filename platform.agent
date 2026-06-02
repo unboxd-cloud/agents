@@ -886,6 +886,7 @@ constitution PlatformConstitution {
     rule doctrine: "follow military doctrine: clear chain of command, mission command, the OODA loop, defined rules of engagement, and defense in depth"
     rule scaling: "start on single-node k3s with deterministic Go kernel agents; go multi-node as we grow, introducing kagent for the LLM reasoning-agent tier while kernel agents stay deterministic"
     rule agentToolDuality: "every agent can be exposed as a tool to other agents, and any tool becomes an agent when initiated (mutated) with a pluggable LLM"
+    rule universalAgent: "an agent can be anything and anything can be an agent: any thing — a tool, service, model, document, or workflow — becomes an agent when given a goal, governance, and a pluggable model, and an agent can present as any of them"
     rule composability: "everything is composable and composes with everything, from the platform's respective tools and skills: every node is a Thing in one graph; agents, tools, models, runtimes, metamodels, and outputs compose into larger wholes and decompose into verified parts"
     rule solutionCentric: "be solution-centric: given a goal, dynamically generate a solution and plan, get it confirmed before execution starts, then execute"
     rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
