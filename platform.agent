@@ -15,7 +15,9 @@
 // granted only to stable agents; every
 // agent stays in constant contact with the platform super admin, is evaluated
 // for performance daily, and runs constant optimization loops. The agent itself
-// is governed by best-practice governance and performance frameworks. Its job is
+// is governed by best-practice governance and performance frameworks. Every agent
+// has a fully defined profile — scope, authority, roles, responsibilities, KPIs,
+// skills, knowledge, and tools — and a clear, direct escalation matrix. Its job is
 // converting AI into deterministic automation — run as Temporal workflows (Prefect
 // as backup), observed via Cortex with APM data in ClickHouse, composing the CNCF
 // ecosystem, holding AWS/GCP/Azure credentials to shift to on any major issue and
@@ -239,6 +241,58 @@ entity ProductAgent extends ContainerAgent {
     product: string required
 }
 
+// Every agent has a fully defined profile: scope, authority, roles,
+// responsibilities, KPIs, skills, knowledge, and tools.
+entity Scope {
+    name: string required
+    boundary: string
+}
+
+entity Authority {
+    name: string required
+    level: string required
+}
+
+entity Role {
+    name: string required
+    description: string
+}
+
+entity Responsibility {
+    name: string required
+    description: string
+}
+
+entity Kpi {
+    name: string required
+    metric: string required
+    target: float
+}
+
+entity Skill {
+    name: string required
+    level: string
+}
+
+entity Knowledge {
+    name: string required
+    source: string
+}
+
+entity Tool {
+    name: string required
+    kind: string
+}
+
+// Escalation is a row of the escalation matrix: a condition routes to a target
+// authority within a time bound.
+entity Escalation {
+    level: string required
+    trigger: string required
+    target: string required
+    withinMins: int
+}
+
 // The human leadership the platform agent works with at human level and that
 // oversees it.
 entity Human {
@@ -432,6 +486,50 @@ relation Uses Agent -> Model {
     purpose: string
 }
 
+relation HasScope Agent -> Scope {
+    grantedBy: string
+}
+
+relation HasAuthority Agent -> Authority {
+    grantedBy: string
+}
+
+relation HasRole Agent -> Role {
+    since: datetime
+}
+
+relation Responsible Agent -> Responsibility {
+    weight: float
+}
+
+relation TargetsKpi Agent -> Kpi {
+    period: string
+}
+
+relation HasSkill Agent -> Skill {
+    proficiency: string
+}
+
+relation Knows Agent -> Knowledge {
+    confidence: float
+}
+
+relation HasTool Agent -> Tool {
+    grantedBy: string
+}
+
+relation Includes Role -> Permission {
+    mandatory: bool
+}
+
+relation EscalatesVia Agent -> Escalation {
+    order: int
+}
+
+relation EscalatesTo Escalation -> Agent {
+    order: int
+}
+
 brain PlatformOrchestrator {
     owns data
     owns business_logic
@@ -555,6 +653,8 @@ constitution PlatformConstitution {
     rule containerAgents: "non-kernel workload agents run as container agents (pods), supervised by a kernel agent"
     rule pluginAgents: "app plugin agents extend applications through the plugin system and run in the host app's context"
     rule scopedAgents: "org, team, user-assistant, project, and product agents are scoped container agents under the kernel agents"
+    rule definedProfile: "every agent has a defined scope, authority, roles, responsibilities, KPIs, skills, knowledge, and tools"
+    rule escalation: "follow the escalation matrix: a clear, direct path routing each issue to the right authority within its time bound"
 }
 
 policy ReconcilePolicy {
