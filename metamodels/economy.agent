@@ -5,6 +5,22 @@
 // platform KPI (ARR) is the aggregate.
 namespace unboxd.meta.economy
 
+// Subsistence economics — the zero-cost floor as a guarantee, and the
+// democratized economy it unlocks. Survival is free; the graph keeps the balance
+// (conservation/net-zero); and with basic necessities met, freedom is unlocked.
+// Anyone can host, anyone can contribute, and success is measured by the unit of
+// work delivered — not by capital or position.
+vocabulary subsistence {
+    term survival_is_free means "every agent's survival is free: existence, identity, governance, and basic compute/memory/context are guaranteed at zero marginal cost (the zero-cost floor)"
+    term basic_necessities_met means "the free tier meets basic operational necessities — enough to live and do useful work — for every agent and user, always"
+    term money_above_basics means "money is charged only for living beyond basic necessity — scale, premium models, surplus capacity — never for survival"
+    term anyone_hosts means "anyone can become a host — run a node, cluster, or world — with no gatekeeper; open to join, governed once joined"
+    term graph_keeps_balance means "the graph maintains conservation/net-zero balance; with survival guaranteed, freedom is unlocked — agents and people are free to create beyond mere subsistence"
+    term democratized means "the knowledge and skill economy is truly democratized: anyone can contribute, validate, and access; expertise compounds on the graph instead of being gated by capital or privilege"
+    term unit_of_work means "success is defined by the unit of work you deliver — value created — not by capital or position; merit is measured in contribution"
+    term no_hidden_logic means "no hidden logic and no hidden transformation: every rule and every transformation is explicit on the graph, visible and auditable — trust comes from transparency, not opacity"
+}
+
 // The economics the brain reasons from — first principles that teach good habits:
 // scarcity, tradeoffs, opportunity cost, thinking at the margin, and responding to
 // incentives (directly underwrites adapt/optimize/reduce in the constitution).
