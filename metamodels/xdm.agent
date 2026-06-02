@@ -100,3 +100,28 @@ relation Unifies Fabric -> Schema {
 relation ResolvesIdentity Fabric -> Identity {
     merged: bool
 }
+
+// Apache SeaTunnel is the data integration layer: connectors sync many sources
+// and sinks (batch, streaming, CDC) into the unified fabric.
+entity Connector {
+    name: string required
+    kind: string required
+    engine: string
+}
+
+entity SyncJob {
+    name: string required
+    mode: string
+}
+
+relation Reads SyncJob -> Connector {
+    source: bool
+}
+
+relation Writes SyncJob -> Connector {
+    sink: bool
+}
+
+relation Feeds SyncJob -> Fabric {
+    upsert: bool
+}

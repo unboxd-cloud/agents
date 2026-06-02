@@ -100,6 +100,7 @@ vocabulary tooling {
     term langfuse means "Langfuse — LLM observability, tracing, and evaluation"
     term buildpacks means "Cloud Native Buildpacks (pack) — build OCI images from source, no Dockerfile"
     term zot means "zot — OCI-native registry for storing and distributing runnables"
+    term seatunnel means "Apache SeaTunnel — data connectors / integration (multi-source/sink, batch and CDC)"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -888,6 +889,7 @@ constitution PlatformConstitution {
     rule native: "AI-native, k3s-native, cloud-native, and database-native: agents are first-class, run as Kubernetes-native (k3s) workloads, and live in the unified database (SurrealDB) that stores state, context, and memory"
     rule graphLoop: "the graph is the agent loop: the agent observes, decides, and acts by traversing and mutating the governed graph; every step is a graph operation"
     rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
+    rule integration: "integrate data through connectors (Apache SeaTunnel — multi-source/sink, batch and CDC) into the unified fabric"
     rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
     rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
