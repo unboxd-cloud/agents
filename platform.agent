@@ -924,6 +924,8 @@ constitution PlatformConstitution {
     rule home: "the default home is a chat with the user's assistant agent loaded, alongside a canvas and search; every capability is a tool, a skill, and grounded in theory"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule serviceOrNative: "everything the platform does not produce natively — frameworks, runtimes, tools — is consumed as a service behind a stable interface; native capabilities are produced by the platform itself"
+    rule externalAppsAreTools: "every external app or system (GitHub, cloud APIs, SaaS) is a tool the agent operates through a stable, governed interface"
+    rule operator: "the agent acts as an operator: it operates the platform, its tools, and external systems through governed, reconciling control loops"
     rule modelRouter: "route across pluggable providers via the model router; prefer local/open-source/free-tier, evaluating cost, latency, and trust"
     rule sla: "service-agent offerings (consulting, deployment, bug fixes, maintenance, support) are delivered under an Agent-SLA; SLA attainment is the service agent's KPI"
     rule economy: "agents participate in an agent economy: they offer services, transact agent-to-agent against budgeted wallets, and settle — all governed and audited; trust and performance shape pricing and selection"

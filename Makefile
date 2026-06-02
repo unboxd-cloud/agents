@@ -57,6 +57,12 @@ agents: ## Validate all ADL agent definitions (*.agent) and metamodels
 bench: ## Run core engine benchmarks (ADL runtime + agentdb)
 	$(GO) test -run=^$$ -bench=. -benchmem ./pkg/adl/ ./pkg/agentdb/
 
+.PHONY: model
+model: ## Export the combined data model as JSON (docs/datamodel.json)
+	@$(GO) build -o $(BIN)/platform ./cmd/platform
+	@$(BIN)/platform agent export platform.agent metamodels/*.agent blueprints/*.agent > docs/datamodel.json
+	@echo "data model exported -> docs/datamodel.json"
+
 .PHONY: adl-wasm
 adl-wasm: ## Build the ADL runtime as WASM for the TS tooling
 	GOOS=js GOARCH=wasm $(GO) build -o $(ADL_WEB)/adl.wasm ./cmd/adl-wasm

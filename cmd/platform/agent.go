@@ -3,19 +3,24 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/unboxd-cloud/platform/pkg/adl"
 )
 
-// agentCmd implements `platform agent <check|show|deploy> <file>` — the agent
-// language, runnable from the command line through the same runtime the Go
-// backend and the editor tooling (via WASM) use. Agent definitions are .agent
+// agentCmd implements `platform agent <check|show|deploy|bench|export> <file>` —
+// the agent language, runnable from the command line through the same runtime the
+// Go backend and the editor tooling (via WASM) use. Agent definitions are .agent
 // files (e.g. platform.agent, product.agent, team.agent).
 func agentCmd(args []string) error {
 	if len(args) < 2 {
-		return fmt.Errorf("usage: platform agent <check|show|deploy> <file>")
+		return fmt.Errorf("usage: platform agent <check|show|deploy|bench|export> <file>...")
 	}
-	sub, path := args[0], args[1]
+	sub := args[0]
+	if sub == "export" {
+		return exportModel(args[1:])
+	}
+	path := args[1]
 	src, err := os.ReadFile(path)
 	if err != nil {
 		return fmt.Errorf("read %s: %w", path, err)
@@ -60,6 +65,38 @@ func agentCmd(args []string) error {
 	default:
 		return fmt.Errorf("agent: unknown subcommand %q (use check|show|deploy|bench)", sub)
 	}
+}
+
+// exportModel compiles each .agent file and emits the combined data model as a
+// single JSON document, so other repositories and users can consume the model.
+func exportModel(paths []string) error {
+	type fileModel struct {
+		Path        string     `json:"path"`
+		Valid       bool       `json:"valid"`
+		Diagnostics int        `json:"diagnostics"`
+		Model       *adl.Model `json:"model"`
+	}
+	type doc struct {
+		GeneratedAt time.Time   `json:"generatedAt"`
+		Count       int         `json:"count"`
+		Models      []fileModel `json:"models"`
+	}
+	d := doc{GeneratedAt: time.Now().UTC()}
+	for _, p := range paths {
+		src, err := os.ReadFile(p)
+		if err != nil {
+			return fmt.Errorf("read %s: %w", p, err)
+		}
+		res := adl.Compile(string(src))
+		d.Models = append(d.Models, fileModel{
+			Path:        p,
+			Valid:       !res.HasErrors(),
+			Diagnostics: len(res.Diagnostics),
+			Model:       res.Model,
+		})
+	}
+	d.Count = len(d.Models)
+	return printJSON(d)
 }
 
 // benchAgent runs a blueprint conformance benchmark: it scores the agent

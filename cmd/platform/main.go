@@ -127,6 +127,7 @@ Usage:
   platform agent show   <file>    print the compiled model + diagnostics as JSON
   platform agent deploy <file>    validate, then emit the deployable resolved agent as JSON
   platform agent bench  <file>    blueprint conformance benchmark (JSON-LD report)
+  platform agent export <file>... export the combined data model as JSON
   platform catalog [profile]      list catalog offerings
   platform pricebook              show the active price book
   platform frameworks             list compliance frameworks
