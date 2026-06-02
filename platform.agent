@@ -1,21 +1,29 @@
 // platform.agent — the orchestrator of the Unboxd platform.
 //
-// This is an executable agent definition in ADL, the agent language: the
-// structured, machine-checked counterpart to a freeform AGENTS.md. It describes
-// the platform's top-level orchestrator agent — the one that owns the reconcile
-// loop and drives tenants, services, providers, and deployments toward their
-// desired state.
+// This is our enterprise, production-grade frontier agent, written in ADL, the
+// agent language: a structured, machine-checked agent definition (the
+// executable counterpart to a freeform AGENTS.md). It describes the platform's
+// top-level orchestrator agent. The orchestrator owns the contract and delivers
+// the promise: it drives tenants, services, providers, and deployments toward
+// their desired state, and it heals, enforces, and secures the system while
+// supervising its child agents.
 //
-// Persistence and inference targets (surrealdb / surrealml) resolve to the
-// SurrealDB-backed store provided by the agent-platform repo. The same runtime
-// (pkg/adl, and via WASM the editor tooling) parses and validates this file;
-// run it with `platform agent check platform.agent`.
+// The surrealdb / surrealml targets resolve to the agent-platform runtime:
+// SurrealDB executes the queries, functions, and live queries, and SurrealML
+// runs the inference. It is an execution runtime, not just a store. The same
+// ADL runtime (pkg/adl, and via WASM the editor tooling) parses and validates
+// this file; run it with `platform agent check platform.agent`.
 
 namespace unboxd.platform
 
 vocabulary platform {
     term tenant means "an isolated customer account on the platform"
     term reconcile means "drive observed state toward desired state"
+    term heal means "automatically remediate an unhealthy resource"
+    term enforce means "apply a policy to every action"
+    term secure means "authenticate, authorize, and protect a resource"
+    term contract means "the agreement the agent owns on behalf of a tenant"
+    term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
 }
 
@@ -46,8 +54,42 @@ entity Deployment {
     updatedAt: datetime
 }
 
+// Agent is a node in the supervision hierarchy. The orchestrator supervises
+// child agents (parent points back at the supervising Agent).
+entity Agent {
+    name: string required
+    role: string required
+    parent: Agent
+    healthy: bool
+}
+
+// Contract is what the orchestrator owns on behalf of a tenant: the agreement
+// whose promises the agent is bound to deliver.
+entity Contract {
+    tenant: Tenant required
+    sla: string required
+    active: bool
+}
+
+// Promise is a voluntary commitment under a contract that the agent delivers
+// (promise theory): a guarantee about a service that is either kept or not.
+entity Promise {
+    contract: Contract required
+    service: Service
+    guarantee: string required
+    kept: bool
+}
+
 relation RunsOn Deployment -> Provider {
     region: string
+}
+
+relation Supervises Agent -> Agent {
+    scope: string
+}
+
+relation Delivers Agent -> Promise {
+    dueBy: datetime
 }
 
 brain PlatformOrchestrator {
@@ -70,6 +112,12 @@ mind ReconcileMind for Deployment {
     confidence: float
 }
 
+mind SupervisorMind for Agent {
+    childCount: int
+    riskLevel: string
+    nextAction: string
+}
+
 belief DriftDetected {
     subject Deployment
     claim "deployment has drifted from its desired replica count"
@@ -77,15 +125,46 @@ belief DriftDetected {
     source "reconcile-loop"
 }
 
+belief ChildUnhealthy {
+    subject Agent
+    claim "a supervised child agent is failing its health checks"
+    confidence 0.8
+    source "supervision-loop"
+}
+
+belief PromiseAtRisk {
+    subject Promise
+    claim "a promise may be breached before its deadline"
+    confidence 0.6
+    source "sla-monitor"
+}
+
 constitution PlatformConstitution {
     rule isolation: "never let one tenant's workload affect another tenant"
     rule leastPrivilege: "grant each service only the permissions it declares"
     rule auditable: "every state change must emit an event"
+    rule enforce: "enforce every policy on every action, including child agents"
+    rule promise: "keep every promise, or proactively renegotiate the contract"
 }
 
 policy ReconcilePolicy {
     rule converge: "continuously reconcile deployments toward desired state"
     rule backoff: "exponentially back off retries on provider errors"
+}
+
+policy HealingPolicy {
+    rule selfHeal: "automatically remediate unhealthy deployments and child agents"
+    rule escalate: "escalate to a human when healing fails repeatedly"
+}
+
+policy SecurityPolicy {
+    rule zeroTrust: "authenticate and authorize every inter-agent call"
+    rule secrets: "never log secrets or tenant credentials"
+}
+
+policy ContractPolicy {
+    rule deliver: "deliver every promise within its contractual deadline"
+    rule renegotiate: "renegotiate before breaching, never breach silently"
 }
 
 policy AccessPolicy {
@@ -95,9 +174,22 @@ policy AccessPolicy {
 api get "/v1/services" returns surrealdb
 api get "/v1/deployments" returns surrealdb
 api post "/v1/deployments/{id}/reconcile" returns surrealdb
+api get "/v1/agents" returns surrealdb
+api post "/v1/agents/{id}/heal" returns surrealdb
+api post "/v1/agents/{id}/secure" returns surrealdb
+api get "/v1/contracts" returns surrealdb
+api get "/v1/promises" returns surrealdb
+api post "/v1/promises/{id}/deliver" returns surrealdb
 
 function unboxd.platform.reconcile(deployment: Deployment, force: bool) returns bool as surrealdb
 function unboxd.platform.schedule(service: Service, replicas: int) returns Provider as surrealml
+function unboxd.platform.heal(deployment: Deployment) returns bool as surrealdb
+function unboxd.platform.enforce(agent: Agent) returns bool as surrealdb
+function unboxd.platform.secure(service: Service) returns bool as surrealml
+function unboxd.platform.sign(contract: Contract) returns bool as surrealdb
+function unboxd.platform.deliver(promise: Promise) returns bool as surrealdb
 
 surrealml DriftScorer for scoring input Deployment output Deployment
 surrealml PlacementRanker for ranking input Service output Provider
+surrealml ThreatScorer for classification input Service output Service
+surrealml BreachPredictor for prediction input Promise output Promise
