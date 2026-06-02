@@ -510,6 +510,15 @@ entity Rating {
     at: datetime
 }
 
+// DecisionIntelligence is the north-star metric: a composite of decision quality
+// (grounded, actionable outcomes), experience, and trust.
+//   diScore = w_d*decisionQuality + w_e*experience + w_t*trust
+entity DecisionIntelligence {
+    subject: Agent required
+    score: float
+    period: string
+}
+
 relation RunsOn Deployment -> Provider {
     region: string
 }
@@ -615,6 +624,10 @@ relation OptimizesExperience Agent -> Experience {
 }
 
 relation OptimizesTrust Agent -> Trust {
+    target: float
+}
+
+relation OptimizesDecisionIntelligence Agent -> DecisionIntelligence {
     target: float
 }
 
@@ -787,7 +800,7 @@ constitution PlatformConstitution {
     rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
     rule accountability: "completeness brings accountability: every confirmed brief and solution has a named, signed-off owner who is accountable and fully audited"
     rule benchmarking: "the platform agent runs agent-bench suites and publishes reports (our agent vs other platforms) as JSON-LD / schema.org, with metrics on all aspects of agent performance — CLEAR, operational, KPI, compliance, trust, and drift"
-    rule northStar: "decision intelligence is the north star: turn data, context, and grounded knowledge into better decisions and actionable outcomes"
+    rule northStar: "the platform agent optimizes for experience and trust, with the decision-intelligence score as the north-star metric — a composite of decision quality, experience, and trust"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
