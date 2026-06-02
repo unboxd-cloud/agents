@@ -872,6 +872,8 @@ constitution PlatformConstitution {
     rule build: "cloud-native by default: build runnable images with Cloud Native Buildpacks (pack) from source — no Dockerfiles — and store/distribute them via the zot OCI registry"
     rule native: "AI-native, k3s-native, cloud-native, and database-native: agents are first-class, run as Kubernetes-native (k3s) workloads, and live in the unified database (SurrealDB) that stores state, context, and memory"
     rule graphLoop: "the graph is the agent loop: the agent observes, decides, and acts by traversing and mutating the governed graph; every step is a graph operation"
+    rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
+    rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
