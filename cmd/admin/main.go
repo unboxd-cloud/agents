@@ -310,14 +310,22 @@ var pageTemplate = ui.Head("Unboxd Platform — Admin Control Panel") + `
 <body>
 <header><h1>Unboxd Platform — Administrator Control Panel</h1></header>
 <main>
-  <div class="card span2"><h2>Chat</h2>
-    <div id="chat-log"><div class="msg bot">Type <code>help</code> to begin.</div></div>
+  <div class="card span2"><h2>Assistant</h2>
+    <div id="chat-log"><div class="msg bot">Your platform assistant is loaded. Ask anything, or type <code>help</code>.</div></div>
     <form class="chat" hx-post="/chat" hx-target="#chat-log" hx-swap="beforeend"
           hx-on::after-request="this.reset();document.getElementById('chat-log').scrollTop=1e9">
-      <input type="text" name="msg" placeholder="e.g. catalog developer, rate, frameworks" autocomplete="off" autofocus>
+      <input type="text" name="msg" placeholder="ask the assistant — e.g. catalog developer, rate, frameworks" autocomplete="off" autofocus>
       <button type="submit">Send</button>
     </form>
+    <form class="chat" hx-post="/chat" hx-target="#chat-log" hx-swap="beforeend" style="margin-top:8px"
+          hx-on::after-request="this.reset();document.getElementById('chat-log').scrollTop=1e9">
+      <input type="text" name="msg" placeholder="search…" autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
   </div>
+
+  <div class="card span2"><h2>Canvas</h2>
+    <textarea placeholder="scratch canvas — notes, drafts, plans…" style="width:100%;height:160px;background:#0f1320;border:1px solid #2a3346;color:#e6e6e6;border-radius:8px;padding:8px 12px"></textarea></div>
 
   <div class="card"><h2>Infrastructure providers</h2>
     {{range .Providers}}<span class="pill">{{.}}</span>{{else}}<em>none</em>{{end}}</div>
