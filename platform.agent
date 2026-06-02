@@ -217,13 +217,27 @@ entity SuperAdmin {
 // Agent is a node in the supervision hierarchy. The orchestrator supervises
 // child agents (parent points back at the supervising Agent). An agent is given
 // its role only once it is stable.
+// Agent attributes: identity and kind, role/version, lineage (blueprint, owner,
+// parent), the pluggable model and runtime it uses, its autonomy level,
+// certification and health/stability status, and its trust and decision-
+// intelligence scores.
 entity Agent {
     name: string required
+    kind: string required
     role: string required
+    version: string
     parent: Agent
+    blueprint: string
+    owner: string
+    model: string
+    runtime: string
+    autonomy: string
+    certified: bool
     healthy: bool
     stable: bool
     roleGranted: bool
+    trustLevel: float
+    diScore: float
 }
 
 // The disaster recovery agent is this agent's manager: it supervises the
