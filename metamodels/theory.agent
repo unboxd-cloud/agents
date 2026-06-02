@@ -23,6 +23,7 @@ vocabulary graph {
     term time_travel means "time is a dimension: index every node and edge bitemporally (valid-time and transaction-time), append-only, so the graph is queryable as-of any moment — replay the past, inspect the present, and project/simulate the future"
     term time_is_distance means "time is a distance on the graph — a path through versioned edges; traveling in time is traversal: walk the edges forward to replay, backward to rewind, and the distance between two states is the length of that path"
     term ever_expanding means "the graph keeps expanding — new nodes, edges, and worlds are added continuously as knowledge grows and relations are discovered; it is never finished, a living and growing twin (the unknown edges are always the frontier)"
+    term language_expands means "the language keeps expanding too: ADL's vocabularies grow as users and societies bring new terms; the language is open and extensible, never frozen — co-evolving with the graph it describes"
     term universal_transformation means "everything is transformable to everything: edges are transformations, so between any two worlds there exists a path; a transformation may carry cost or loss, which the graph makes explicit (convert, compress, reduce, minimize)"
     term transformation_boundary means "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)"
 }
