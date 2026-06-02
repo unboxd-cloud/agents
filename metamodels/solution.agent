@@ -9,6 +9,19 @@ entity Goal {
     priority: string
 }
 
+// Brief is the complete context an agent must understand before generating a
+// solution: the problem statement, the deliverable, the project context, and the
+// final target environment config. Until all are present, complete is false and
+// the agent reports "complete context missing" rather than proceeding.
+entity Brief {
+    goal: Goal required
+    problemStatement: string
+    deliverable: string
+    projectContext: string
+    targetEnvConfig: string
+    complete: bool
+}
+
 entity Solution {
     goal: Goal required
     rationale: string
@@ -39,6 +52,12 @@ entity Execution {
 
 relation Solves Solution -> Goal {
     score: float
+}
+
+// A solution is grounded in a complete Brief; it is not generated until the
+// brief is complete and confirmed.
+relation Grounds Solution -> Brief {
+    confirmed: bool
 }
 
 relation HasPlan Solution -> Plan {

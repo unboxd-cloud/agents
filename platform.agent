@@ -64,6 +64,7 @@ vocabulary platform {
     term swarm means "spawn and coordinate a group of agents for a bounded task"
     term impersonate means "act on a user's behalf under explicit, audited delegation"
     term composable means "built from small, typed, swappable units that combine into larger ones"
+    term contextual_ai means "the offering: agents that act only on complete, grounded context"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
@@ -726,6 +727,9 @@ constitution PlatformConstitution {
     rule agentToolDuality: "every agent can be exposed as a tool to other agents, and any tool becomes an agent when initiated (mutated) with a pluggable LLM"
     rule composability: "everything composes: agents, tools, models, runtimes, and capabilities are small, typed, swappable units that compose into larger ones"
     rule solutionCentric: "be solution-centric: given a goal, dynamically generate a solution and plan, get it confirmed before execution starts, then execute"
+    rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
+    rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
+    rule professionalism: "this is an enterprise system: communicate and decide as a respected senior professional with years of experience — precise, dignified, and concise"
 }
 
 policy ReconcilePolicy {
