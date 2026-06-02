@@ -33,6 +33,10 @@
 // is plugged in. The ADL runtime (pkg/adl, and via WASM the editor tooling) loads
 // and validates this definition.
 //
+// Today it runs on single-node k3s with deterministic Go kernel agents; as the
+// cluster goes multi-node, kagent is introduced for the LLM reasoning-agent tier
+// (container/scoped agents as CRDs), while the kernel agents stay deterministic.
+//
 // The surrealdb / surrealml targets resolve to the agent-platform runtime:
 // SurrealDB executes the queries, functions, and live queries, and SurrealML
 // runs the inference. It is an execution runtime, not just a store. The same
@@ -86,6 +90,7 @@ vocabulary tooling {
     term kernel means "the platform kernel: the agent as the core control loop reconciling via the Kubernetes API"
     term bare_metal means "runs directly on bare-metal hardware"
     term edge means "runs at the edge, close to the hardware"
+    term kagent means "kagent — CNCF Kubernetes-native agent framework, introduced at multi-node scale for the reasoning-agent tier"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -702,6 +707,7 @@ constitution PlatformConstitution {
     rule impersonation: "impersonate a user only with explicit, time-bound, fully-audited delegation (act-as), never silently"
     rule governedAll: "everything is governed — every capability, action, and agent is bound by the constitution, policies, permissions, and the audit trail; nothing runs ungoverned"
     rule doctrine: "follow military doctrine: clear chain of command, mission command, the OODA loop, defined rules of engagement, and defense in depth"
+    rule scaling: "start on single-node k3s with deterministic Go kernel agents; go multi-node as we grow, introducing kagent for the LLM reasoning-agent tier while kernel agents stay deterministic"
 }
 
 policy ReconcilePolicy {
