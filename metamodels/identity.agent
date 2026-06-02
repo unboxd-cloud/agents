@@ -127,3 +127,89 @@ relation Includes Role -> Permission {
 relation OwnsSecret Principal -> Secret {
     grantedAt: datetime
 }
+
+// Okta data-model alignment (conformance). Maps our identity types onto Okta
+// resources; see https://developer.okta.com/docs/concepts/okta-data-model/.
+vocabulary okta {
+    term User means "an Okta user" maps to okta.User
+    term Group means "an Okta group" maps to okta.Group
+    term Application means "an Okta application" maps to okta.Application
+    term AuthorizationServer means "an Okta authorization server" maps to okta.AuthorizationServer
+    term Policy means "an Okta policy" maps to okta.Policy
+    term Factor means "an Okta authenticator/factor" maps to okta.Factor
+    term Device means "an Okta device" maps to okta.Device
+    term Session means "an Okta session" maps to okta.Session
+    term Journey means "an Okta identity journey/orchestration flow" maps to okta.Journey
+    term Api means "the Okta APIs the platform adapts natively" maps to okta.Api
+}
+
+// User is a person principal with an Okta-style lifecycle status (staged,
+// active, suspended, deactivated).
+entity User extends Principal {
+    login: string required
+    email: string
+    status: string
+}
+
+entity Application {
+    name: string required
+    signOnMode: string
+}
+
+entity AppAssignment {
+    app: Application required
+    principal: Principal required
+    scope: string
+}
+
+entity AuthorizationServer {
+    name: string required
+    audience: string
+}
+
+entity Policy {
+    name: string required
+    type: string required
+}
+
+entity PolicyRule {
+    policy: Policy required
+    name: string required
+    priority: int
+}
+
+entity Device {
+    principal: Principal required
+    platform: string
+    managed: bool
+}
+
+relation Assigns Application -> AppAssignment {
+    status: string
+}
+
+relation GovernsAccess Policy -> PolicyRule {
+    priority: int
+}
+
+relation Enrolls Device -> Principal {
+    at: datetime
+}
+
+// Okta-style identity journeys are composable orchestration flows of steps; the
+// platform provides a native adapter to the Okta APIs (https://developer.okta.com/docs/api).
+entity Journey {
+    name: string required
+    composable: bool
+}
+
+entity JourneyStep {
+    journey: Journey required
+    name: string required
+    order: int
+    kind: string
+}
+
+relation ComposesStep Journey -> JourneyStep {
+    order: int
+}
