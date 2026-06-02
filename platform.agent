@@ -65,6 +65,7 @@ vocabulary platform {
     term impersonate means "act on a user's behalf under explicit, audited delegation"
     term composable means "built from small, typed, swappable units that combine into larger ones"
     term contextual_ai means "the offering: agents that act only on complete, grounded context"
+    term decision_intelligence means "the north star: turning data and context into better decisions"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
@@ -786,6 +787,7 @@ constitution PlatformConstitution {
     rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
     rule accountability: "completeness brings accountability: every confirmed brief and solution has a named, signed-off owner who is accountable and fully audited"
     rule benchmarking: "the platform agent runs agent-bench suites and publishes reports (our agent vs other platforms) as JSON-LD / schema.org, with metrics on all aspects of agent performance — CLEAR, operational, KPI, compliance, trust, and drift"
+    rule northStar: "decision intelligence is the north star: turn data, context, and grounded knowledge into better decisions and actionable outcomes"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
