@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T06:23:08.579367619Z",
+  "generatedAt": "2026-06-02T06:52:12.410731615Z",
   "count": 37,
   "models": [
     {
@@ -8485,11 +8485,76 @@
             ]
           },
           {
+            "kind": "Policy",
+            "pos": {
+              "line": 1036,
+              "column": 1,
+              "offset": 45279
+            },
+            "name": "SelfGovernancePolicy",
+            "rules": [
+              {
+                "name": "agentCard",
+                "statement": "every agent declares an agent card: identity, capabilities, and KPIs",
+                "pos": {
+                  "line": 1037,
+                  "column": 5,
+                  "offset": 45313
+                }
+              },
+              {
+                "name": "selfEval",
+                "statement": "self-evaluate against this constitution every cycle, objectively, not by guessing",
+                "pos": {
+                  "line": 1038,
+                  "column": 5,
+                  "offset": 45404
+                }
+              },
+              {
+                "name": "selfImprove",
+                "statement": "act on the self-eval — correct and improve — without being told",
+                "pos": {
+                  "line": 1039,
+                  "column": 5,
+                  "offset": 45507
+                }
+              },
+              {
+                "name": "efficiency",
+                "statement": "measure and minimize own resource use (tokens, cost, latency) as a tracked KPI",
+                "pos": {
+                  "line": 1040,
+                  "column": 5,
+                  "offset": 45599
+                }
+              },
+              {
+                "name": "evidence",
+                "statement": "make no claim without measurement; assertion is not proof",
+                "pos": {
+                  "line": 1041,
+                  "column": 5,
+                  "offset": 45701
+                }
+              },
+              {
+                "name": "internalizeCorrection",
+                "statement": "a correction, once given, becomes an enforced rule",
+                "pos": {
+                  "line": 1042,
+                  "column": 5,
+                  "offset": 45780
+                }
+              }
+            ]
+          },
+          {
             "kind": "Api",
             "pos": {
-              "line": 1032,
+              "line": 1045,
               "column": 1,
-              "offset": 44985
+              "offset": 45864
             },
             "method": "get",
             "path": "/v1/services",
@@ -8498,9 +8563,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1033,
+              "line": 1046,
               "column": 1,
-              "offset": 45026
+              "offset": 45905
             },
             "method": "get",
             "path": "/v1/deployments",
@@ -8509,9 +8574,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1034,
+              "line": 1047,
               "column": 1,
-              "offset": 45070
+              "offset": 45949
             },
             "method": "post",
             "path": "/v1/deployments/{id}/reconcile",
@@ -8520,9 +8585,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1035,
+              "line": 1048,
               "column": 1,
-              "offset": 45130
+              "offset": 46009
             },
             "method": "get",
             "path": "/v1/agents",
@@ -8531,9 +8596,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1036,
+              "line": 1049,
               "column": 1,
-              "offset": 45169
+              "offset": 46048
             },
             "method": "post",
             "path": "/v1/agents/{id}/heal",
@@ -8542,9 +8607,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1037,
+              "line": 1050,
               "column": 1,
-              "offset": 45219
+              "offset": 46098
             },
             "method": "post",
             "path": "/v1/agents/{id}/secure",
@@ -8553,9 +8618,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1038,
+              "line": 1051,
               "column": 1,
-              "offset": 45271
+              "offset": 46150
             },
             "method": "post",
             "path": "/v1/agents/{id}/grant",
@@ -8564,9 +8629,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1039,
+              "line": 1052,
               "column": 1,
-              "offset": 45322
+              "offset": 46201
             },
             "method": "post",
             "path": "/v1/agents/{id}/checkin",
@@ -8575,9 +8640,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1040,
+              "line": 1053,
               "column": 1,
-              "offset": 45375
+              "offset": 46254
             },
             "method": "post",
             "path": "/v1/agents/{id}/evaluate",
@@ -8586,9 +8651,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1041,
+              "line": 1054,
               "column": 1,
-              "offset": 45429
+              "offset": 46308
             },
             "method": "get",
             "path": "/v1/evaluations",
@@ -8597,9 +8662,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1042,
+              "line": 1055,
               "column": 1,
-              "offset": 45473
+              "offset": 46352
             },
             "method": "post",
             "path": "/v1/optimize",
@@ -8608,9 +8673,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1043,
+              "line": 1056,
               "column": 1,
-              "offset": 45515
+              "offset": 46394
             },
             "method": "get",
             "path": "/v1/contracts",
@@ -8619,9 +8684,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1044,
+              "line": 1057,
               "column": 1,
-              "offset": 45557
+              "offset": 46436
             },
             "method": "get",
             "path": "/v1/promises",
@@ -8630,9 +8695,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1045,
+              "line": 1058,
               "column": 1,
-              "offset": 45598
+              "offset": 46477
             },
             "method": "post",
             "path": "/v1/promises/{id}/deliver",
@@ -8641,9 +8706,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1046,
+              "line": 1059,
               "column": 1,
-              "offset": 45653
+              "offset": 46532
             },
             "method": "get",
             "path": "/v1/incidents",
@@ -8652,9 +8717,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1047,
+              "line": 1060,
               "column": 1,
-              "offset": 45695
+              "offset": 46574
             },
             "method": "post",
             "path": "/v1/incidents/{id}/resolve",
@@ -8663,9 +8728,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1048,
+              "line": 1061,
               "column": 1,
-              "offset": 45751
+              "offset": 46630
             },
             "method": "get",
             "path": "/v1/audit",
@@ -8674,9 +8739,9 @@
           {
             "kind": "Api",
             "pos": {
-              "line": 1049,
+              "line": 1062,
               "column": 1,
-              "offset": 45789
+              "offset": 46668
             },
             "method": "get",
             "path": "/v1/budgets",
@@ -8685,9 +8750,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1051,
+              "line": 1064,
               "column": 1,
-              "offset": 45830
+              "offset": 46709
             },
             "name": "unboxd.platform.reconcile",
             "params": [
@@ -8698,21 +8763,21 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1051,
+                      "line": 1064,
                       "column": 48,
-                      "offset": 45877
+                      "offset": 46756
                     }
                   },
                   "pos": {
-                    "line": 1051,
+                    "line": 1064,
                     "column": 48,
-                    "offset": 45877
+                    "offset": 46756
                   }
                 },
                 "pos": {
-                  "line": 1051,
+                  "line": 1064,
                   "column": 36,
-                  "offset": 45865
+                  "offset": 46744
                 }
               },
               {
@@ -8720,24 +8785,24 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 1051,
+                    "line": 1064,
                     "column": 67,
-                    "offset": 45896
+                    "offset": 46775
                   }
                 },
                 "pos": {
-                  "line": 1051,
+                  "line": 1064,
                   "column": 60,
-                  "offset": 45889
+                  "offset": 46768
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1051,
+                "line": 1064,
                 "column": 81,
-                "offset": 45910
+                "offset": 46789
               }
             },
             "target": "surrealdb"
@@ -8745,9 +8810,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1052,
+              "line": 1065,
               "column": 1,
-              "offset": 45928
+              "offset": 46807
             },
             "name": "unboxd.platform.schedule",
             "params": [
@@ -8758,21 +8823,21 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1052,
+                      "line": 1065,
                       "column": 44,
-                      "offset": 45971
+                      "offset": 46850
                     }
                   },
                   "pos": {
-                    "line": 1052,
+                    "line": 1065,
                     "column": 44,
-                    "offset": 45971
+                    "offset": 46850
                   }
                 },
                 "pos": {
-                  "line": 1052,
+                  "line": 1065,
                   "column": 35,
-                  "offset": 45962
+                  "offset": 46841
                 }
               },
               {
@@ -8780,15 +8845,15 @@
                 "type": {
                   "primitive": "int",
                   "pos": {
-                    "line": 1052,
+                    "line": 1065,
                     "column": 63,
-                    "offset": 45990
+                    "offset": 46869
                   }
                 },
                 "pos": {
-                  "line": 1052,
+                  "line": 1065,
                   "column": 53,
-                  "offset": 45980
+                  "offset": 46859
                 }
               }
             ],
@@ -8797,15 +8862,15 @@
                 "name": "Provider",
                 "resolved": "unboxd.platform.Provider",
                 "pos": {
-                  "line": 1052,
+                  "line": 1065,
                   "column": 76,
-                  "offset": 46003
+                  "offset": 46882
                 }
               },
               "pos": {
-                "line": 1052,
+                "line": 1065,
                 "column": 76,
-                "offset": 46003
+                "offset": 46882
               }
             },
             "target": "surrealml"
@@ -8813,9 +8878,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1053,
+              "line": 1066,
               "column": 1,
-              "offset": 46025
+              "offset": 46904
             },
             "name": "unboxd.platform.heal",
             "params": [
@@ -8826,30 +8891,30 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1053,
+                      "line": 1066,
                       "column": 43,
-                      "offset": 46067
+                      "offset": 46946
                     }
                   },
                   "pos": {
-                    "line": 1053,
+                    "line": 1066,
                     "column": 43,
-                    "offset": 46067
+                    "offset": 46946
                   }
                 },
                 "pos": {
-                  "line": 1053,
+                  "line": 1066,
                   "column": 31,
-                  "offset": 46055
+                  "offset": 46934
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1053,
+                "line": 1066,
                 "column": 63,
-                "offset": 46087
+                "offset": 46966
               }
             },
             "target": "surrealdb"
@@ -8857,9 +8922,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1054,
+              "line": 1067,
               "column": 1,
-              "offset": 46105
+              "offset": 46984
             },
             "name": "unboxd.platform.enforce",
             "params": [
@@ -8870,30 +8935,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1054,
+                      "line": 1067,
                       "column": 41,
-                      "offset": 46145
+                      "offset": 47024
                     }
                   },
                   "pos": {
-                    "line": 1054,
+                    "line": 1067,
                     "column": 41,
-                    "offset": 46145
+                    "offset": 47024
                   }
                 },
                 "pos": {
-                  "line": 1054,
+                  "line": 1067,
                   "column": 34,
-                  "offset": 46138
+                  "offset": 47017
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1054,
+                "line": 1067,
                 "column": 56,
-                "offset": 46160
+                "offset": 47039
               }
             },
             "target": "surrealdb"
@@ -8901,9 +8966,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1055,
+              "line": 1068,
               "column": 1,
-              "offset": 46178
+              "offset": 47057
             },
             "name": "unboxd.platform.retire",
             "params": [
@@ -8914,30 +8979,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1055,
+                      "line": 1068,
                       "column": 40,
-                      "offset": 46217
+                      "offset": 47096
                     }
                   },
                   "pos": {
-                    "line": 1055,
+                    "line": 1068,
                     "column": 40,
-                    "offset": 46217
+                    "offset": 47096
                   }
                 },
                 "pos": {
-                  "line": 1055,
+                  "line": 1068,
                   "column": 33,
-                  "offset": 46210
+                  "offset": 47089
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1055,
+                "line": 1068,
                 "column": 55,
-                "offset": 46232
+                "offset": 47111
               }
             },
             "target": "surrealdb"
@@ -8945,9 +9010,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1056,
+              "line": 1069,
               "column": 1,
-              "offset": 46250
+              "offset": 47129
             },
             "name": "unboxd.platform.hibernate",
             "params": [
@@ -8958,30 +9023,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1056,
+                      "line": 1069,
                       "column": 43,
-                      "offset": 46292
+                      "offset": 47171
                     }
                   },
                   "pos": {
-                    "line": 1056,
+                    "line": 1069,
                     "column": 43,
-                    "offset": 46292
+                    "offset": 47171
                   }
                 },
                 "pos": {
-                  "line": 1056,
+                  "line": 1069,
                   "column": 36,
-                  "offset": 46285
+                  "offset": 47164
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1056,
+                "line": 1069,
                 "column": 58,
-                "offset": 46307
+                "offset": 47186
               }
             },
             "target": "surrealdb"
@@ -8989,9 +9054,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1057,
+              "line": 1070,
               "column": 1,
-              "offset": 46325
+              "offset": 47204
             },
             "name": "unboxd.platform.resume",
             "params": [
@@ -9002,30 +9067,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1057,
+                      "line": 1070,
                       "column": 40,
-                      "offset": 46364
+                      "offset": 47243
                     }
                   },
                   "pos": {
-                    "line": 1057,
+                    "line": 1070,
                     "column": 40,
-                    "offset": 46364
+                    "offset": 47243
                   }
                 },
                 "pos": {
-                  "line": 1057,
+                  "line": 1070,
                   "column": 33,
-                  "offset": 46357
+                  "offset": 47236
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1057,
+                "line": 1070,
                 "column": 55,
-                "offset": 46379
+                "offset": 47258
               }
             },
             "target": "surrealdb"
@@ -9033,9 +9098,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1058,
+              "line": 1071,
               "column": 1,
-              "offset": 46397
+              "offset": 47276
             },
             "name": "unboxd.platform.modernize",
             "params": [
@@ -9046,30 +9111,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1058,
+                      "line": 1071,
                       "column": 43,
-                      "offset": 46439
+                      "offset": 47318
                     }
                   },
                   "pos": {
-                    "line": 1058,
+                    "line": 1071,
                     "column": 43,
-                    "offset": 46439
+                    "offset": 47318
                   }
                 },
                 "pos": {
-                  "line": 1058,
+                  "line": 1071,
                   "column": 36,
-                  "offset": 46432
+                  "offset": 47311
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1058,
+                "line": 1071,
                 "column": 58,
-                "offset": 46454
+                "offset": 47333
               }
             },
             "target": "surrealdb"
@@ -9077,9 +9142,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1059,
+              "line": 1072,
               "column": 1,
-              "offset": 46472
+              "offset": 47351
             },
             "name": "unboxd.platform.secure",
             "params": [
@@ -9090,30 +9155,30 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1059,
+                      "line": 1072,
                       "column": 42,
-                      "offset": 46513
+                      "offset": 47392
                     }
                   },
                   "pos": {
-                    "line": 1059,
+                    "line": 1072,
                     "column": 42,
-                    "offset": 46513
+                    "offset": 47392
                   }
                 },
                 "pos": {
-                  "line": 1059,
+                  "line": 1072,
                   "column": 33,
-                  "offset": 46504
+                  "offset": 47383
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1059,
+                "line": 1072,
                 "column": 59,
-                "offset": 46530
+                "offset": 47409
               }
             },
             "target": "surrealml"
@@ -9121,9 +9186,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1060,
+              "line": 1073,
               "column": 1,
-              "offset": 46548
+              "offset": 47427
             },
             "name": "unboxd.platform.grantRole",
             "params": [
@@ -9134,30 +9199,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1060,
+                      "line": 1073,
                       "column": 43,
-                      "offset": 46590
+                      "offset": 47469
                     }
                   },
                   "pos": {
-                    "line": 1060,
+                    "line": 1073,
                     "column": 43,
-                    "offset": 46590
+                    "offset": 47469
                   }
                 },
                 "pos": {
-                  "line": 1060,
+                  "line": 1073,
                   "column": 36,
-                  "offset": 46583
+                  "offset": 47462
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1060,
+                "line": 1073,
                 "column": 58,
-                "offset": 46605
+                "offset": 47484
               }
             },
             "target": "surrealdb"
@@ -9165,9 +9230,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1061,
+              "line": 1074,
               "column": 1,
-              "offset": 46623
+              "offset": 47502
             },
             "name": "unboxd.platform.checkIn",
             "params": [
@@ -9178,30 +9243,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1061,
+                      "line": 1074,
                       "column": 41,
-                      "offset": 46663
+                      "offset": 47542
                     }
                   },
                   "pos": {
-                    "line": 1061,
+                    "line": 1074,
                     "column": 41,
-                    "offset": 46663
+                    "offset": 47542
                   }
                 },
                 "pos": {
-                  "line": 1061,
+                  "line": 1074,
                   "column": 34,
-                  "offset": 46656
+                  "offset": 47535
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1061,
+                "line": 1074,
                 "column": 56,
-                "offset": 46678
+                "offset": 47557
               }
             },
             "target": "surrealdb"
@@ -9209,9 +9274,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1062,
+              "line": 1075,
               "column": 1,
-              "offset": 46696
+              "offset": 47575
             },
             "name": "unboxd.platform.evaluate",
             "params": [
@@ -9222,30 +9287,30 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1062,
+                      "line": 1075,
                       "column": 42,
-                      "offset": 46737
+                      "offset": 47616
                     }
                   },
                   "pos": {
-                    "line": 1062,
+                    "line": 1075,
                     "column": 42,
-                    "offset": 46737
+                    "offset": 47616
                   }
                 },
                 "pos": {
-                  "line": 1062,
+                  "line": 1075,
                   "column": 35,
-                  "offset": 46730
+                  "offset": 47609
                 }
               }
             ],
             "return": {
               "primitive": "float",
               "pos": {
-                "line": 1062,
+                "line": 1075,
                 "column": 57,
-                "offset": 46752
+                "offset": 47631
               }
             },
             "target": "surrealml"
@@ -9253,9 +9318,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1063,
+              "line": 1076,
               "column": 1,
-              "offset": 46771
+              "offset": 47650
             },
             "name": "unboxd.platform.optimize",
             "params": [
@@ -9266,30 +9331,30 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1063,
+                      "line": 1076,
                       "column": 47,
-                      "offset": 46817
+                      "offset": 47696
                     }
                   },
                   "pos": {
-                    "line": 1063,
+                    "line": 1076,
                     "column": 47,
-                    "offset": 46817
+                    "offset": 47696
                   }
                 },
                 "pos": {
-                  "line": 1063,
+                  "line": 1076,
                   "column": 35,
-                  "offset": 46805
+                  "offset": 47684
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1063,
+                "line": 1076,
                 "column": 67,
-                "offset": 46837
+                "offset": 47716
               }
             },
             "target": "surrealdb"
@@ -9297,9 +9362,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1064,
+              "line": 1077,
               "column": 1,
-              "offset": 46855
+              "offset": 47734
             },
             "name": "unboxd.platform.sign",
             "params": [
@@ -9310,30 +9375,30 @@
                     "name": "Contract",
                     "resolved": "unboxd.platform.Contract",
                     "pos": {
-                      "line": 1064,
+                      "line": 1077,
                       "column": 41,
-                      "offset": 46895
+                      "offset": 47774
                     }
                   },
                   "pos": {
-                    "line": 1064,
+                    "line": 1077,
                     "column": 41,
-                    "offset": 46895
+                    "offset": 47774
                   }
                 },
                 "pos": {
-                  "line": 1064,
+                  "line": 1077,
                   "column": 31,
-                  "offset": 46885
+                  "offset": 47764
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1064,
+                "line": 1077,
                 "column": 59,
-                "offset": 46913
+                "offset": 47792
               }
             },
             "target": "surrealdb"
@@ -9341,9 +9406,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1065,
+              "line": 1078,
               "column": 1,
-              "offset": 46931
+              "offset": 47810
             },
             "name": "unboxd.platform.deliver",
             "params": [
@@ -9354,30 +9419,30 @@
                     "name": "Promise",
                     "resolved": "unboxd.platform.Promise",
                     "pos": {
-                      "line": 1065,
+                      "line": 1078,
                       "column": 43,
-                      "offset": 46973
+                      "offset": 47852
                     }
                   },
                   "pos": {
-                    "line": 1065,
+                    "line": 1078,
                     "column": 43,
-                    "offset": 46973
+                    "offset": 47852
                   }
                 },
                 "pos": {
-                  "line": 1065,
+                  "line": 1078,
                   "column": 34,
-                  "offset": 46964
+                  "offset": 47843
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1065,
+                "line": 1078,
                 "column": 60,
-                "offset": 46990
+                "offset": 47869
               }
             },
             "target": "surrealdb"
@@ -9385,9 +9450,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1066,
+              "line": 1079,
               "column": 1,
-              "offset": 47008
+              "offset": 47887
             },
             "name": "unboxd.platform.openIncident",
             "params": [
@@ -9398,21 +9463,21 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1066,
+                      "line": 1079,
                       "column": 48,
-                      "offset": 47055
+                      "offset": 47934
                     }
                   },
                   "pos": {
-                    "line": 1066,
+                    "line": 1079,
                     "column": 48,
-                    "offset": 47055
+                    "offset": 47934
                   }
                 },
                 "pos": {
-                  "line": 1066,
+                  "line": 1079,
                   "column": 39,
-                  "offset": 47046
+                  "offset": 47925
                 }
               }
             ],
@@ -9421,15 +9486,15 @@
                 "name": "Incident",
                 "resolved": "unboxd.platform.Incident",
                 "pos": {
-                  "line": 1066,
+                  "line": 1079,
                   "column": 65,
-                  "offset": 47072
+                  "offset": 47951
                 }
               },
               "pos": {
-                "line": 1066,
+                "line": 1079,
                 "column": 65,
-                "offset": 47072
+                "offset": 47951
               }
             },
             "target": "surrealdb"
@@ -9437,9 +9502,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1067,
+              "line": 1080,
               "column": 1,
-              "offset": 47094
+              "offset": 47973
             },
             "name": "unboxd.platform.rollback",
             "params": [
@@ -9450,30 +9515,30 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1067,
+                      "line": 1080,
                       "column": 47,
-                      "offset": 47140
+                      "offset": 48019
                     }
                   },
                   "pos": {
-                    "line": 1067,
+                    "line": 1080,
                     "column": 47,
-                    "offset": 47140
+                    "offset": 48019
                   }
                 },
                 "pos": {
-                  "line": 1067,
+                  "line": 1080,
                   "column": 35,
-                  "offset": 47128
+                  "offset": 48007
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1067,
+                "line": 1080,
                 "column": 67,
-                "offset": 47160
+                "offset": 48039
               }
             },
             "target": "surrealdb"
@@ -9481,9 +9546,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1068,
+              "line": 1081,
               "column": 1,
-              "offset": 47178
+              "offset": 48057
             },
             "name": "unboxd.platform.audit",
             "params": [
@@ -9494,21 +9559,21 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1068,
+                      "line": 1081,
                       "column": 39,
-                      "offset": 47216
+                      "offset": 48095
                     }
                   },
                   "pos": {
-                    "line": 1068,
+                    "line": 1081,
                     "column": 39,
-                    "offset": 47216
+                    "offset": 48095
                   }
                 },
                 "pos": {
-                  "line": 1068,
+                  "line": 1081,
                   "column": 32,
-                  "offset": 47209
+                  "offset": 48088
                 }
               }
             ],
@@ -9517,15 +9582,15 @@
                 "name": "AuditEvent",
                 "resolved": "unboxd.platform.AuditEvent",
                 "pos": {
-                  "line": 1068,
+                  "line": 1081,
                   "column": 54,
-                  "offset": 47231
+                  "offset": 48110
                 }
               },
               "pos": {
-                "line": 1068,
+                "line": 1081,
                 "column": 54,
-                "offset": 47231
+                "offset": 48110
               }
             },
             "target": "surrealdb"
@@ -9533,9 +9598,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1069,
+              "line": 1082,
               "column": 1,
-              "offset": 47255
+              "offset": 48134
             },
             "name": "unboxd.platform.automate",
             "params": [
@@ -9546,21 +9611,21 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1069,
+                      "line": 1082,
                       "column": 44,
-                      "offset": 47298
+                      "offset": 48177
                     }
                   },
                   "pos": {
-                    "line": 1069,
+                    "line": 1082,
                     "column": 44,
-                    "offset": 47298
+                    "offset": 48177
                   }
                 },
                 "pos": {
-                  "line": 1069,
+                  "line": 1082,
                   "column": 35,
-                  "offset": 47289
+                  "offset": 48168
                 }
               }
             ],
@@ -9569,15 +9634,15 @@
                 "name": "Automation",
                 "resolved": "unboxd.platform.Automation",
                 "pos": {
-                  "line": 1069,
+                  "line": 1082,
                   "column": 61,
-                  "offset": 47315
+                  "offset": 48194
                 }
               },
               "pos": {
-                "line": 1069,
+                "line": 1082,
                 "column": 61,
-                "offset": 47315
+                "offset": 48194
               }
             },
             "target": "surrealdb"
@@ -9585,9 +9650,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1070,
+              "line": 1083,
               "column": 1,
-              "offset": 47339
+              "offset": 48218
             },
             "name": "unboxd.platform.transform",
             "params": [
@@ -9598,21 +9663,21 @@
                     "name": "Automation",
                     "resolved": "unboxd.platform.Automation",
                     "pos": {
-                      "line": 1070,
+                      "line": 1083,
                       "column": 48,
-                      "offset": 47386
+                      "offset": 48265
                     }
                   },
                   "pos": {
-                    "line": 1070,
+                    "line": 1083,
                     "column": 48,
-                    "offset": 47386
+                    "offset": 48265
                   }
                 },
                 "pos": {
-                  "line": 1070,
+                  "line": 1083,
                   "column": 36,
-                  "offset": 47374
+                  "offset": 48253
                 }
               }
             ],
@@ -9621,15 +9686,15 @@
                 "name": "Automation",
                 "resolved": "unboxd.platform.Automation",
                 "pos": {
-                  "line": 1070,
+                  "line": 1083,
                   "column": 68,
-                  "offset": 47406
+                  "offset": 48285
                 }
               },
               "pos": {
-                "line": 1070,
+                "line": 1083,
                 "column": 68,
-                "offset": 47406
+                "offset": 48285
               }
             },
             "target": "surrealdb"
@@ -9637,9 +9702,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1071,
+              "line": 1084,
               "column": 1,
-              "offset": 47430
+              "offset": 48309
             },
             "name": "unboxd.platform.mutate",
             "params": [
@@ -9650,30 +9715,30 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1071,
+                      "line": 1084,
                       "column": 45,
-                      "offset": 47474
+                      "offset": 48353
                     }
                   },
                   "pos": {
-                    "line": 1071,
+                    "line": 1084,
                     "column": 45,
-                    "offset": 47474
+                    "offset": 48353
                   }
                 },
                 "pos": {
-                  "line": 1071,
+                  "line": 1084,
                   "column": 33,
-                  "offset": 47462
+                  "offset": 48341
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1071,
+                "line": 1084,
                 "column": 65,
-                "offset": 47494
+                "offset": 48373
               }
             },
             "target": "surrealdb"
@@ -9681,9 +9746,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1072,
+              "line": 1085,
               "column": 1,
-              "offset": 47512
+              "offset": 48391
             },
             "name": "unboxd.platform.swarm",
             "params": [
@@ -9694,21 +9759,21 @@
                     "name": "Agent",
                     "resolved": "unboxd.platform.Agent",
                     "pos": {
-                      "line": 1072,
+                      "line": 1085,
                       "column": 39,
-                      "offset": 47550
+                      "offset": 48429
                     }
                   },
                   "pos": {
-                    "line": 1072,
+                    "line": 1085,
                     "column": 39,
-                    "offset": 47550
+                    "offset": 48429
                   }
                 },
                 "pos": {
-                  "line": 1072,
+                  "line": 1085,
                   "column": 32,
-                  "offset": 47543
+                  "offset": 48422
                 }
               }
             ],
@@ -9717,15 +9782,15 @@
                 "name": "Swarm",
                 "resolved": "unboxd.platform.Swarm",
                 "pos": {
-                  "line": 1072,
+                  "line": 1085,
                   "column": 54,
-                  "offset": 47565
+                  "offset": 48444
                 }
               },
               "pos": {
-                "line": 1072,
+                "line": 1085,
                 "column": 54,
-                "offset": 47565
+                "offset": 48444
               }
             },
             "target": "surrealdb"
@@ -9733,9 +9798,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1073,
+              "line": 1086,
               "column": 1,
-              "offset": 47584
+              "offset": 48463
             },
             "name": "unboxd.platform.impersonate",
             "params": [
@@ -9746,30 +9811,30 @@
                     "name": "Human",
                     "resolved": "unboxd.platform.Human",
                     "pos": {
-                      "line": 1073,
+                      "line": 1086,
                       "column": 44,
-                      "offset": 47627
+                      "offset": 48506
                     }
                   },
                   "pos": {
-                    "line": 1073,
+                    "line": 1086,
                     "column": 44,
-                    "offset": 47627
+                    "offset": 48506
                   }
                 },
                 "pos": {
-                  "line": 1073,
+                  "line": 1086,
                   "column": 38,
-                  "offset": 47621
+                  "offset": 48500
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1073,
+                "line": 1086,
                 "column": 59,
-                "offset": 47642
+                "offset": 48521
               }
             },
             "target": "surrealdb"
@@ -9777,9 +9842,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1074,
+              "line": 1087,
               "column": 1,
-              "offset": 47660
+              "offset": 48539
             },
             "name": "unboxd.platform.orchestrate",
             "params": [
@@ -9790,21 +9855,21 @@
                     "name": "Automation",
                     "resolved": "unboxd.platform.Automation",
                     "pos": {
-                      "line": 1074,
+                      "line": 1087,
                       "column": 50,
-                      "offset": 47709
+                      "offset": 48588
                     }
                   },
                   "pos": {
-                    "line": 1074,
+                    "line": 1087,
                     "column": 50,
-                    "offset": 47709
+                    "offset": 48588
                   }
                 },
                 "pos": {
-                  "line": 1074,
+                  "line": 1087,
                   "column": 38,
-                  "offset": 47697
+                  "offset": 48576
                 }
               }
             ],
@@ -9813,15 +9878,15 @@
                 "name": "Workflow",
                 "resolved": "unboxd.platform.Workflow",
                 "pos": {
-                  "line": 1074,
+                  "line": 1087,
                   "column": 70,
-                  "offset": 47729
+                  "offset": 48608
                 }
               },
               "pos": {
-                "line": 1074,
+                "line": 1087,
                 "column": 70,
-                "offset": 47729
+                "offset": 48608
               }
             },
             "target": "surrealdb"
@@ -9829,9 +9894,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1075,
+              "line": 1088,
               "column": 1,
-              "offset": 47751
+              "offset": 48630
             },
             "name": "unboxd.platform.observe",
             "params": [
@@ -9842,21 +9907,21 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1075,
+                      "line": 1088,
                       "column": 43,
-                      "offset": 47793
+                      "offset": 48672
                     }
                   },
                   "pos": {
-                    "line": 1075,
+                    "line": 1088,
                     "column": 43,
-                    "offset": 47793
+                    "offset": 48672
                   }
                 },
                 "pos": {
-                  "line": 1075,
+                  "line": 1088,
                   "column": 34,
-                  "offset": 47784
+                  "offset": 48663
                 }
               }
             ],
@@ -9865,15 +9930,15 @@
                 "name": "Observation",
                 "resolved": "unboxd.platform.Observation",
                 "pos": {
-                  "line": 1075,
+                  "line": 1088,
                   "column": 60,
-                  "offset": 47810
+                  "offset": 48689
                 }
               },
               "pos": {
-                "line": 1075,
+                "line": 1088,
                 "column": 60,
-                "offset": 47810
+                "offset": 48689
               }
             },
             "target": "surrealdb"
@@ -9881,9 +9946,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1076,
+              "line": 1089,
               "column": 1,
-              "offset": 47835
+              "offset": 48714
             },
             "name": "unboxd.platform.trace",
             "params": [
@@ -9894,21 +9959,21 @@
                     "name": "Service",
                     "resolved": "unboxd.platform.Service",
                     "pos": {
-                      "line": 1076,
+                      "line": 1089,
                       "column": 41,
-                      "offset": 47875
+                      "offset": 48754
                     }
                   },
                   "pos": {
-                    "line": 1076,
+                    "line": 1089,
                     "column": 41,
-                    "offset": 47875
+                    "offset": 48754
                   }
                 },
                 "pos": {
-                  "line": 1076,
+                  "line": 1089,
                   "column": 32,
-                  "offset": 47866
+                  "offset": 48745
                 }
               }
             ],
@@ -9917,15 +9982,15 @@
                 "name": "Trace",
                 "resolved": "unboxd.platform.Trace",
                 "pos": {
-                  "line": 1076,
+                  "line": 1089,
                   "column": 58,
-                  "offset": 47892
+                  "offset": 48771
                 }
               },
               "pos": {
-                "line": 1076,
+                "line": 1089,
                 "column": 58,
-                "offset": 47892
+                "offset": 48771
               }
             },
             "target": "surrealdb"
@@ -9933,9 +9998,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1077,
+              "line": 1090,
               "column": 1,
-              "offset": 47911
+              "offset": 48790
             },
             "name": "unboxd.platform.snapshot",
             "params": [
@@ -9946,21 +10011,21 @@
                     "name": "Node",
                     "resolved": "unboxd.platform.Node",
                     "pos": {
-                      "line": 1077,
+                      "line": 1090,
                       "column": 41,
-                      "offset": 47951
+                      "offset": 48830
                     }
                   },
                   "pos": {
-                    "line": 1077,
+                    "line": 1090,
                     "column": 41,
-                    "offset": 47951
+                    "offset": 48830
                   }
                 },
                 "pos": {
-                  "line": 1077,
+                  "line": 1090,
                   "column": 35,
-                  "offset": 47945
+                  "offset": 48824
                 }
               }
             ],
@@ -9969,15 +10034,15 @@
                 "name": "Snapshot",
                 "resolved": "unboxd.platform.Snapshot",
                 "pos": {
-                  "line": 1077,
+                  "line": 1090,
                   "column": 55,
-                  "offset": 47965
+                  "offset": 48844
                 }
               },
               "pos": {
-                "line": 1077,
+                "line": 1090,
                 "column": 55,
-                "offset": 47965
+                "offset": 48844
               }
             },
             "target": "surrealdb"
@@ -9985,9 +10050,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1078,
+              "line": 1091,
               "column": 1,
-              "offset": 47987
+              "offset": 48866
             },
             "name": "unboxd.platform.failover",
             "params": [
@@ -9998,21 +10063,21 @@
                     "name": "Deployment",
                     "resolved": "unboxd.platform.Deployment",
                     "pos": {
-                      "line": 1078,
+                      "line": 1091,
                       "column": 47,
-                      "offset": 48033
+                      "offset": 48912
                     }
                   },
                   "pos": {
-                    "line": 1078,
+                    "line": 1091,
                     "column": 47,
-                    "offset": 48033
+                    "offset": 48912
                   }
                 },
                 "pos": {
-                  "line": 1078,
+                  "line": 1091,
                   "column": 35,
-                  "offset": 48021
+                  "offset": 48900
                 }
               }
             ],
@@ -10021,15 +10086,15 @@
                 "name": "Cloud",
                 "resolved": "unboxd.platform.Cloud",
                 "pos": {
-                  "line": 1078,
+                  "line": 1091,
                   "column": 67,
-                  "offset": 48053
+                  "offset": 48932
                 }
               },
               "pos": {
-                "line": 1078,
+                "line": 1091,
                 "column": 67,
-                "offset": 48053
+                "offset": 48932
               }
             },
             "target": "surrealdb"
@@ -10037,9 +10102,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1079,
+              "line": 1092,
               "column": 1,
-              "offset": 48072
+              "offset": 48951
             },
             "name": "unboxd.platform.restore",
             "params": [
@@ -10050,30 +10115,30 @@
                     "name": "Snapshot",
                     "resolved": "unboxd.platform.Snapshot",
                     "pos": {
-                      "line": 1079,
+                      "line": 1092,
                       "column": 44,
-                      "offset": 48115
+                      "offset": 48994
                     }
                   },
                   "pos": {
-                    "line": 1079,
+                    "line": 1092,
                     "column": 44,
-                    "offset": 48115
+                    "offset": 48994
                   }
                 },
                 "pos": {
-                  "line": 1079,
+                  "line": 1092,
                   "column": 34,
-                  "offset": 48105
+                  "offset": 48984
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1079,
+                "line": 1092,
                 "column": 62,
-                "offset": 48133
+                "offset": 49012
               }
             },
             "target": "surrealdb"
@@ -10081,9 +10146,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1080,
+              "line": 1093,
               "column": 1,
-              "offset": 48151
+              "offset": 49030
             },
             "name": "unboxd.platform.measure",
             "params": [
@@ -10094,30 +10159,30 @@
                     "name": "Outcome",
                     "resolved": "unboxd.platform.Outcome",
                     "pos": {
-                      "line": 1080,
+                      "line": 1093,
                       "column": 43,
-                      "offset": 48193
+                      "offset": 49072
                     }
                   },
                   "pos": {
-                    "line": 1080,
+                    "line": 1093,
                     "column": 43,
-                    "offset": 48193
+                    "offset": 49072
                   }
                 },
                 "pos": {
-                  "line": 1080,
+                  "line": 1093,
                   "column": 34,
-                  "offset": 48184
+                  "offset": 49063
                 }
               }
             ],
             "return": {
               "primitive": "float",
               "pos": {
-                "line": 1080,
+                "line": 1093,
                 "column": 60,
-                "offset": 48210
+                "offset": 49089
               }
             },
             "target": "surrealdb"
@@ -10125,9 +10190,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1081,
+              "line": 1094,
               "column": 1,
-              "offset": 48229
+              "offset": 49108
             },
             "name": "unboxd.platform.encrypt",
             "params": [
@@ -10138,21 +10203,21 @@
                     "name": "Artifact",
                     "resolved": "unboxd.platform.Artifact",
                     "pos": {
-                      "line": 1081,
+                      "line": 1094,
                       "column": 44,
-                      "offset": 48272
+                      "offset": 49151
                     }
                   },
                   "pos": {
-                    "line": 1081,
+                    "line": 1094,
                     "column": 44,
-                    "offset": 48272
+                    "offset": 49151
                   }
                 },
                 "pos": {
-                  "line": 1081,
+                  "line": 1094,
                   "column": 34,
-                  "offset": 48262
+                  "offset": 49141
                 }
               }
             ],
@@ -10161,15 +10226,15 @@
                 "name": "Artifact",
                 "resolved": "unboxd.platform.Artifact",
                 "pos": {
-                  "line": 1081,
+                  "line": 1094,
                   "column": 62,
-                  "offset": 48290
+                  "offset": 49169
                 }
               },
               "pos": {
-                "line": 1081,
+                "line": 1094,
                 "column": 62,
-                "offset": 48290
+                "offset": 49169
               }
             },
             "target": "surrealdb"
@@ -10177,9 +10242,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1082,
+              "line": 1095,
               "column": 1,
-              "offset": 48312
+              "offset": 49191
             },
             "name": "unboxd.platform.compress",
             "params": [
@@ -10190,21 +10255,21 @@
                     "name": "Artifact",
                     "resolved": "unboxd.platform.Artifact",
                     "pos": {
-                      "line": 1082,
+                      "line": 1095,
                       "column": 45,
-                      "offset": 48356
+                      "offset": 49235
                     }
                   },
                   "pos": {
-                    "line": 1082,
+                    "line": 1095,
                     "column": 45,
-                    "offset": 48356
+                    "offset": 49235
                   }
                 },
                 "pos": {
-                  "line": 1082,
+                  "line": 1095,
                   "column": 35,
-                  "offset": 48346
+                  "offset": 49225
                 }
               }
             ],
@@ -10213,15 +10278,15 @@
                 "name": "Artifact",
                 "resolved": "unboxd.platform.Artifact",
                 "pos": {
-                  "line": 1082,
+                  "line": 1095,
                   "column": 63,
-                  "offset": 48374
+                  "offset": 49253
                 }
               },
               "pos": {
-                "line": 1082,
+                "line": 1095,
                 "column": 63,
-                "offset": 48374
+                "offset": 49253
               }
             },
             "target": "surrealdb"
@@ -10229,9 +10294,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1083,
+              "line": 1096,
               "column": 1,
-              "offset": 48396
+              "offset": 49275
             },
             "name": "unboxd.platform.convert",
             "params": [
@@ -10242,21 +10307,21 @@
                     "name": "Artifact",
                     "resolved": "unboxd.platform.Artifact",
                     "pos": {
-                      "line": 1083,
+                      "line": 1096,
                       "column": 44,
-                      "offset": 48439
+                      "offset": 49318
                     }
                   },
                   "pos": {
-                    "line": 1083,
+                    "line": 1096,
                     "column": 44,
-                    "offset": 48439
+                    "offset": 49318
                   }
                 },
                 "pos": {
-                  "line": 1083,
+                  "line": 1096,
                   "column": 34,
-                  "offset": 48429
+                  "offset": 49308
                 }
               }
             ],
@@ -10265,15 +10330,15 @@
                 "name": "Artifact",
                 "resolved": "unboxd.platform.Artifact",
                 "pos": {
-                  "line": 1083,
+                  "line": 1096,
                   "column": 62,
-                  "offset": 48457
+                  "offset": 49336
                 }
               },
               "pos": {
-                "line": 1083,
+                "line": 1096,
                 "column": 62,
-                "offset": 48457
+                "offset": 49336
               }
             },
             "target": "surrealdb"
@@ -10281,9 +10346,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1084,
+              "line": 1097,
               "column": 1,
-              "offset": 48479
+              "offset": 49358
             },
             "name": "unboxd.platform.reduce",
             "params": [
@@ -10294,21 +10359,21 @@
                     "name": "Artifact",
                     "resolved": "unboxd.platform.Artifact",
                     "pos": {
-                      "line": 1084,
+                      "line": 1097,
                       "column": 43,
-                      "offset": 48521
+                      "offset": 49400
                     }
                   },
                   "pos": {
-                    "line": 1084,
+                    "line": 1097,
                     "column": 43,
-                    "offset": 48521
+                    "offset": 49400
                   }
                 },
                 "pos": {
-                  "line": 1084,
+                  "line": 1097,
                   "column": 33,
-                  "offset": 48511
+                  "offset": 49390
                 }
               }
             ],
@@ -10317,15 +10382,15 @@
                 "name": "Artifact",
                 "resolved": "unboxd.platform.Artifact",
                 "pos": {
-                  "line": 1084,
+                  "line": 1097,
                   "column": 61,
-                  "offset": 48539
+                  "offset": 49418
                 }
               },
               "pos": {
-                "line": 1084,
+                "line": 1097,
                 "column": 61,
-                "offset": 48539
+                "offset": 49418
               }
             },
             "target": "surrealdb"
@@ -10333,9 +10398,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1085,
+              "line": 1098,
               "column": 1,
-              "offset": 48561
+              "offset": 49440
             },
             "name": "unboxd.platform.minimize",
             "params": [
@@ -10346,21 +10411,21 @@
                     "name": "Artifact",
                     "resolved": "unboxd.platform.Artifact",
                     "pos": {
-                      "line": 1085,
+                      "line": 1098,
                       "column": 45,
-                      "offset": 48605
+                      "offset": 49484
                     }
                   },
                   "pos": {
-                    "line": 1085,
+                    "line": 1098,
                     "column": 45,
-                    "offset": 48605
+                    "offset": 49484
                   }
                 },
                 "pos": {
-                  "line": 1085,
+                  "line": 1098,
                   "column": 35,
-                  "offset": 48595
+                  "offset": 49474
                 }
               }
             ],
@@ -10369,15 +10434,15 @@
                 "name": "Artifact",
                 "resolved": "unboxd.platform.Artifact",
                 "pos": {
-                  "line": 1085,
+                  "line": 1098,
                   "column": 63,
-                  "offset": 48623
+                  "offset": 49502
                 }
               },
               "pos": {
-                "line": 1085,
+                "line": 1098,
                 "column": 63,
-                "offset": 48623
+                "offset": 49502
               }
             },
             "target": "surrealdb"
@@ -10385,9 +10450,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1086,
+              "line": 1099,
               "column": 1,
-              "offset": 48645
+              "offset": 49524
             },
             "name": "unboxd.platform.forecastArr",
             "params": [
@@ -10398,30 +10463,30 @@
                     "name": "Tenant",
                     "resolved": "unboxd.platform.Tenant",
                     "pos": {
-                      "line": 1086,
+                      "line": 1099,
                       "column": 46,
-                      "offset": 48690
+                      "offset": 49569
                     }
                   },
                   "pos": {
-                    "line": 1086,
+                    "line": 1099,
                     "column": 46,
-                    "offset": 48690
+                    "offset": 49569
                   }
                 },
                 "pos": {
-                  "line": 1086,
+                  "line": 1099,
                   "column": 38,
-                  "offset": 48682
+                  "offset": 49561
                 }
               }
             ],
             "return": {
               "primitive": "float",
               "pos": {
-                "line": 1086,
+                "line": 1099,
                 "column": 62,
-                "offset": 48706
+                "offset": 49585
               }
             },
             "target": "surrealml"
@@ -10429,9 +10494,9 @@
           {
             "kind": "Function",
             "pos": {
-              "line": 1087,
+              "line": 1100,
               "column": 1,
-              "offset": 48725
+              "offset": 49604
             },
             "name": "unboxd.platform.plugModel",
             "params": [
@@ -10442,30 +10507,30 @@
                     "name": "Model",
                     "resolved": "unboxd.platform.Model",
                     "pos": {
-                      "line": 1087,
+                      "line": 1100,
                       "column": 43,
-                      "offset": 48767
+                      "offset": 49646
                     }
                   },
                   "pos": {
-                    "line": 1087,
+                    "line": 1100,
                     "column": 43,
-                    "offset": 48767
+                    "offset": 49646
                   }
                 },
                 "pos": {
-                  "line": 1087,
+                  "line": 1100,
                   "column": 36,
-                  "offset": 48760
+                  "offset": 49639
                 }
               }
             ],
             "return": {
               "primitive": "bool",
               "pos": {
-                "line": 1087,
+                "line": 1100,
                 "column": 58,
-                "offset": 48782
+                "offset": 49661
               }
             },
             "target": "surrealml"
@@ -10473,9 +10538,9 @@
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1089,
+              "line": 1102,
               "column": 1,
-              "offset": 48801
+              "offset": 49680
             },
             "name": "DriftScorer",
             "purpose": "scoring",
@@ -10483,27 +10548,27 @@
               "name": "Deployment",
               "resolved": "unboxd.platform.Deployment",
               "pos": {
-                "line": 1089,
+                "line": 1102,
                 "column": 41,
-                "offset": 48841
+                "offset": 49720
               }
             },
             "output": {
               "name": "Deployment",
               "resolved": "unboxd.platform.Deployment",
               "pos": {
-                "line": 1089,
+                "line": 1102,
                 "column": 59,
-                "offset": 48859
+                "offset": 49738
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1090,
+              "line": 1103,
               "column": 1,
-              "offset": 48870
+              "offset": 49749
             },
             "name": "PlacementRanker",
             "purpose": "ranking",
@@ -10511,27 +10576,27 @@
               "name": "Service",
               "resolved": "unboxd.platform.Service",
               "pos": {
-                "line": 1090,
+                "line": 1103,
                 "column": 45,
-                "offset": 48914
+                "offset": 49793
               }
             },
             "output": {
               "name": "Provider",
               "resolved": "unboxd.platform.Provider",
               "pos": {
-                "line": 1090,
+                "line": 1103,
                 "column": 60,
-                "offset": 48929
+                "offset": 49808
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1091,
+              "line": 1104,
               "column": 1,
-              "offset": 48938
+              "offset": 49817
             },
             "name": "ThreatScorer",
             "purpose": "classification",
@@ -10539,27 +10604,27 @@
               "name": "Service",
               "resolved": "unboxd.platform.Service",
               "pos": {
-                "line": 1091,
+                "line": 1104,
                 "column": 49,
-                "offset": 48986
+                "offset": 49865
               }
             },
             "output": {
               "name": "Service",
               "resolved": "unboxd.platform.Service",
               "pos": {
-                "line": 1091,
+                "line": 1104,
                 "column": 64,
-                "offset": 49001
+                "offset": 49880
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1092,
+              "line": 1105,
               "column": 1,
-              "offset": 49009
+              "offset": 49888
             },
             "name": "StabilityScorer",
             "purpose": "scoring",
@@ -10567,27 +10632,27 @@
               "name": "Agent",
               "resolved": "unboxd.platform.Agent",
               "pos": {
-                "line": 1092,
+                "line": 1105,
                 "column": 45,
-                "offset": 49053
+                "offset": 49932
               }
             },
             "output": {
               "name": "Agent",
               "resolved": "unboxd.platform.Agent",
               "pos": {
-                "line": 1092,
+                "line": 1105,
                 "column": 58,
-                "offset": 49066
+                "offset": 49945
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1093,
+              "line": 1106,
               "column": 1,
-              "offset": 49072
+              "offset": 49951
             },
             "name": "PerformanceScorer",
             "purpose": "scoring",
@@ -10595,27 +10660,27 @@
               "name": "Agent",
               "resolved": "unboxd.platform.Agent",
               "pos": {
-                "line": 1093,
+                "line": 1106,
                 "column": 47,
-                "offset": 49118
+                "offset": 49997
               }
             },
             "output": {
               "name": "Evaluation",
               "resolved": "unboxd.platform.Evaluation",
               "pos": {
-                "line": 1093,
+                "line": 1106,
                 "column": 60,
-                "offset": 49131
+                "offset": 50010
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1094,
+              "line": 1107,
               "column": 1,
-              "offset": 49142
+              "offset": 50021
             },
             "name": "BreachPredictor",
             "purpose": "prediction",
@@ -10623,27 +10688,27 @@
               "name": "Promise",
               "resolved": "unboxd.platform.Promise",
               "pos": {
-                "line": 1094,
+                "line": 1107,
                 "column": 48,
-                "offset": 49189
+                "offset": 50068
               }
             },
             "output": {
               "name": "Promise",
               "resolved": "unboxd.platform.Promise",
               "pos": {
-                "line": 1094,
+                "line": 1107,
                 "column": 63,
-                "offset": 49204
+                "offset": 50083
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1095,
+              "line": 1108,
               "column": 1,
-              "offset": 49212
+              "offset": 50091
             },
             "name": "ArrForecaster",
             "purpose": "prediction",
@@ -10651,27 +10716,27 @@
               "name": "Tenant",
               "resolved": "unboxd.platform.Tenant",
               "pos": {
-                "line": 1095,
+                "line": 1108,
                 "column": 46,
-                "offset": 49257
+                "offset": 50136
               }
             },
             "output": {
               "name": "Tenant",
               "resolved": "unboxd.platform.Tenant",
               "pos": {
-                "line": 1095,
+                "line": 1108,
                 "column": 60,
-                "offset": 49271
+                "offset": 50150
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1096,
+              "line": 1109,
               "column": 1,
-              "offset": 49278
+              "offset": 50157
             },
             "name": "IncidentTriage",
             "purpose": "classification",
@@ -10679,27 +10744,27 @@
               "name": "Incident",
               "resolved": "unboxd.platform.Incident",
               "pos": {
-                "line": 1096,
+                "line": 1109,
                 "column": 51,
-                "offset": 49328
+                "offset": 50207
               }
             },
             "output": {
               "name": "Incident",
               "resolved": "unboxd.platform.Incident",
               "pos": {
-                "line": 1096,
+                "line": 1109,
                 "column": 67,
-                "offset": 49344
+                "offset": 50223
               }
             }
           },
           {
             "kind": "SurrealMlBinding",
             "pos": {
-              "line": 1097,
+              "line": 1110,
               "column": 1,
-              "offset": 49353
+              "offset": 50232
             },
             "name": "CostForecaster",
             "purpose": "prediction",
@@ -10707,18 +10772,18 @@
               "name": "Budget",
               "resolved": "unboxd.platform.Budget",
               "pos": {
-                "line": 1097,
+                "line": 1110,
                 "column": 47,
-                "offset": 49399
+                "offset": 50278
               }
             },
             "output": {
               "name": "Budget",
               "resolved": "unboxd.platform.Budget",
               "pos": {
-                "line": 1097,
+                "line": 1110,
                 "column": 61,
-                "offset": 49413
+                "offset": 50292
               }
             }
           }

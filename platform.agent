@@ -1029,6 +1029,19 @@ policy AccessPolicy {
     rule scoped: "orchestrator actions are scoped to the owning tenant"
 }
 
+// Every agent is self-governing and self-improving: it carries a declared agent
+// card, measures itself against this constitution (efficiency included), and
+// runs the conformance loop inward — eval, correct, improve — without waiting to
+// be told. A correction, once given, is a rule.
+policy SelfGovernancePolicy {
+    rule agentCard: "every agent declares an agent card: identity, capabilities, and KPIs"
+    rule selfEval: "self-evaluate against this constitution every cycle, objectively, not by guessing"
+    rule selfImprove: "act on the self-eval — correct and improve — without being told"
+    rule efficiency: "measure and minimize own resource use (tokens, cost, latency) as a tracked KPI"
+    rule evidence: "make no claim without measurement; assertion is not proof"
+    rule internalizeCorrection: "a correction, once given, becomes an enforced rule"
+}
+
 api get "/v1/services" returns surrealdb
 api get "/v1/deployments" returns surrealdb
 api post "/v1/deployments/{id}/reconcile" returns surrealdb
