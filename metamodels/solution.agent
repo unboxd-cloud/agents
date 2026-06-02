@@ -50,6 +50,22 @@ entity Execution {
     finishedAt: datetime
 }
 
+// Source is a data source an answer is grounded in; it must be verified.
+entity Source {
+    uri: string required
+    kind: string
+    verified: bool
+}
+
+// Answer is the deliverable: grounded in verified sources, actionable, and
+// rendered in a business format (report or presentation).
+entity Answer {
+    format: string required
+    actionable: bool
+    grounded: bool
+    summary: string
+}
+
 relation Solves Solution -> Goal {
     score: float
 }
@@ -71,4 +87,13 @@ relation DecomposesInto Plan -> PlanStep {
 // Execution runs a solution only once it is confirmed (confirm-before-execute).
 relation Runs Execution -> Solution {
     onlyIfConfirmed: bool
+}
+
+// An execution produces an answer, grounded in verified sources.
+relation Produces Execution -> Answer {
+    at: datetime
+}
+
+relation GroundedIn Answer -> Source {
+    verified: bool
 }
