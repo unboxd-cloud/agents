@@ -104,6 +104,7 @@ vocabulary tooling {
     term seatunnel means "Apache SeaTunnel — data connectors / integration (multi-source/sink, batch and CDC)"
     term n8n means "n8n — low-code workflow automation, offered as a managed service"
     term search means "search as a service — enterprise search over the fabric and RAG"
+    term smolagents means "smolagents — minimal, stateless agents (skills, tools, runtime context only)"
     term sailpoint means "SailPoint — identity governance (IGA) source for entitlements"
     term glpi means "GLPI — open-source ITSM/CMDB and asset management"
     term coolify means "Coolify — self-hosted PaaS to build and deploy"
@@ -271,6 +272,12 @@ entity ContainerAgent extends Agent {
 entity PluginAgent extends Agent {
     plugin: string required
     hostApp: string
+}
+
+// A smol agent is stateless: no persistent memory. It operates purely on the
+// skills, tools, and context provided at runtime (cf. smolagents).
+entity SmolAgent extends Agent {
+    stateless: bool
 }
 
 // Scoped business-level agents, each a container agent for its scope, supervised
@@ -878,6 +885,7 @@ constitution PlatformConstitution {
     rule containerAgents: "non-kernel workload agents run as container agents (pods), supervised by a kernel agent"
     rule pluginAgents: "app plugin agents extend applications through the plugin system and run in the host app's context"
     rule scopedAgents: "org, team, user-assistant, project, and product agents are scoped container agents under the kernel agents"
+    rule smolAgent: "a smol agent is stateless — no persistent memory; it operates purely on the skills, tools, and context provided at runtime"
     rule definedProfile: "every agent has a defined scope, authority, roles, responsibilities, KPIs, skills, knowledge, and tools"
     rule escalation: "follow the escalation matrix: a clear, direct path routing each issue to the right authority within its time bound"
     rule traceability: "identify and trace every action, decision, and outcome with precision — full lineage via OpenTelemetry and Jaeger into Cortex and ClickHouse"
