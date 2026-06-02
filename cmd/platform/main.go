@@ -126,6 +126,7 @@ Usage:
   platform agent check  <file>    parse + validate an agent (.agent) document (exit 1 on errors)
   platform agent show   <file>    print the compiled model + diagnostics as JSON
   platform agent deploy <file>    validate, then emit the deployable resolved agent as JSON
+  platform agent bench  <file>    blueprint conformance benchmark (JSON-LD report)
   platform catalog [profile]      list catalog offerings
   platform pricebook              show the active price book
   platform frameworks             list compliance frameworks

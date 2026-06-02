@@ -51,7 +51,68 @@ func agentCmd(args []string) error {
 			path, len(ag.Entities), len(ag.Relations), len(ag.Brains), len(ag.Minds),
 			len(ag.Beliefs), len(ag.Policies), len(ag.Apis), len(ag.Functions))
 		return printJSON(ag)
+	case "bench":
+		printDiags()
+		if res.HasErrors() {
+			return fmt.Errorf("%s: cannot benchmark, validation failed", path)
+		}
+		return benchAgent(path, adl.NewAgent(res.Model))
 	default:
-		return fmt.Errorf("agent: unknown subcommand %q (use check|show|deploy)", sub)
+		return fmt.Errorf("agent: unknown subcommand %q (use check|show|deploy|bench)", sub)
 	}
+}
+
+// benchAgent runs a blueprint conformance benchmark: it scores the agent
+// definition against the governance/decision dimensions it should declare, and
+// emits a JSON-LD (schema.org) report. This is a structural, reproducible
+// conformance check of the blueprint — not a task or cross-platform benchmark.
+func benchAgent(path string, ag *adl.Agent) error {
+	have := map[string]bool{}
+	for _, c := range ag.Constitutions {
+		for _, r := range c.Rules {
+			have[r.Name] = true
+		}
+	}
+	// The governance/decision dimensions a certified platform blueprint declares.
+	required := []string{
+		"governedAll", "auditable", "completeContext", "accountability",
+		"explainable", "firstPrinciples", "innovation", "conservation",
+		"socialTrust", "trustFirst", "deliverable", "northStar", "contextualAI",
+	}
+	covered := 0
+	missing := []string{}
+	for _, r := range required {
+		if have[r] {
+			covered++
+		} else {
+			missing = append(missing, r)
+		}
+	}
+	score := float64(covered) / float64(len(required))
+
+	fmt.Fprintf(os.Stderr, "benchmark %s (blueprint conformance):\n", path)
+	fmt.Fprintf(os.Stderr, "  shape: declarations=%d entities=%d relations=%d brains=%d policies=%d functions=%d vocabularies=%d\n",
+		len(ag.Model.Declarations), len(ag.Entities), len(ag.Relations), len(ag.Brains),
+		len(ag.Policies), len(ag.Functions), len(ag.Vocabularies))
+	fmt.Fprintf(os.Stderr, "  conformance: %d/%d dimensions (%.0f%%)\n", covered, len(required), score*100)
+	if len(missing) > 0 {
+		fmt.Fprintf(os.Stderr, "  missing: %v\n", missing)
+	}
+
+	report := map[string]any{
+		"@context":             "https://schema.org",
+		"@type":                "Dataset",
+		"name":                 "blueprint conformance benchmark: " + path,
+		"measurementTechnique": "ADL static conformance (structural); not a task or cross-platform benchmark",
+		"variableMeasured": []map[string]any{
+			{"@type": "PropertyValue", "name": "conformanceScore", "value": score},
+			{"@type": "PropertyValue", "name": "dimensionsCovered", "value": covered, "maxValue": len(required)},
+			{"@type": "PropertyValue", "name": "entities", "value": len(ag.Entities)},
+			{"@type": "PropertyValue", "name": "relations", "value": len(ag.Relations)},
+			{"@type": "PropertyValue", "name": "policies", "value": len(ag.Policies)},
+			{"@type": "PropertyValue", "name": "functions", "value": len(ag.Functions)},
+			{"@type": "PropertyValue", "name": "constitutionRules", "value": len(have)},
+		},
+	}
+	return printJSON(report)
 }
