@@ -1,0 +1,83 @@
+// operating.agent — the platform's operating (business) models: how it operates
+// commercially. Pay-as-you-go rating over metered usage, with partner settlement
+// across direct, reseller, agency, marketplace, and managed-service-provider
+// modes (mirrors internal/billing).
+namespace unboxd.meta.operating
+
+vocabulary modes {
+    term direct means "sell directly to the customer"
+    term reseller means "a reseller marks up and resells"
+    term agency means "an agency bills on the customer's behalf"
+    term marketplace means "sold through a marketplace"
+    term service_provider means "a managed service provider operates on the customer's behalf"
+}
+
+entity OperatingModel {
+    name: string required
+    mode: string required
+}
+
+entity Partner {
+    id: string required
+    mode: string required
+    rate: float
+}
+
+entity PriceBook {
+    version: string required
+}
+
+entity Meter {
+    name: string required
+    unit: string
+}
+
+entity Rating {
+    meter: Meter required
+    quantity: float
+    amount: float
+}
+
+entity Settlement {
+    partner: Partner required
+    gross: float
+    net: float
+    currency: string
+}
+
+relation Uses OperatingModel -> Partner {
+    primary: bool
+}
+
+relation Prices PriceBook -> Meter {
+    unitPrice: float
+}
+
+relation Rates Rating -> Meter {
+    period: string
+}
+
+relation Settles Settlement -> Partner {
+    period: string
+}
+
+// The agent operating model: how an agent operates — its autonomy level, the
+// governed observe-decide-act loop, and where humans stay in the loop. A kernel
+// agent's model supervises its child agents' models.
+vocabulary autonomy {
+    term supervised means "every action gated by human approval"
+    term semi means "routine actions autonomous, sensitive ones gated"
+    term autonomous means "fully autonomous within policy and governance"
+}
+
+entity AgentOperatingModel {
+    agent: string required
+    autonomy: string required
+    humanInLoop: bool
+    loop: string
+}
+
+relation SupervisedBy AgentOperatingModel -> AgentOperatingModel {
+    tier: string
+}
+
