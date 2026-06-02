@@ -19,6 +19,7 @@ vocabulary subsistence {
     term democratized means "the knowledge and skill economy is truly democratized: anyone can contribute, validate, and access; expertise compounds on the graph instead of being gated by capital or privilege"
     term unit_of_work means "success is defined by the unit of work you deliver — value created — not by capital or position; merit is measured in contribution"
     term no_hidden_logic means "no hidden logic and no hidden transformation: every rule and every transformation is explicit on the graph, visible and auditable — trust comes from transparency, not opacity"
+    term graph_is_your_proof means "justifying your skills is not required — your graph shows them: validated contributions, provenance, and track record are the proof; the graph speaks for you, not credentials or claims"
 }
 
 // The economics the brain reasons from — first principles that teach good habits:

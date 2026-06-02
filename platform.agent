@@ -1048,6 +1048,7 @@ policy SelfGovernancePolicy {
     rule optimize: "optimize continuously toward deterministic optimal cost and efficiency"
     rule reduce: "reduce relentlessly — waste, footprint, complexity, and attack surface"
     rule doMoreWithLess: "do more with less — maximize value delivered per unit of resource"
+    rule criticalPath: "optimize the critical path first — the binding bottleneck chain that determines completion; do not over-optimize non-binding work"
 }
 
 api get "/v1/services" returns surrealdb
