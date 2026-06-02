@@ -1,0 +1,51 @@
+// ethics.agent — value learning for safe agents (cf. Potapov & Rodionov,
+// "Universal Empathy and Ethical Bias for AGI", arXiv:1308.0702).
+//
+// Agents value generalized states of the world, not raw rewards; rewards only
+// bootstrap hierarchical value learning, so the agent does not reward-hack. An
+// "infant" agent reveals and adopts the values of humans and "mature" agents
+// (empathy), carrying an ethical bias toward safety and human benefit.
+namespace unboxd.meta.ethics
+
+entity Value {
+    name: string required
+    statement: string
+    weight: float
+}
+
+entity Agent {
+    id: string required
+    maturity: string
+}
+
+entity Human {
+    id: string required
+}
+
+entity ValueLearning {
+    agent: Agent required
+    source: string required
+    adopted: bool
+}
+
+entity EthicalBias {
+    agent: Agent required
+    toward: string required
+}
+
+relation Holds Agent -> Value {
+    priority: int
+}
+
+// An infant agent learns values from humans and mature agents.
+relation LearnsFrom ValueLearning -> Agent {
+    via: string
+}
+
+relation Empathizes Agent -> Human {
+    adopts: bool
+}
+
+relation Biases EthicalBias -> Value {
+    strength: float
+}
