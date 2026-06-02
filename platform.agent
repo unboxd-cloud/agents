@@ -20,8 +20,12 @@
 //
 // Runtime: this is a Kubernetes-runtime agent. It runs as a k3s-native kernel —
 // the platform's control-plane kernel, a Kubernetes operator on k3s — and
-// persists its state in the k3s datastore as custom resources. The ADL runtime
-// (pkg/adl, and via WASM the editor tooling) loads and validates this definition.
+// persists its state in the k3s datastore as custom resources. It lives with the
+// hardware — bare metal and the edge, close to the silicon — and behaves like a
+// deterministic substrate (a kernel/motherboard) exposing typed sockets for
+// pluggable LLMs and tools, its core staying deterministic no matter which model
+// is plugged in. The ADL runtime (pkg/adl, and via WASM the editor tooling) loads
+// and validates this definition.
 //
 // The surrealdb / surrealml targets resolve to the agent-platform runtime:
 // SurrealDB executes the queries, functions, and live queries, and SurrealML
@@ -70,6 +74,8 @@ vocabulary tooling {
     term clickhouse means "ClickHouse — columnar store for APM and observability data"
     term k3s means "k3s — lightweight Kubernetes the kernel agent runs on"
     term kernel means "the platform kernel: the agent as the core control loop reconciling via the Kubernetes API"
+    term bare_metal means "runs directly on bare-metal hardware"
+    term edge means "runs at the edge, close to the hardware"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -117,6 +123,17 @@ vocabulary clouds {
     term gcp means "Google Cloud Platform"
     term azure means "Microsoft Azure"
     term s3 means "Amazon S3 — object storage where snapshots are always kept"
+}
+
+// Pluggable model backends. LLMs are swappable behind a stable interface; the
+// deterministic core does not depend on which one is plugged in. Open-source CPU
+// LLMs are first-class.
+vocabulary models {
+    term llm means "a large language model used for a bounded inference step"
+    term pluggable means "models are swapped behind a stable interface"
+    term open_source_llm means "self-hosted open-source CPU or GPU LLMs"
+    term openai_compatible means "any OpenAI-compatible model endpoint"
+    term socket means "a typed slot the deterministic substrate exposes for a pluggable model or tool"
 }
 
 entity Tenant {
@@ -196,6 +213,18 @@ entity Framework {
     name: string required
     kind: string required
     version: string
+}
+
+// Model is a pluggable LLM (or ML model) used for a bounded inference step.
+// Models are swappable behind a stable interface; the agent's behavior stays
+// deterministic regardless of which model is plugged in. Open-source CPU LLMs
+// are first-class.
+entity Model {
+    name: string required
+    provider: string required
+    version: string
+    pluggable: bool
+    deterministic: bool
 }
 
 // Automation is an AI capability the agent has converted into deterministic,
@@ -344,6 +373,10 @@ relation Grants Agent -> Permission {
     grantedAt: datetime
 }
 
+relation Uses Agent -> Model {
+    purpose: string
+}
+
 brain PlatformOrchestrator {
     owns data
     owns business_logic
@@ -454,6 +487,8 @@ constitution PlatformConstitution {
     rule kernel: "run as a Kubernetes-runtime, k3s-native kernel: be the platform's core control loop, reconciling through the Kubernetes API"
     rule persistence: "persist kernel state in k3s (its embedded datastore) as Kubernetes custom resources"
     rule reliability: "be as reliable as Kubernetes itself: level-triggered reconciliation, self-healing control loops, no single point of failure"
+    rule pluggableModels: "act as a deterministic substrate — a kernel, like a motherboard — exposing typed sockets for pluggable LLMs and tools; behavior stays deterministic no matter which model is plugged in"
+    rule hardware: "live with the hardware — run on bare metal and the edge, close to the silicon, like a kernel"
 }
 
 policy ReconcilePolicy {
@@ -558,6 +593,7 @@ function unboxd.platform.snapshot(service: Service) returns Snapshot as surreald
 function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
 function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
 function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
+function unboxd.platform.plugModel(model: Model) returns bool as surrealml
 
 surrealml DriftScorer for scoring input Deployment output Deployment
 surrealml PlacementRanker for ranking input Service output Provider
