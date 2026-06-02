@@ -1,0 +1,104 @@
+// coder.agent — blueprint for a coding (software-engineering) agent.
+// Source: AGenNext/Agent-Code (placeholder upstream; defined here). It grounds in
+// a repo/workspace (application context), reads and writes code, runs tests, and
+// opens pull requests. Its outputs are artifacts (diffs, PRs) and runnables
+// (built images). SWE-bench-style; benchmarked via Agent-Bench source-to-artifact.
+namespace agennext.coder
+
+vocabulary skills {
+    term read_code means "read and comprehend a codebase"
+    term write_code means "implement changes"
+    term run_tests means "run and interpret tests"
+    term refactor means "improve structure without changing behavior"
+    term open_pr means "open and update pull requests"
+    term review means "review diffs for correctness and style"
+}
+
+entity Repository {
+    url: string required
+    branch: string
+}
+
+entity Workspace {
+    repo: Repository required
+    path: string required
+}
+
+entity SourceFile {
+    workspace: Workspace required
+    path: string required
+    language: string
+}
+
+entity Change {
+    file: SourceFile required
+    diff: string
+    applied: bool
+}
+
+entity TestRun {
+    workspace: Workspace required
+    passed: bool
+    coverage: float
+}
+
+entity PullRequest {
+    repo: Repository required
+    title: string required
+    merged: bool
+}
+
+brain CoderBrain {
+    owns data
+    owns business_logic
+    owns api
+    owns events
+    owns decisions
+}
+
+mind CodeMind for Change {
+    intent: string
+    rationale: string
+    confidence: float
+}
+
+belief TestsGreen {
+    subject TestRun
+    claim "the change keeps the test suite green"
+    confidence 0.7
+    source "ci"
+}
+
+constitution CoderConstitution {
+    rule grounded: "read the codebase before changing it; ground every change in the repo"
+    rule tested: "no change ships without passing tests"
+    rule reviewed: "every change lands through a reviewed pull request"
+    rule minimal: "make the smallest change that solves the problem"
+}
+
+policy ReviewPolicy {
+    rule pr: "land changes via pull request, never direct to the default branch"
+    rule ci: "require green CI before merge"
+}
+
+relation Edits Change -> SourceFile {
+    hunks: int
+}
+
+relation Verifies TestRun -> Workspace {
+    suite: string
+}
+
+relation Opens PullRequest -> Repository {
+    draft: bool
+}
+
+api get "/v1/repos" returns surrealdb
+api post "/v1/changes" returns surrealdb
+api post "/v1/pulls" returns surrealdb
+
+function agennext.coder.implement(change: Change) returns bool as surrealdb
+function agennext.coder.test(workspace: Workspace) returns bool as surrealdb
+function agennext.coder.openPR(repo: Repository) returns PullRequest as surrealdb
+
+surrealml RegressionRisk for scoring input Change output Change
