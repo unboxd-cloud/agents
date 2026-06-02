@@ -154,3 +154,43 @@ relation SourcedFrom Resource -> KnowledgeGraph {
 relation Asserts Fact -> Resource {
     role: string
 }
+
+// Retrieval-augmented generation (RAG). A Corpus is a retrievable knowledge
+// source, tagged by usage: Wikipedia (via DBpedia) is the RAG corpus for SEARCH
+// (quick grounding in the default topic); deeper RESEARCH uses other corpora
+// (e.g. arXiv papers such as TinyLLM, arXiv:2412.15304). Search RAG is not
+// research RAG.
+entity Corpus {
+    name: string required
+    usage: string required
+    baseUri: string
+}
+
+entity Chunk {
+    document: Document required
+    text: string
+    embedding: string
+}
+
+entity Retrieval {
+    query: string required
+    corpus: Corpus required
+    k: int
+}
+
+entity Augmentation {
+    retrieval: Retrieval required
+    prompt: string
+}
+
+relation FromCorpus Retrieval -> Corpus {
+    topK: int
+}
+
+relation Retrieves Retrieval -> Chunk {
+    score: float
+}
+
+relation Augments Augmentation -> Retrieval {
+    grounded: bool
+}
