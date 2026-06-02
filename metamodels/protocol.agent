@@ -1,0 +1,54 @@
+// protocol.agent — the protocol & A2A metamodel. Agents communicate over typed
+// channels with messages, and every agent-to-agent (A2A) call is gated: it must
+// pass through a Tool boundary and be governed by a Policy. No ungated A2A.
+namespace unboxd.meta.protocol
+
+entity Agent {
+    id: string required
+    role: string
+}
+
+entity Tool {
+    name: string required
+    kind: string required
+    schema: string
+}
+
+entity Policy {
+    name: string required
+}
+
+entity Channel {
+    name: string required
+    protocol: string required
+}
+
+entity Message {
+    channel: Channel required
+    payload: string
+}
+
+// A2ACall is one agent-to-agent invocation. It is always gated (see GatedBy and
+// GovernedBy): the call is mediated by a Tool and bound by a Policy.
+entity A2ACall {
+    caller: Agent required
+    callee: Agent required
+    method: string required
+    gated: bool
+}
+
+relation Invokes Agent -> A2ACall {
+    at: datetime
+}
+
+relation GatedBy A2ACall -> Tool {
+    required: bool
+}
+
+relation GovernedBy A2ACall -> Policy {
+    effect: string
+}
+
+relation OverChannel Message -> Channel {
+    seq: int
+}

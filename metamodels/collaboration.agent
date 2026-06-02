@@ -1,0 +1,36 @@
+// collaboration.agent — the collaboration metamodel: teams of members working
+// together through conversations and messages (humans and agents alike).
+namespace unboxd.meta.collaboration
+
+entity Team {
+    name: string required
+}
+
+entity Member {
+    team: Team required
+    subject: string required
+    role: string
+}
+
+entity Conversation {
+    team: Team required
+    topic: string
+}
+
+entity Message {
+    conversation: Conversation required
+    author: string required
+    body: string
+}
+
+relation BelongsTo Member -> Team {
+    since: datetime
+}
+
+relation Posts Member -> Message {
+    at: datetime
+}
+
+relation InConversation Message -> Conversation {
+    seq: int
+}

@@ -1,0 +1,40 @@
+// trust.agent — the trust & assurance metamodel: trust relationships between
+// subjects, reputation, control assurances, and issues raised against subjects.
+namespace unboxd.meta.trust
+
+entity Subject {
+    id: string required
+    kind: string
+}
+
+entity Trust {
+    subject: Subject required
+    level: float
+    basis: string
+}
+
+entity Reputation {
+    subject: Subject required
+    score: float
+}
+
+entity Assurance {
+    subject: Subject required
+    control: string required
+    status: string
+}
+
+entity Issue {
+    subject: Subject required
+    severity: string required
+    summary: string
+    resolved: bool
+}
+
+relation Trusts Subject -> Subject {
+    level: float
+}
+
+relation Raises Subject -> Issue {
+    at: datetime
+}

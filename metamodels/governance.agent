@@ -1,0 +1,48 @@
+// governance.agent — the governance metamodel: constitutions, policies and
+// rules, the decisions they produce, human approvals, and evaluations. This is
+// the graph the agentdb Kernel enforces (propose -> govern -> approve -> apply).
+namespace unboxd.meta.governance
+
+entity Constitution {
+    name: string required
+}
+
+entity Policy {
+    name: string required
+    effect: string
+}
+
+entity Rule {
+    policy: Policy required
+    statement: string required
+}
+
+entity Decision {
+    subject: string required
+    verdict: string required
+    rationale: string
+}
+
+entity Approval {
+    decision: Decision required
+    approver: string required
+    at: datetime
+}
+
+entity Evaluation {
+    subject: string required
+    metric: string required
+    score: float
+}
+
+relation Contains Constitution -> Policy {
+    order: int
+}
+
+relation Governs Policy -> Rule {
+    order: int
+}
+
+relation Requires Decision -> Approval {
+    mandatory: bool
+}

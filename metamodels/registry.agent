@@ -1,0 +1,26 @@
+// registry.agent — the registry metamodel: the catalog of tools and the
+// capabilities they provide, discoverable by agents.
+namespace unboxd.meta.registry
+
+entity Registry {
+    name: string required
+}
+
+entity Capability {
+    name: string required
+    version: string
+}
+
+entity Tool {
+    name: string required
+    kind: string required
+    schema: string
+}
+
+relation Registers Registry -> Tool {
+    since: datetime
+}
+
+relation Provides Tool -> Capability {
+    stable: bool
+}

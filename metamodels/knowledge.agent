@@ -1,0 +1,49 @@
+// knowledge.agent — the memory & knowledge metamodel: an agent's recall
+// (episodic memory), its knowledge base of documents, vector embeddings, and
+// the artifacts it produces.
+namespace unboxd.meta.knowledge
+
+entity Memory {
+    kind: string required
+    scope: string
+}
+
+entity Episode {
+    memory: Memory required
+    summary: string
+    at: datetime
+}
+
+entity Knowledge {
+    topic: string required
+}
+
+entity Document {
+    knowledge: Knowledge required
+    uri: string
+    title: string
+}
+
+entity Embedding {
+    document: Document required
+    model: string
+    dims: int
+}
+
+entity Artifact {
+    name: string required
+    version: string
+    uri: string
+}
+
+relation Recalls Memory -> Episode {
+    weight: float
+}
+
+relation Indexes Knowledge -> Document {
+    rank: int
+}
+
+relation Vectorizes Document -> Embedding {
+    model: string
+}

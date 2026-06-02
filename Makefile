@@ -46,6 +46,13 @@ fmt: ## Format code
 .PHONY: check
 check: vet test ## Vet + test (CI gate)
 
+.PHONY: agents
+agents: ## Validate all ADL agent definitions (*.agent) and metamodels
+	@$(GO) build -o $(BIN)/platform ./cmd/platform
+	@for f in platform.agent metamodels/*.agent; do \
+		$(BIN)/platform agent check $$f || exit 1; \
+	done
+
 .PHONY: adl-wasm
 adl-wasm: ## Build the ADL runtime as WASM for the TS tooling
 	GOOS=js GOARCH=wasm $(GO) build -o $(ADL_WEB)/adl.wasm ./cmd/adl-wasm

@@ -1,0 +1,42 @@
+// action.agent — the action/task/workflow metamodel: the deterministic work the
+// platform executes (reconciled as Temporal/Prefect workflows at runtime).
+namespace unboxd.meta.action
+
+entity Action {
+    name: string required
+    kind: string
+}
+
+entity Task {
+    name: string required
+    status: string
+}
+
+entity Workflow {
+    name: string required
+    deterministic: bool
+}
+
+entity Step {
+    workflow: Workflow required
+    name: string required
+    order: int
+}
+
+entity Run {
+    workflow: Workflow required
+    status: string
+    startedAt: datetime
+}
+
+relation Performs Task -> Action {
+    at: datetime
+}
+
+relation HasStep Workflow -> Step {
+    order: int
+}
+
+relation Executes Run -> Workflow {
+    engine: string
+}
