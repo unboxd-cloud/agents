@@ -22,6 +22,22 @@ vocabulary graph {
     term transformation_boundary means "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)"
 }
 
+// Ledger theory — what the platform borrows from blockchain (Akcora, Gel &
+// Kantarcioglu, "Blockchain: A Graph Primer", arXiv:1708.08749), and what it
+// deliberately does not. Blockchain confirms the substrate: it IS a graph
+// (transaction/address/entity graphs). The platform takes the good parts —
+// append-only history, immutable provenance, contract-as-edge-template,
+// DAO-as-agent — but stays permissioned and governed (a trusted brain), so it
+// buys with governance what proof-of-work buys with energy.
+vocabulary ledger {
+    term append_only means "history is append-only and hash-linked: tamper-evident, immutable, replayable — provenance and audit by construction (see agentdb TemporalStore)"
+    term contract_edge_template means "a smart contract is a template for future edges: a node that, under conditions, creates constrained future edges — the recursive metamodel object graph"
+    term canonical_chain means "competing branches/forks reconcile to one canonical chain; a fork that builds a different world is a hard fork (a new lineage)"
+    term dao_agent means "a DAO is an autonomous agent: lives online, owns property (a wallet), hires humans for what it cannot do, and rewards activity — the agent economy"
+    term permissioned means "the platform is permissioned and governed (Hyperledger-like), not trustless proof-of-work: identity, trust, and governance replace mining — governance instead of a peer-to-peer heat engine"
+    term code_is_not_law means "code is not the final law: a governed brain may correct a conforming-but-wrong outcome (unlike the Ethereum 'code is law' split), because conformance is to the standard, not merely the protocol"
+}
+
 entity Theory {
     name: string required
     domain: string
