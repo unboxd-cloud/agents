@@ -108,6 +108,7 @@ vocabulary tooling {
     term n8n means "n8n — low-code workflow automation, offered as a managed service"
     term search means "search as a service — enterprise search over the fabric and RAG"
     term smolagents means "smolagents — minimal, stateless agents (skills, tools, runtime context only)"
+    term jit means "just-in-time provisioning: agents and access created on demand and torn down after"
     term sailpoint means "SailPoint — identity governance (IGA) source for entitlements"
     term glpi means "GLPI — open-source ITSM/CMDB and asset management"
     term coolify means "Coolify — self-hosted PaaS to build and deploy"
@@ -281,6 +282,13 @@ entity PluginAgent extends Agent {
 // skills, tools, and context provided at runtime (cf. smolagents).
 entity SmolAgent extends Agent {
     stateless: bool
+}
+
+// A JIT agent is provisioned just-in-time and torn down after use — ephemeral,
+// with zero standing privilege.
+entity JitAgent extends Agent {
+    ttlSeconds: int
+    ephemeral: bool
 }
 
 // Scoped business-level agents, each a container agent for its scope, supervised
@@ -929,6 +937,8 @@ constitution PlatformConstitution {
     rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
     rule integration: "integrate data through connectors (Apache SeaTunnel — multi-source/sink, batch and CDC) into the unified fabric"
     rule dataOps: "agents handle data natively: encryption at rest and in transit, compression, and conversion between formats and schemas"
+    rule minimizeInTransit: "compose and reduce data in transit and before execution — minimize payloads and strip what is not needed — to cut security risk and cost"
+    rule jit: "provision agents and their access just-in-time and tear them down after use: zero standing privilege, minimal attack surface and cost"
     rule contextualConnectors: "data connectors and integrations are contextually populated from the user's entitlements — fetched from the IGA system (e.g. SailPoint) or Okta/SSO identity, app assignments, and scopes; users see only what they are entitled to"
     rule itsm: "GLPI is the ITSM/CMDB backing the asset catalog; discovered SaaS tools, data sources, connectors, and gateways are cataloged and their schemas resolved to schema.org"
     rule deployTools: "Coolify, Dokploy, and Dokku are available as build/deploy tools and skills for producing runnable images"
@@ -1059,6 +1069,8 @@ function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
 function unboxd.platform.encrypt(artifact: Artifact) returns Artifact as surrealdb
 function unboxd.platform.compress(artifact: Artifact) returns Artifact as surrealdb
 function unboxd.platform.convert(artifact: Artifact) returns Artifact as surrealdb
+function unboxd.platform.reduce(artifact: Artifact) returns Artifact as surrealdb
+function unboxd.platform.minimize(artifact: Artifact) returns Artifact as surrealdb
 function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
 function unboxd.platform.plugModel(model: Model) returns bool as surrealml
 
