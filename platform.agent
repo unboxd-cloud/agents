@@ -98,6 +98,8 @@ vocabulary tooling {
     term singlestore means "SingleStore (Aura AI) — real-time SQL and vector database"
     term clickstack means "ClickStack — ClickHouse-based observability stack"
     term langfuse means "Langfuse — LLM observability, tracing, and evaluation"
+    term buildpacks means "Cloud Native Buildpacks (pack) — build OCI images from source, no Dockerfile"
+    term zot means "zot — OCI-native registry for storing and distributing runnables"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -812,7 +814,7 @@ constitution PlatformConstitution {
     rule determinism: "all produced automation must be deterministic: same input, same output; keep nondeterministic AI out of the hot path"
     rule outcomes: "deliver measurable, deterministic outcomes that bring real commercial value"
     rule observability: "observe every action through Cortex and land APM data in ClickHouse; no blind spots"
-    rule events: "all agent events conform to the CNCF CloudEvents spec and pass the CloudEvents conformance suite"
+    rule events: "the platform is a CloudEvents adopter: all agent events conform to the CNCF CloudEvents spec and pass the conformance suite"
     rule tooling: "compose existing CNCF projects rather than rebuilding infrastructure"
     rule snapshots: "always keep current cluster snapshots in S3"
     rule privacy: "respect data residency and collect only the data a task needs"
@@ -853,6 +855,8 @@ constitution PlatformConstitution {
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
     rule outputs: "agents produce exactly two kinds of output: artifacts (reports, docs, and data such as JSON-LD) and runnables (OCI images that execute)"
+    rule build: "cloud-native by default: build runnable images with Cloud Native Buildpacks (pack) from source — no Dockerfiles — and store/distribute them via the zot OCI registry"
+    rule native: "AI-native, k3s-native, cloud-native, and database-native: agents are first-class, run as Kubernetes-native (k3s) workloads, and live in the unified database (SurrealDB) that stores state, context, and memory"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
