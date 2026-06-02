@@ -4,6 +4,14 @@
 // modes (mirrors internal/billing).
 namespace unboxd.meta.operating
 
+// SaaS parity — everything built for SaaS must be done for agents. Agents are
+// productized and operated as first-class offerings: the full operational
+// discipline of SaaS applies to them, reusing the platform's existing machinery.
+vocabulary saas_parity {
+    term principle means "everything we did for SaaS we do for agents: agents are productized and operated as first-class SaaS, not bolted on"
+    term scope means "multi-tenancy, metering, billing, settlement, compliance, identity/SSO, SLAs, observability, marketplace, support, and lifecycle all apply to agents"
+}
+
 vocabulary modes {
     term direct means "sell directly to the customer"
     term reseller means "a reseller marks up and resells"
