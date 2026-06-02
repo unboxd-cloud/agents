@@ -401,6 +401,27 @@ entity Outcome {
     deterministic: bool
 }
 
+// Agents produce exactly two kinds of output: artifacts (static deliverables —
+// reports, docs, data such as JSON-LD) and runnables (executable OCI images).
+entity Artifact {
+    name: string required
+    kind: string
+    format: string
+    uri: string
+}
+
+entity Runnable {
+    name: string required
+    image: string required
+    digest: string
+}
+
+// The agent composer assembles agents (and their artifacts and runnables) from
+// composable, certified parts — blueprints, tools, models, and metamodels.
+entity Composer {
+    name: string required
+}
+
 // Workflow is the deterministic workflow that runs an automation: Temporal is
 // the primary engine, Prefect the backup.
 entity Workflow {
@@ -632,6 +653,23 @@ relation OptimizesDecisionIntelligence Agent -> DecisionIntelligence {
     target: float
 }
 
+relation Produces Agent -> Artifact {
+    at: datetime
+}
+
+relation Ships Agent -> Runnable {
+    registry: string
+}
+
+// The composer assembles agents and is itself exposed as a tool agents can call.
+relation Assembles Composer -> Agent {
+    from: string
+}
+
+relation ExposedAsTool Composer -> Tool {
+    iface: string
+}
+
 relation FeedsTrust Evaluation -> Trust {
     weight: float
 }
@@ -813,6 +851,8 @@ constitution PlatformConstitution {
     rule deviceLocal: "the default installation is a device-local agent: it runs on the device, offline-capable, syncing only when permitted"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
+    rule outputs: "agents produce exactly two kinds of output: artifacts (reports, docs, and data such as JSON-LD) and runnables (OCI images that execute)"
+    rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
     rule socialTrust: "trust is social, propagative, and composable: the weighted aggregate of ratings from every agent and human interacted with, propagated across the trust graph — not one human's view"

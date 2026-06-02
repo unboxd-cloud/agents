@@ -49,7 +49,7 @@ check: vet test ## Vet + test (CI gate)
 .PHONY: agents
 agents: ## Validate all ADL agent definitions (*.agent) and metamodels
 	@$(GO) build -o $(BIN)/platform ./cmd/platform
-	@for f in platform.agent metamodels/*.agent; do \
+	@for f in platform.agent metamodels/*.agent blueprints/*.agent; do \
 		$(BIN)/platform agent check $$f || exit 1; \
 	done
 
