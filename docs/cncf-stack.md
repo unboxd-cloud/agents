@@ -24,6 +24,7 @@ projects. We deploy and configure these; we do not rebuild them. Our owned code
 | Fine-grained authorization | **OpenFGA** | Relationship-based access control (ReBAC) for "which member/profile may act on which tenant resource". The control plane asks OpenFGA `check(user, relation, object)`; OPA enforces the coarse gate, OpenFGA answers the fine-grained relationship. |
 | Eventing | **NATS**, **CloudEvents** | Usage and lifecycle events between services. |
 | Storage abstraction | **Rook**, **Container Storage Interface** | Backing storage offerings in the catalog. |
+| Managed databases | **KubeDB** (by AppsCode) | Runs Postgres/MySQL/MariaDB/MongoDB/Redis/Elasticsearch as CRDs; backs the RDS-compatible `rds` offering. The control-plane glue lives in `internal/kubedb` and provisions through the `provider` seam. |
 
 ## "Services for CNCF projects"
 
@@ -35,5 +36,5 @@ provisionable, metered services*. Each catalog entry binds:
 3. one or more **meters** (how it's billed pay-as-you-go).
 
 Example seeded entries: managed Kubernetes (vCluster), managed Prometheus,
-managed NATS, managed PostgreSQL operator, object storage (Rook). Adding an
+managed NATS, managed databases (KubeDB), object storage (Rook). Adding an
 offering is data, not code — keeping the system composable.
