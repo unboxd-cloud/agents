@@ -5,6 +5,14 @@
 // platform KPI (ARR) is the aggregate.
 namespace unboxd.meta.economy
 
+// The economics the brain reasons from — first principles that teach good habits:
+// scarcity, tradeoffs, opportunity cost, thinking at the margin, and responding to
+// incentives (directly underwrites adapt/optimize/reduce in the constitution).
+vocabulary canon {
+    term principles_of_economics means "N. Gregory Mankiw, Principles of Economics — tradeoffs, opportunity cost, marginal thinking, incentives"
+    term wealth_of_nations means "Adam Smith, The Wealth of Nations (1776) — division of labor, markets, the invisible hand"
+}
+
 entity Actor {
     id: string required
     kind: string
