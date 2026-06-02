@@ -37,3 +37,9 @@ spec:
         - {name: COMPLIANCE_ADDR, value: ":8084"}
       ports:
         - {containerPort: 8084, hostPort: 8084}
+    - name: graph
+      image: localhost/unboxd-cloud/graph:dev
+      env:
+        - {name: GRAPH_ADDR, value: ":8087"}
+      ports:
+        - {containerPort: 8087, hostPort: 8087}

@@ -13,12 +13,13 @@ import (
 	"crypto/md5"
 	"encoding/binary"
 	"fmt"
+	"io/fs"
 	"net/http"
 	"os"
-	"path/filepath"
 	"sort"
 	"strings"
 
+	platform "github.com/unboxd-cloud/platform"
 	"github.com/unboxd-cloud/platform/internal/server"
 	"github.com/unboxd-cloud/platform/internal/ui"
 	"github.com/unboxd-cloud/platform/pkg/adl"
@@ -52,12 +53,12 @@ func color(ns string) string {
 	return fmt.Sprintf("hsl(%d,65%%,55%%)", h)
 }
 
-// build loads every .agent file under dir and projects entities→nodes,
+// build loads every .agent file from fsys and projects entities→nodes,
 // relations→edges.
-func build(dir string) graph {
-	paths := []string{filepath.Join(dir, "platform.agent")}
+func build(fsys fs.FS) graph {
+	paths := []string{"platform.agent"}
 	for _, pat := range []string{"metamodels/*.agent", "blueprints/*.agent"} {
-		m, _ := filepath.Glob(filepath.Join(dir, pat))
+		m, _ := fs.Glob(fsys, pat)
 		sort.Strings(m)
 		paths = append(paths, m...)
 	}
@@ -65,7 +66,7 @@ func build(dir string) graph {
 	nodes := map[string]string{} // fqn -> namespace
 	var edges []edge
 	for _, p := range paths {
-		src, err := os.ReadFile(p)
+		src, err := fs.ReadFile(fsys, p)
 		if err != nil {
 			continue
 		}
@@ -73,7 +74,7 @@ func build(dir string) graph {
 		if model == nil {
 			continue
 		}
-		ns := filepath.Base(p)
+		ns := p // overwritten by the file's Namespace declaration
 		for _, d := range model.Declarations {
 			switch v := d.(type) {
 			case *adl.Namespace:
@@ -139,8 +140,13 @@ func lastDot(s string) int {
 }
 
 func main() {
-	dir := envOr("MODEL_DIR", ".")
-	g := build(dir)
+	// Default to the embedded model so the service runs anywhere (scratch image,
+	// any cluster). Set MODEL_DIR to read .agent files from disk during dev.
+	var fsys fs.FS = platform.Model
+	if dir := os.Getenv("MODEL_DIR"); dir != "" {
+		fsys = os.DirFS(dir)
+	}
+	g := build(fsys)
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
