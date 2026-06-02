@@ -942,6 +942,9 @@ constitution PlatformConstitution {
     rule dataOps: "agents handle data natively: encryption at rest and in transit, compression, and conversion between formats and schemas"
     rule minimizeInTransit: "compose and reduce data in transit and before execution — minimize payloads and strip what is not needed — to cut security risk and cost"
     rule jit: "provision agents and their access just-in-time and tear them down after use: zero standing privilege, minimal attack surface and cost"
+    rule hibernation: "hibernate idle agents to zero cost — release resources, preserve state, resume on demand"
+    rule retirement: "retire agents gracefully when they plateau, lose trust, breach SLA, or drift: drain work, snapshot and archive them (connectome and audit preserved as genome), hand knowledge to a successor, and revoke credentials — the lineage persists, the organism is retired"
+    rule modernization: "modernize agents and their infrastructure as dependencies reach end-of-life or better runtimes and models emerge — migrate without losing lineage; tools are replaceable, the lineage persists"
     rule contextualConnectors: "data connectors and integrations are contextually populated from the user's entitlements — fetched from the IGA system (e.g. SailPoint) or Okta/SSO identity, app assignments, and scopes; users see only what they are entitled to"
     rule itsm: "GLPI is the ITSM/CMDB backing the asset catalog; discovered SaaS tools, data sources, connectors, and gateways are cataloged and their schemas resolved to schema.org"
     rule deployTools: "Coolify, Dokploy, and Dokku are available as build/deploy tools and skills for producing runnable images"
@@ -1047,6 +1050,10 @@ function unboxd.platform.reconcile(deployment: Deployment, force: bool) returns 
 function unboxd.platform.schedule(service: Service, replicas: int) returns Provider as surrealml
 function unboxd.platform.heal(deployment: Deployment) returns bool as surrealdb
 function unboxd.platform.enforce(agent: Agent) returns bool as surrealdb
+function unboxd.platform.retire(agent: Agent) returns bool as surrealdb
+function unboxd.platform.hibernate(agent: Agent) returns bool as surrealdb
+function unboxd.platform.resume(agent: Agent) returns bool as surrealdb
+function unboxd.platform.modernize(agent: Agent) returns bool as surrealdb
 function unboxd.platform.secure(service: Service) returns bool as surrealml
 function unboxd.platform.grantRole(agent: Agent) returns bool as surrealdb
 function unboxd.platform.checkIn(agent: Agent) returns bool as surrealdb
