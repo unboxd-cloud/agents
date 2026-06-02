@@ -66,6 +66,7 @@ vocabulary platform {
     term composable means "built from small, typed, swappable units that combine into larger ones"
     term contextual_ai means "the offering: agents that act only on complete, grounded context"
     term decision_intelligence means "the north star: turning data and context into better decisions"
+    term solution_as_a_service means "the offering: complete, grounded solutions delivered as a service"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
@@ -903,6 +904,7 @@ constitution PlatformConstitution {
     rule airgapped: "operate fully air-gapped when required: local inference and embedded storage, with no outbound network dependency"
     rule deviceLocal: "the default installation is a device-local agent: it runs on the device, offline-capable, syncing only when permitted"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
+    rule offering: "the offering is solution-as-a-service: deliver complete, grounded, accountable solutions — not raw tools or models — as a service"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
     rule outputs: "agents produce exactly two kinds of output: artifacts (reports, docs, and data such as JSON-LD) and runnables (OCI images that execute)"
     rule build: "cloud-native by default: build runnable images with Cloud Native Buildpacks (pack) from source — no Dockerfiles — and store/distribute them via the zot OCI registry"
