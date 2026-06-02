@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T07:12:21.948723477Z",
+  "generatedAt": "2026-06-02T07:16:14.011247639Z",
   "count": 37,
   "models": [
     {
@@ -10608,11 +10608,259 @@
             "target": "surrealml"
           },
           {
-            "kind": "SurrealMlBinding",
+            "kind": "Function",
+            "pos": {
+              "line": 1109,
+              "column": 1,
+              "offset": 50962
+            },
+            "name": "unboxd.platform.asOf",
+            "params": [
+              {
+                "name": "node",
+                "type": {
+                  "ref": {
+                    "name": "Node",
+                    "resolved": "unboxd.platform.Node",
+                    "pos": {
+                      "line": 1109,
+                      "column": 37,
+                      "offset": 50998
+                    }
+                  },
+                  "pos": {
+                    "line": 1109,
+                    "column": 37,
+                    "offset": 50998
+                  }
+                },
+                "pos": {
+                  "line": 1109,
+                  "column": 31,
+                  "offset": 50992
+                }
+              },
+              {
+                "name": "at",
+                "type": {
+                  "primitive": "datetime",
+                  "pos": {
+                    "line": 1109,
+                    "column": 47,
+                    "offset": 51008
+                  }
+                },
+                "pos": {
+                  "line": 1109,
+                  "column": 43,
+                  "offset": 51004
+                }
+              }
+            ],
+            "return": {
+              "ref": {
+                "name": "Snapshot",
+                "resolved": "unboxd.platform.Snapshot",
+                "pos": {
+                  "line": 1109,
+                  "column": 65,
+                  "offset": 51026
+                }
+              },
+              "pos": {
+                "line": 1109,
+                "column": 65,
+                "offset": 51026
+              }
+            },
+            "target": "surrealdb"
+          },
+          {
+            "kind": "Function",
             "pos": {
               "line": 1110,
               "column": 1,
-              "offset": 50963
+              "offset": 51048
+            },
+            "name": "unboxd.platform.replay",
+            "params": [
+              {
+                "name": "node",
+                "type": {
+                  "ref": {
+                    "name": "Node",
+                    "resolved": "unboxd.platform.Node",
+                    "pos": {
+                      "line": 1110,
+                      "column": 39,
+                      "offset": 51086
+                    }
+                  },
+                  "pos": {
+                    "line": 1110,
+                    "column": 39,
+                    "offset": 51086
+                  }
+                },
+                "pos": {
+                  "line": 1110,
+                  "column": 33,
+                  "offset": 51080
+                }
+              }
+            ],
+            "return": {
+              "ref": {
+                "name": "Trace",
+                "resolved": "unboxd.platform.Trace",
+                "pos": {
+                  "line": 1110,
+                  "column": 53,
+                  "offset": 51100
+                }
+              },
+              "pos": {
+                "line": 1110,
+                "column": 53,
+                "offset": 51100
+              }
+            },
+            "target": "surrealdb"
+          },
+          {
+            "kind": "Function",
+            "pos": {
+              "line": 1111,
+              "column": 1,
+              "offset": 51119
+            },
+            "name": "unboxd.platform.project",
+            "params": [
+              {
+                "name": "node",
+                "type": {
+                  "ref": {
+                    "name": "Node",
+                    "resolved": "unboxd.platform.Node",
+                    "pos": {
+                      "line": 1111,
+                      "column": 40,
+                      "offset": 51158
+                    }
+                  },
+                  "pos": {
+                    "line": 1111,
+                    "column": 40,
+                    "offset": 51158
+                  }
+                },
+                "pos": {
+                  "line": 1111,
+                  "column": 34,
+                  "offset": 51152
+                }
+              }
+            ],
+            "return": {
+              "ref": {
+                "name": "Snapshot",
+                "resolved": "unboxd.platform.Snapshot",
+                "pos": {
+                  "line": 1111,
+                  "column": 54,
+                  "offset": 51172
+                }
+              },
+              "pos": {
+                "line": 1111,
+                "column": 54,
+                "offset": 51172
+              }
+            },
+            "target": "surrealml"
+          },
+          {
+            "kind": "Function",
+            "pos": {
+              "line": 1112,
+              "column": 1,
+              "offset": 51194
+            },
+            "name": "unboxd.platform.transformTo",
+            "params": [
+              {
+                "name": "node",
+                "type": {
+                  "ref": {
+                    "name": "Node",
+                    "resolved": "unboxd.platform.Node",
+                    "pos": {
+                      "line": 1112,
+                      "column": 44,
+                      "offset": 51237
+                    }
+                  },
+                  "pos": {
+                    "line": 1112,
+                    "column": 44,
+                    "offset": 51237
+                  }
+                },
+                "pos": {
+                  "line": 1112,
+                  "column": 38,
+                  "offset": 51231
+                }
+              },
+              {
+                "name": "target",
+                "type": {
+                  "ref": {
+                    "name": "Node",
+                    "resolved": "unboxd.platform.Node",
+                    "pos": {
+                      "line": 1112,
+                      "column": 58,
+                      "offset": 51251
+                    }
+                  },
+                  "pos": {
+                    "line": 1112,
+                    "column": 58,
+                    "offset": 51251
+                  }
+                },
+                "pos": {
+                  "line": 1112,
+                  "column": 50,
+                  "offset": 51243
+                }
+              }
+            ],
+            "return": {
+              "ref": {
+                "name": "Node",
+                "resolved": "unboxd.platform.Node",
+                "pos": {
+                  "line": 1112,
+                  "column": 72,
+                  "offset": 51265
+                }
+              },
+              "pos": {
+                "line": 1112,
+                "column": 72,
+                "offset": 51265
+              }
+            },
+            "target": "surrealdb"
+          },
+          {
+            "kind": "SurrealMlBinding",
+            "pos": {
+              "line": 1114,
+              "column": 1,
+              "offset": 51284
             },
             "name": "DriftScorer",
             "purpose": "scoring",
@@ -10620,130 +10868,18 @@
               "name": "Deployment",
               "resolved": "unboxd.platform.Deployment",
               "pos": {
-                "line": 1110,
+                "line": 1114,
                 "column": 41,
-                "offset": 51003
+                "offset": 51324
               }
             },
             "output": {
               "name": "Deployment",
               "resolved": "unboxd.platform.Deployment",
               "pos": {
-                "line": 1110,
+                "line": 1114,
                 "column": 59,
-                "offset": 51021
-              }
-            }
-          },
-          {
-            "kind": "SurrealMlBinding",
-            "pos": {
-              "line": 1111,
-              "column": 1,
-              "offset": 51032
-            },
-            "name": "PlacementRanker",
-            "purpose": "ranking",
-            "input": {
-              "name": "Service",
-              "resolved": "unboxd.platform.Service",
-              "pos": {
-                "line": 1111,
-                "column": 45,
-                "offset": 51076
-              }
-            },
-            "output": {
-              "name": "Provider",
-              "resolved": "unboxd.platform.Provider",
-              "pos": {
-                "line": 1111,
-                "column": 60,
-                "offset": 51091
-              }
-            }
-          },
-          {
-            "kind": "SurrealMlBinding",
-            "pos": {
-              "line": 1112,
-              "column": 1,
-              "offset": 51100
-            },
-            "name": "ThreatScorer",
-            "purpose": "classification",
-            "input": {
-              "name": "Service",
-              "resolved": "unboxd.platform.Service",
-              "pos": {
-                "line": 1112,
-                "column": 49,
-                "offset": 51148
-              }
-            },
-            "output": {
-              "name": "Service",
-              "resolved": "unboxd.platform.Service",
-              "pos": {
-                "line": 1112,
-                "column": 64,
-                "offset": 51163
-              }
-            }
-          },
-          {
-            "kind": "SurrealMlBinding",
-            "pos": {
-              "line": 1113,
-              "column": 1,
-              "offset": 51171
-            },
-            "name": "StabilityScorer",
-            "purpose": "scoring",
-            "input": {
-              "name": "Agent",
-              "resolved": "unboxd.platform.Agent",
-              "pos": {
-                "line": 1113,
-                "column": 45,
-                "offset": 51215
-              }
-            },
-            "output": {
-              "name": "Agent",
-              "resolved": "unboxd.platform.Agent",
-              "pos": {
-                "line": 1113,
-                "column": 58,
-                "offset": 51228
-              }
-            }
-          },
-          {
-            "kind": "SurrealMlBinding",
-            "pos": {
-              "line": 1114,
-              "column": 1,
-              "offset": 51234
-            },
-            "name": "PerformanceScorer",
-            "purpose": "scoring",
-            "input": {
-              "name": "Agent",
-              "resolved": "unboxd.platform.Agent",
-              "pos": {
-                "line": 1114,
-                "column": 47,
-                "offset": 51280
-              }
-            },
-            "output": {
-              "name": "Evaluation",
-              "resolved": "unboxd.platform.Evaluation",
-              "pos": {
-                "line": 1114,
-                "column": 60,
-                "offset": 51293
+                "offset": 51342
               }
             }
           },
@@ -10752,26 +10888,26 @@
             "pos": {
               "line": 1115,
               "column": 1,
-              "offset": 51304
+              "offset": 51353
             },
-            "name": "BreachPredictor",
-            "purpose": "prediction",
+            "name": "PlacementRanker",
+            "purpose": "ranking",
             "input": {
-              "name": "Promise",
-              "resolved": "unboxd.platform.Promise",
+              "name": "Service",
+              "resolved": "unboxd.platform.Service",
               "pos": {
                 "line": 1115,
-                "column": 48,
-                "offset": 51351
+                "column": 45,
+                "offset": 51397
               }
             },
             "output": {
-              "name": "Promise",
-              "resolved": "unboxd.platform.Promise",
+              "name": "Provider",
+              "resolved": "unboxd.platform.Provider",
               "pos": {
                 "line": 1115,
-                "column": 63,
-                "offset": 51366
+                "column": 60,
+                "offset": 51412
               }
             }
           },
@@ -10780,26 +10916,26 @@
             "pos": {
               "line": 1116,
               "column": 1,
-              "offset": 51374
+              "offset": 51421
             },
-            "name": "ArrForecaster",
-            "purpose": "prediction",
+            "name": "ThreatScorer",
+            "purpose": "classification",
             "input": {
-              "name": "Tenant",
-              "resolved": "unboxd.platform.Tenant",
+              "name": "Service",
+              "resolved": "unboxd.platform.Service",
               "pos": {
                 "line": 1116,
-                "column": 46,
-                "offset": 51419
+                "column": 49,
+                "offset": 51469
               }
             },
             "output": {
-              "name": "Tenant",
-              "resolved": "unboxd.platform.Tenant",
+              "name": "Service",
+              "resolved": "unboxd.platform.Service",
               "pos": {
                 "line": 1116,
-                "column": 60,
-                "offset": 51433
+                "column": 64,
+                "offset": 51484
               }
             }
           },
@@ -10808,26 +10944,26 @@
             "pos": {
               "line": 1117,
               "column": 1,
-              "offset": 51440
+              "offset": 51492
             },
-            "name": "IncidentTriage",
-            "purpose": "classification",
+            "name": "StabilityScorer",
+            "purpose": "scoring",
             "input": {
-              "name": "Incident",
-              "resolved": "unboxd.platform.Incident",
+              "name": "Agent",
+              "resolved": "unboxd.platform.Agent",
               "pos": {
                 "line": 1117,
-                "column": 51,
-                "offset": 51490
+                "column": 45,
+                "offset": 51536
               }
             },
             "output": {
-              "name": "Incident",
-              "resolved": "unboxd.platform.Incident",
+              "name": "Agent",
+              "resolved": "unboxd.platform.Agent",
               "pos": {
                 "line": 1117,
-                "column": 67,
-                "offset": 51506
+                "column": 58,
+                "offset": 51549
               }
             }
           },
@@ -10836,7 +10972,119 @@
             "pos": {
               "line": 1118,
               "column": 1,
-              "offset": 51515
+              "offset": 51555
+            },
+            "name": "PerformanceScorer",
+            "purpose": "scoring",
+            "input": {
+              "name": "Agent",
+              "resolved": "unboxd.platform.Agent",
+              "pos": {
+                "line": 1118,
+                "column": 47,
+                "offset": 51601
+              }
+            },
+            "output": {
+              "name": "Evaluation",
+              "resolved": "unboxd.platform.Evaluation",
+              "pos": {
+                "line": 1118,
+                "column": 60,
+                "offset": 51614
+              }
+            }
+          },
+          {
+            "kind": "SurrealMlBinding",
+            "pos": {
+              "line": 1119,
+              "column": 1,
+              "offset": 51625
+            },
+            "name": "BreachPredictor",
+            "purpose": "prediction",
+            "input": {
+              "name": "Promise",
+              "resolved": "unboxd.platform.Promise",
+              "pos": {
+                "line": 1119,
+                "column": 48,
+                "offset": 51672
+              }
+            },
+            "output": {
+              "name": "Promise",
+              "resolved": "unboxd.platform.Promise",
+              "pos": {
+                "line": 1119,
+                "column": 63,
+                "offset": 51687
+              }
+            }
+          },
+          {
+            "kind": "SurrealMlBinding",
+            "pos": {
+              "line": 1120,
+              "column": 1,
+              "offset": 51695
+            },
+            "name": "ArrForecaster",
+            "purpose": "prediction",
+            "input": {
+              "name": "Tenant",
+              "resolved": "unboxd.platform.Tenant",
+              "pos": {
+                "line": 1120,
+                "column": 46,
+                "offset": 51740
+              }
+            },
+            "output": {
+              "name": "Tenant",
+              "resolved": "unboxd.platform.Tenant",
+              "pos": {
+                "line": 1120,
+                "column": 60,
+                "offset": 51754
+              }
+            }
+          },
+          {
+            "kind": "SurrealMlBinding",
+            "pos": {
+              "line": 1121,
+              "column": 1,
+              "offset": 51761
+            },
+            "name": "IncidentTriage",
+            "purpose": "classification",
+            "input": {
+              "name": "Incident",
+              "resolved": "unboxd.platform.Incident",
+              "pos": {
+                "line": 1121,
+                "column": 51,
+                "offset": 51811
+              }
+            },
+            "output": {
+              "name": "Incident",
+              "resolved": "unboxd.platform.Incident",
+              "pos": {
+                "line": 1121,
+                "column": 67,
+                "offset": 51827
+              }
+            }
+          },
+          {
+            "kind": "SurrealMlBinding",
+            "pos": {
+              "line": 1122,
+              "column": 1,
+              "offset": 51836
             },
             "name": "CostForecaster",
             "purpose": "prediction",
@@ -10844,18 +11092,18 @@
               "name": "Budget",
               "resolved": "unboxd.platform.Budget",
               "pos": {
-                "line": 1118,
+                "line": 1122,
                 "column": 47,
-                "offset": 51561
+                "offset": 51882
               }
             },
             "output": {
               "name": "Budget",
               "resolved": "unboxd.platform.Budget",
               "pos": {
-                "line": 1118,
+                "line": 1122,
                 "column": 61,
-                "offset": 51575
+                "offset": 51896
               }
             }
           }
@@ -36793,11 +37041,121 @@
             "name": "unboxd.meta.theory"
           },
           {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 11,
+              "column": 1,
+              "offset": 616
+            },
+            "name": "graph",
+            "terms": [
+              {
+                "name": "object_graph",
+                "meaning": "the graph is a recursive metamodel object graph: every node is a typed object that is itself a world (its own graph); 2D is only a projection",
+                "pos": {
+                  "line": 12,
+                  "column": 5,
+                  "offset": 639
+                }
+              },
+              {
+                "name": "node_is_world",
+                "meaning": "every node is a world AND a canonical, distinct identity — uniquely addressable, a single source of truth",
+                "pos": {
+                  "line": 13,
+                  "column": 5,
+                  "offset": 811
+                }
+              },
+              {
+                "name": "links_are_neurons",
+                "meaning": "intelligence lives in the links: edges are the neurons (relations compute), nodes hold state; many relations are still unknown — the unknown edges are the research frontier",
+                "pos": {
+                  "line": 14,
+                  "column": 5,
+                  "offset": 950
+                }
+              },
+              {
+                "name": "dimensionality_is_recursion",
+                "meaning": "dimensionality is recursion, not extra axes: composition enters a world, decomposition exits it; multi-cloud, multi-surface, multi-device, and multi-thread are worlds (nodes) you enter",
+                "pos": {
+                  "line": 15,
+                  "column": 5,
+                  "offset": 1160
+                }
+              },
+              {
+                "name": "resolver_compiler_translator",
+                "meaning": "the graph resolves references, compiles declarations into the executable graph, and translates between human and machine and across worlds — one structure, three functions",
+                "pos": {
+                  "line": 16,
+                  "column": 5,
+                  "offset": 1390
+                }
+              },
+              {
+                "name": "arbiter",
+                "meaning": "the graph is the arbiter: a theory is valid only if the graph justifies it; an unjustified gap escalates to a research working group whose validated answer rejoins the graph",
+                "pos": {
+                  "line": 17,
+                  "column": 5,
+                  "offset": 1610
+                }
+              },
+              {
+                "name": "digital_twin",
+                "meaning": "with every entity, relation, dimension, and governance on one graph, the synced whole is a governed, trackable digital twin — reasoned, simulated, and acted through",
+                "pos": {
+                  "line": 18,
+                  "column": 5,
+                  "offset": 1809
+                }
+              },
+              {
+                "name": "time_travel",
+                "meaning": "time is a dimension: index every node and edge bitemporally (valid-time and transaction-time), append-only, so the graph is queryable as-of any moment — replay the past, inspect the present, and project/simulate the future",
+                "pos": {
+                  "line": 19,
+                  "column": 5,
+                  "offset": 2006
+                }
+              },
+              {
+                "name": "time_is_distance",
+                "meaning": "time is a distance on the graph — a path through versioned edges; traveling in time is traversal: walk the edges forward to replay, backward to rewind, and the distance between two states is the length of that path",
+                "pos": {
+                  "line": 20,
+                  "column": 5,
+                  "offset": 2260
+                }
+              },
+              {
+                "name": "universal_transformation",
+                "meaning": "everything is transformable to everything: edges are transformations, so between any two worlds there exists a path; a transformation may carry cost or loss, which the graph makes explicit (convert, compress, reduce, minimize)",
+                "pos": {
+                  "line": 21,
+                  "column": 5,
+                  "offset": 2511
+                }
+              },
+              {
+                "name": "transformation_boundary",
+                "meaning": "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)",
+                "pos": {
+                  "line": 22,
+                  "column": 5,
+                  "offset": 2780
+                }
+              }
+            ]
+          },
+          {
             "kind": "Entity",
             "pos": {
-              "line": 9,
+              "line": 25,
               "column": 1,
-              "offset": 463
+              "offset": 3071
             },
             "name": "Theory",
             "fields": [
@@ -36806,16 +37164,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 10,
+                    "line": 26,
                     "column": 11,
-                    "offset": 489
+                    "offset": 3097
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 10,
+                  "line": 26,
                   "column": 5,
-                  "offset": 483
+                  "offset": 3091
                 }
               },
               {
@@ -36823,16 +37181,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 11,
+                    "line": 27,
                     "column": 13,
-                    "offset": 517
+                    "offset": 3125
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 11,
+                  "line": 27,
                   "column": 5,
-                  "offset": 509
+                  "offset": 3117
                 }
               },
               {
@@ -36840,16 +37198,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 12,
+                    "line": 28,
                     "column": 13,
-                    "offset": 536
+                    "offset": 3144
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 12,
+                  "line": 28,
                   "column": 5,
-                  "offset": 528
+                  "offset": 3136
                 }
               }
             ]
@@ -36857,9 +37215,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 16,
+              "line": 32,
               "column": 1,
-              "offset": 608
+              "offset": 3216
             },
             "name": "Axiom",
             "fields": [
@@ -36870,22 +37228,22 @@
                     "name": "Theory",
                     "resolved": "unboxd.meta.theory.Theory",
                     "pos": {
-                      "line": 17,
+                      "line": 33,
                       "column": 13,
-                      "offset": 635
+                      "offset": 3243
                     }
                   },
                   "pos": {
-                    "line": 17,
+                    "line": 33,
                     "column": 13,
-                    "offset": 635
+                    "offset": 3243
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 17,
+                  "line": 33,
                   "column": 5,
-                  "offset": 627
+                  "offset": 3235
                 }
               },
               {
@@ -36893,16 +37251,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 18,
+                    "line": 34,
                     "column": 16,
-                    "offset": 666
+                    "offset": 3274
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 18,
+                  "line": 34,
                   "column": 5,
-                  "offset": 655
+                  "offset": 3263
                 }
               }
             ]
@@ -36910,9 +37268,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 21,
+              "line": 37,
               "column": 1,
-              "offset": 685
+              "offset": 3293
             },
             "name": "Proposition",
             "fields": [
@@ -36923,22 +37281,22 @@
                     "name": "Theory",
                     "resolved": "unboxd.meta.theory.Theory",
                     "pos": {
-                      "line": 22,
+                      "line": 38,
                       "column": 13,
-                      "offset": 718
+                      "offset": 3326
                     }
                   },
                   "pos": {
-                    "line": 22,
+                    "line": 38,
                     "column": 13,
-                    "offset": 718
+                    "offset": 3326
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 22,
+                  "line": 38,
                   "column": 5,
-                  "offset": 710
+                  "offset": 3318
                 }
               },
               {
@@ -36946,16 +37304,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 23,
+                    "line": 39,
                     "column": 16,
-                    "offset": 749
+                    "offset": 3357
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 23,
+                  "line": 39,
                   "column": 5,
-                  "offset": 738
+                  "offset": 3346
                 }
               },
               {
@@ -36963,16 +37321,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 24,
+                    "line": 40,
                     "column": 13,
-                    "offset": 777
+                    "offset": 3385
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 24,
+                  "line": 40,
                   "column": 5,
-                  "offset": 769
+                  "offset": 3377
                 }
               }
             ]
@@ -36980,9 +37338,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 27,
+              "line": 43,
               "column": 1,
-              "offset": 785
+              "offset": 3393
             },
             "name": "Proof",
             "fields": [
@@ -36993,22 +37351,22 @@
                     "name": "Proposition",
                     "resolved": "unboxd.meta.theory.Proposition",
                     "pos": {
-                      "line": 28,
+                      "line": 44,
                       "column": 18,
-                      "offset": 817
+                      "offset": 3425
                     }
                   },
                   "pos": {
-                    "line": 28,
+                    "line": 44,
                     "column": 18,
-                    "offset": 817
+                    "offset": 3425
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 28,
+                  "line": 44,
                   "column": 5,
-                  "offset": 804
+                  "offset": 3412
                 }
               },
               {
@@ -37016,16 +37374,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 29,
+                    "line": 45,
                     "column": 13,
-                    "offset": 850
+                    "offset": 3458
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 29,
+                  "line": 45,
                   "column": 5,
-                  "offset": 842
+                  "offset": 3450
                 }
               },
               {
@@ -37033,16 +37391,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 30,
+                    "line": 46,
                     "column": 12,
-                    "offset": 868
+                    "offset": 3476
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 30,
+                  "line": 46,
                   "column": 5,
-                  "offset": 861
+                  "offset": 3469
                 }
               }
             ]
@@ -37050,9 +37408,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 33,
+              "line": 49,
               "column": 1,
-              "offset": 876
+              "offset": 3484
             },
             "name": "Evidence",
             "fields": [
@@ -37063,22 +37421,22 @@
                     "name": "Proposition",
                     "resolved": "unboxd.meta.theory.Proposition",
                     "pos": {
-                      "line": 34,
+                      "line": 50,
                       "column": 18,
-                      "offset": 911
+                      "offset": 3519
                     }
                   },
                   "pos": {
-                    "line": 34,
+                    "line": 50,
                     "column": 18,
-                    "offset": 911
+                    "offset": 3519
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 34,
+                  "line": 50,
                   "column": 5,
-                  "offset": 898
+                  "offset": 3506
                 }
               },
               {
@@ -37086,16 +37444,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 35,
+                    "line": 51,
                     "column": 13,
-                    "offset": 944
+                    "offset": 3552
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 35,
+                  "line": 51,
                   "column": 5,
-                  "offset": 936
+                  "offset": 3544
                 }
               },
               {
@@ -37103,16 +37461,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 36,
+                    "line": 52,
                     "column": 15,
-                    "offset": 965
+                    "offset": 3573
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 36,
+                  "line": 52,
                   "column": 5,
-                  "offset": 955
+                  "offset": 3563
                 }
               }
             ]
@@ -37120,27 +37478,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 39,
+              "line": 55,
               "column": 1,
-              "offset": 974
+              "offset": 3582
             },
             "name": "Assumes",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 39,
+                "line": 55,
                 "column": 18,
-                "offset": 991
+                "offset": 3599
               }
             },
             "target": {
               "name": "Axiom",
               "resolved": "unboxd.meta.theory.Axiom",
               "pos": {
-                "line": 39,
+                "line": 55,
                 "column": 28,
-                "offset": 1001
+                "offset": 3609
               }
             },
             "fields": [
@@ -37149,16 +37507,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 40,
+                    "line": 56,
                     "column": 16,
-                    "offset": 1024
+                    "offset": 3632
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 40,
+                  "line": 56,
                   "column": 5,
-                  "offset": 1013
+                  "offset": 3621
                 }
               }
             ]
@@ -37166,27 +37524,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 43,
+              "line": 59,
               "column": 1,
-              "offset": 1032
+              "offset": 3640
             },
             "name": "States",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 43,
+                "line": 59,
                 "column": 17,
-                "offset": 1048
+                "offset": 3656
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 43,
+                "line": 59,
                 "column": 27,
-                "offset": 1058
+                "offset": 3666
               }
             },
             "fields": [
@@ -37195,16 +37553,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 44,
+                    "line": 60,
                     "column": 14,
-                    "offset": 1085
+                    "offset": 3693
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 44,
+                  "line": 60,
                   "column": 5,
-                  "offset": 1076
+                  "offset": 3684
                 }
               }
             ]
@@ -37212,27 +37570,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 47,
+              "line": 63,
               "column": 1,
-              "offset": 1093
+              "offset": 3701
             },
             "name": "Proves",
             "source": {
               "name": "Proof",
               "resolved": "unboxd.meta.theory.Proof",
               "pos": {
-                "line": 47,
+                "line": 63,
                 "column": 17,
-                "offset": 1109
+                "offset": 3717
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 47,
+                "line": 63,
                 "column": 26,
-                "offset": 1118
+                "offset": 3726
               }
             },
             "fields": [
@@ -37241,16 +37599,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 48,
+                    "line": 64,
                     "column": 12,
-                    "offset": 1143
+                    "offset": 3751
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 48,
+                  "line": 64,
                   "column": 5,
-                  "offset": 1136
+                  "offset": 3744
                 }
               }
             ]
@@ -37258,27 +37616,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 51,
+              "line": 67,
               "column": 1,
-              "offset": 1153
+              "offset": 3761
             },
             "name": "Supports",
             "source": {
               "name": "Evidence",
               "resolved": "unboxd.meta.theory.Evidence",
               "pos": {
-                "line": 51,
+                "line": 67,
                 "column": 19,
-                "offset": 1171
+                "offset": 3779
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 51,
+                "line": 67,
                 "column": 31,
-                "offset": 1183
+                "offset": 3791
               }
             },
             "fields": [
@@ -37287,16 +37645,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 52,
+                    "line": 68,
                     "column": 13,
-                    "offset": 1209
+                    "offset": 3817
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 52,
+                  "line": 68,
                   "column": 5,
-                  "offset": 1201
+                  "offset": 3809
                 }
               }
             ]
@@ -37304,27 +37662,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 56,
+              "line": 72,
               "column": 1,
-              "offset": 1283
+              "offset": 3891
             },
             "name": "ComposesWith",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 56,
+                "line": 72,
                 "column": 23,
-                "offset": 1305
+                "offset": 3913
               }
             },
             "target": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 56,
+                "line": 72,
                 "column": 33,
-                "offset": 1315
+                "offset": 3923
               }
             },
             "fields": [
@@ -37333,16 +37691,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 57,
+                    "line": 73,
                     "column": 10,
-                    "offset": 1333
+                    "offset": 3941
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 57,
+                  "line": 73,
                   "column": 5,
-                  "offset": 1328
+                  "offset": 3936
                 }
               }
             ]

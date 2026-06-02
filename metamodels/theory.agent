@@ -6,6 +6,22 @@
 // (see docs/theories.md).
 namespace unboxd.meta.theory
 
+// The graph theory the platform is built on — the substrate where everything
+// converges (theory and code, human and machine, governance and audit).
+vocabulary graph {
+    term object_graph means "the graph is a recursive metamodel object graph: every node is a typed object that is itself a world (its own graph); 2D is only a projection"
+    term node_is_world means "every node is a world AND a canonical, distinct identity — uniquely addressable, a single source of truth"
+    term links_are_neurons means "intelligence lives in the links: edges are the neurons (relations compute), nodes hold state; many relations are still unknown — the unknown edges are the research frontier"
+    term dimensionality_is_recursion means "dimensionality is recursion, not extra axes: composition enters a world, decomposition exits it; multi-cloud, multi-surface, multi-device, and multi-thread are worlds (nodes) you enter"
+    term resolver_compiler_translator means "the graph resolves references, compiles declarations into the executable graph, and translates between human and machine and across worlds — one structure, three functions"
+    term arbiter means "the graph is the arbiter: a theory is valid only if the graph justifies it; an unjustified gap escalates to a research working group whose validated answer rejoins the graph"
+    term digital_twin means "with every entity, relation, dimension, and governance on one graph, the synced whole is a governed, trackable digital twin — reasoned, simulated, and acted through"
+    term time_travel means "time is a dimension: index every node and edge bitemporally (valid-time and transaction-time), append-only, so the graph is queryable as-of any moment — replay the past, inspect the present, and project/simulate the future"
+    term time_is_distance means "time is a distance on the graph — a path through versioned edges; traveling in time is traversal: walk the edges forward to replay, backward to rewind, and the distance between two states is the length of that path"
+    term universal_transformation means "everything is transformable to everything: edges are transformations, so between any two worlds there exists a path; a transformation may carry cost or loss, which the graph makes explicit (convert, compress, reduce, minimize)"
+    term transformation_boundary means "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)"
+}
+
 entity Theory {
     name: string required
     domain: string

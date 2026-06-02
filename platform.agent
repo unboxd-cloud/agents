@@ -1106,6 +1106,10 @@ function unboxd.platform.reduce(artifact: Artifact) returns Artifact as surreald
 function unboxd.platform.minimize(artifact: Artifact) returns Artifact as surrealdb
 function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
 function unboxd.platform.plugModel(model: Model) returns bool as surrealml
+function unboxd.platform.asOf(node: Node, at: datetime) returns Snapshot as surrealdb
+function unboxd.platform.replay(node: Node) returns Trace as surrealdb
+function unboxd.platform.project(node: Node) returns Snapshot as surrealml
+function unboxd.platform.transformTo(node: Node, target: Node) returns Node as surrealdb
 
 surrealml DriftScorer for scoring input Deployment output Deployment
 surrealml PlacementRanker for ranking input Service output Provider
