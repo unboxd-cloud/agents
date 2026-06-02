@@ -59,6 +59,9 @@ vocabulary platform {
     term arr means "Annual Recurring Revenue generated from the platform"
     term operational_excellence means "reliability, efficiency, and relentless improvement"
     term automation means "AI capability converted into reliable, hands-off operation"
+    term encryption means "encrypt data at rest and in transit"
+    term compression means "compress data and artifacts"
+    term conversion means "convert between formats and schemas"
     term transform means "reshape a workload or automation into a better form"
     term mutate means "safely change its own configuration or state"
     term swarm means "spawn and coordinate a group of agents for a bounded task"
@@ -925,6 +928,7 @@ constitution PlatformConstitution {
     rule graphLoop: "the graph is the agent loop: the agent observes, decides, and acts by traversing and mutating the governed graph; every step is a graph operation"
     rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
     rule integration: "integrate data through connectors (Apache SeaTunnel — multi-source/sink, batch and CDC) into the unified fabric"
+    rule dataOps: "agents handle data natively: encryption at rest and in transit, compression, and conversion between formats and schemas"
     rule contextualConnectors: "data connectors and integrations are contextually populated from the user's entitlements — fetched from the IGA system (e.g. SailPoint) or Okta/SSO identity, app assignments, and scopes; users see only what they are entitled to"
     rule itsm: "GLPI is the ITSM/CMDB backing the asset catalog; discovered SaaS tools, data sources, connectors, and gateways are cataloged and their schemas resolved to schema.org"
     rule deployTools: "Coolify, Dokploy, and Dokku are available as build/deploy tools and skills for producing runnable images"
@@ -1052,6 +1056,9 @@ function unboxd.platform.snapshot(node: Node) returns Snapshot as surrealdb
 function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
 function unboxd.platform.restore(snapshot: Snapshot) returns bool as surrealdb
 function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
+function unboxd.platform.encrypt(artifact: Artifact) returns Artifact as surrealdb
+function unboxd.platform.compress(artifact: Artifact) returns Artifact as surrealdb
+function unboxd.platform.convert(artifact: Artifact) returns Artifact as surrealdb
 function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
 function unboxd.platform.plugModel(model: Model) returns bool as surrealml
 
