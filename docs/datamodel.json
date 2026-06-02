@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T07:42:01.383701053Z",
+  "generatedAt": "2026-06-02T07:48:22.397547548Z",
   "count": 37,
   "models": [
     {
@@ -17757,11 +17757,67 @@
             ]
           },
           {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 37,
+              "column": 1,
+              "offset": 1975
+            },
+            "name": "hybrid",
+            "terms": [
+              {
+                "name": "complementarity",
+                "meaning": "AI does data-scale analysis, humans bring intuition and context; participatory, not AI-as-sole-decider — each corrects the other",
+                "pos": {
+                  "line": 38,
+                  "column": 5,
+                  "offset": 1999
+                }
+              },
+              {
+                "name": "collaborative",
+                "meaning": "chosen = argmax_a [ theta * U_human(a) + (1 - theta) * U_ai(a) ] — a weighted blend of human and AI utility",
+                "pos": {
+                  "line": 39,
+                  "column": 5,
+                  "offset": 2163
+                }
+              },
+              {
+                "name": "trust_calibrated",
+                "meaning": "the balance theta tracks calibrated trust: T = w*(reliability + transparency + explainability + consistency) - discrepancies",
+                "pos": {
+                  "line": 40,
+                  "column": 5,
+                  "offset": 2304
+                }
+              },
+              {
+                "name": "feedback_tuned",
+                "meaning": "theta and weights update from outcomes: theta \u003c- theta + alpha*(target - actual); the loop refines decisions over time",
+                "pos": {
+                  "line": 41,
+                  "column": 5,
+                  "offset": 2463
+                }
+              },
+              {
+                "name": "uncertainty_penalty",
+                "meaning": "utility is penalized by uncertainty: U_total = beta*U_h + (1 - beta)*U_ai - lambda*sigma — cautious when variance is high",
+                "pos": {
+                  "line": 42,
+                  "column": 5,
+                  "offset": 2614
+                }
+              }
+            ]
+          },
+          {
             "kind": "Entity",
             "pos": {
-              "line": 32,
+              "line": 45,
               "column": 1,
-              "offset": 1587
+              "offset": 2774
             },
             "name": "Decision",
             "fields": [
@@ -17770,16 +17826,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 33,
+                    "line": 46,
                     "column": 15,
-                    "offset": 1619
+                    "offset": 2806
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 33,
+                  "line": 46,
                   "column": 5,
-                  "offset": 1609
+                  "offset": 2796
                 }
               },
               {
@@ -17787,16 +17843,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 34,
+                    "line": 47,
                     "column": 16,
-                    "offset": 1650
+                    "offset": 2837
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 34,
+                  "line": 47,
                   "column": 5,
-                  "offset": 1639
+                  "offset": 2826
                 }
               },
               {
@@ -17804,16 +17860,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 35,
+                    "line": 48,
                     "column": 13,
-                    "offset": 1669
+                    "offset": 2856
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 35,
+                  "line": 48,
                   "column": 5,
-                  "offset": 1661
+                  "offset": 2848
                 }
               },
               {
@@ -17821,16 +17877,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 36,
+                    "line": 49,
                     "column": 17,
-                    "offset": 1692
+                    "offset": 2879
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 36,
+                  "line": 49,
                   "column": 5,
-                  "offset": 1680
+                  "offset": 2867
                 }
               }
             ]
@@ -17838,9 +17894,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 39,
+              "line": 52,
               "column": 1,
-              "offset": 1701
+              "offset": 2888
             },
             "name": "Option",
             "fields": [
@@ -17851,22 +17907,22 @@
                     "name": "Decision",
                     "resolved": "unboxd.meta.decision.Decision",
                     "pos": {
-                      "line": 40,
+                      "line": 53,
                       "column": 15,
-                      "offset": 1731
+                      "offset": 2918
                     }
                   },
                   "pos": {
-                    "line": 40,
+                    "line": 53,
                     "column": 15,
-                    "offset": 1731
+                    "offset": 2918
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 40,
+                  "line": 53,
                   "column": 5,
-                  "offset": 1721
+                  "offset": 2908
                 }
               },
               {
@@ -17874,16 +17930,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 41,
+                    "line": 54,
                     "column": 12,
-                    "offset": 1760
+                    "offset": 2947
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 41,
+                  "line": 54,
                   "column": 5,
-                  "offset": 1753
+                  "offset": 2940
                 }
               }
             ]
@@ -17891,9 +17947,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 44,
+              "line": 57,
               "column": 1,
-              "offset": 1779
+              "offset": 2966
             },
             "name": "Criterion",
             "fields": [
@@ -17904,22 +17960,22 @@
                     "name": "Decision",
                     "resolved": "unboxd.meta.decision.Decision",
                     "pos": {
-                      "line": 45,
+                      "line": 58,
                       "column": 15,
-                      "offset": 1812
+                      "offset": 2999
                     }
                   },
                   "pos": {
-                    "line": 45,
+                    "line": 58,
                     "column": 15,
-                    "offset": 1812
+                    "offset": 2999
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 45,
+                  "line": 58,
                   "column": 5,
-                  "offset": 1802
+                  "offset": 2989
                 }
               },
               {
@@ -17927,16 +17983,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 46,
+                    "line": 59,
                     "column": 11,
-                    "offset": 1840
+                    "offset": 3027
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 46,
+                  "line": 59,
                   "column": 5,
-                  "offset": 1834
+                  "offset": 3021
                 }
               },
               {
@@ -17944,16 +18000,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 47,
+                    "line": 60,
                     "column": 13,
-                    "offset": 1868
+                    "offset": 3055
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 47,
+                  "line": 60,
                   "column": 5,
-                  "offset": 1860
+                  "offset": 3047
                 }
               }
             ]
@@ -17961,9 +18017,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 50,
+              "line": 63,
               "column": 1,
-              "offset": 1877
+              "offset": 3064
             },
             "name": "Evidence",
             "fields": [
@@ -17974,22 +18030,22 @@
                     "name": "Decision",
                     "resolved": "unboxd.meta.decision.Decision",
                     "pos": {
-                      "line": 51,
+                      "line": 64,
                       "column": 15,
-                      "offset": 1909
+                      "offset": 3096
                     }
                   },
                   "pos": {
-                    "line": 51,
+                    "line": 64,
                     "column": 15,
-                    "offset": 1909
+                    "offset": 3096
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 51,
+                  "line": 64,
                   "column": 5,
-                  "offset": 1899
+                  "offset": 3086
                 }
               },
               {
@@ -17997,16 +18053,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 52,
+                    "line": 65,
                     "column": 13,
-                    "offset": 1939
+                    "offset": 3126
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 52,
+                  "line": 65,
                   "column": 5,
-                  "offset": 1931
+                  "offset": 3118
                 }
               },
               {
@@ -18014,16 +18070,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 53,
+                    "line": 66,
                     "column": 15,
-                    "offset": 1960
+                    "offset": 3147
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 53,
+                  "line": 66,
                   "column": 5,
-                  "offset": 1950
+                  "offset": 3137
                 }
               }
             ]
@@ -18031,9 +18087,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 59,
+              "line": 72,
               "column": 1,
-              "offset": 2169
+              "offset": 3356
             },
             "name": "Method",
             "fields": [
@@ -18042,16 +18098,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 60,
+                    "line": 73,
                     "column": 11,
-                    "offset": 2195
+                    "offset": 3382
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 60,
+                  "line": 73,
                   "column": 5,
-                  "offset": 2189
+                  "offset": 3376
                 }
               },
               {
@@ -18059,16 +18115,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 61,
+                    "line": 74,
                     "column": 13,
-                    "offset": 2223
+                    "offset": 3410
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 61,
+                  "line": 74,
                   "column": 5,
-                  "offset": 2215
+                  "offset": 3402
                 }
               },
               {
@@ -18076,16 +18132,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 62,
+                    "line": 75,
                     "column": 13,
-                    "offset": 2251
+                    "offset": 3438
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 62,
+                  "line": 75,
                   "column": 5,
-                  "offset": 2243
+                  "offset": 3430
                 }
               },
               {
@@ -18093,16 +18149,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 63,
+                    "line": 76,
                     "column": 14,
-                    "offset": 2269
+                    "offset": 3456
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 63,
+                  "line": 76,
                   "column": 5,
-                  "offset": 2260
+                  "offset": 3447
                 }
               },
               {
@@ -18110,16 +18166,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 64,
+                    "line": 77,
                     "column": 18,
-                    "offset": 2291
+                    "offset": 3478
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 64,
+                  "line": 77,
                   "column": 5,
-                  "offset": 2278
+                  "offset": 3465
                 }
               }
             ]
@@ -18127,9 +18183,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 67,
+              "line": 80,
               "column": 1,
-              "offset": 2299
+              "offset": 3486
             },
             "name": "Assessment",
             "fields": [
@@ -18140,22 +18196,22 @@
                     "name": "Option",
                     "resolved": "unboxd.meta.decision.Option",
                     "pos": {
-                      "line": 68,
+                      "line": 81,
                       "column": 13,
-                      "offset": 2331
+                      "offset": 3518
                     }
                   },
                   "pos": {
-                    "line": 68,
+                    "line": 81,
                     "column": 13,
-                    "offset": 2331
+                    "offset": 3518
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 68,
+                  "line": 81,
                   "column": 5,
-                  "offset": 2323
+                  "offset": 3510
                 }
               },
               {
@@ -18165,22 +18221,22 @@
                     "name": "Criterion",
                     "resolved": "unboxd.meta.decision.Criterion",
                     "pos": {
-                      "line": 69,
+                      "line": 82,
                       "column": 16,
-                      "offset": 2362
+                      "offset": 3549
                     }
                   },
                   "pos": {
-                    "line": 69,
+                    "line": 82,
                     "column": 16,
-                    "offset": 2362
+                    "offset": 3549
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 69,
+                  "line": 82,
                   "column": 5,
-                  "offset": 2351
+                  "offset": 3538
                 }
               },
               {
@@ -18188,16 +18244,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 70,
+                    "line": 83,
                     "column": 12,
-                    "offset": 2392
+                    "offset": 3579
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 70,
+                  "line": 83,
                   "column": 5,
-                  "offset": 2385
+                  "offset": 3572
                 }
               },
               {
@@ -18205,16 +18261,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 71,
+                    "line": 84,
                     "column": 13,
-                    "offset": 2410
+                    "offset": 3597
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 71,
+                  "line": 84,
                   "column": 5,
-                  "offset": 2402
+                  "offset": 3589
                 }
               }
             ]
@@ -18222,9 +18278,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 74,
+              "line": 87,
               "column": 1,
-              "offset": 2420
+              "offset": 3607
             },
             "name": "Outcome",
             "fields": [
@@ -18235,22 +18291,22 @@
                     "name": "Decision",
                     "resolved": "unboxd.meta.decision.Decision",
                     "pos": {
-                      "line": 75,
+                      "line": 88,
                       "column": 15,
-                      "offset": 2451
+                      "offset": 3638
                     }
                   },
                   "pos": {
-                    "line": 75,
+                    "line": 88,
                     "column": 15,
-                    "offset": 2451
+                    "offset": 3638
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 75,
+                  "line": 88,
                   "column": 5,
-                  "offset": 2441
+                  "offset": 3628
                 }
               },
               {
@@ -18258,16 +18314,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 76,
+                    "line": 89,
                     "column": 13,
-                    "offset": 2481
+                    "offset": 3668
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 76,
+                  "line": 89,
                   "column": 5,
-                  "offset": 2473
+                  "offset": 3660
                 }
               },
               {
@@ -18275,16 +18331,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 77,
+                    "line": 90,
                     "column": 14,
-                    "offset": 2501
+                    "offset": 3688
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 77,
+                  "line": 90,
                   "column": 5,
-                  "offset": 2492
+                  "offset": 3679
                 }
               }
             ]
@@ -18292,9 +18348,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 82,
+              "line": 95,
               "column": 1,
-              "offset": 2643
+              "offset": 3830
             },
             "name": "Theory",
             "fields": [
@@ -18303,16 +18359,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 83,
+                    "line": 96,
                     "column": 11,
-                    "offset": 2669
+                    "offset": 3856
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 83,
+                  "line": 96,
                   "column": 5,
-                  "offset": 2663
+                  "offset": 3850
                 }
               },
               {
@@ -18320,16 +18376,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 84,
+                    "line": 97,
                     "column": 13,
-                    "offset": 2697
+                    "offset": 3884
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 84,
+                  "line": 97,
                   "column": 5,
-                  "offset": 2689
+                  "offset": 3876
                 }
               },
               {
@@ -18337,16 +18393,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 85,
+                    "line": 98,
                     "column": 13,
-                    "offset": 2716
+                    "offset": 3903
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 85,
+                  "line": 98,
                   "column": 5,
-                  "offset": 2708
+                  "offset": 3895
                 }
               }
             ]
@@ -18354,9 +18410,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 90,
+              "line": 103,
               "column": 1,
-              "offset": 2857
+              "offset": 4044
             },
             "name": "Explanation",
             "fields": [
@@ -18367,22 +18423,22 @@
                     "name": "Decision",
                     "resolved": "unboxd.meta.decision.Decision",
                     "pos": {
-                      "line": 91,
+                      "line": 104,
                       "column": 15,
-                      "offset": 2892
+                      "offset": 4079
                     }
                   },
                   "pos": {
-                    "line": 91,
+                    "line": 104,
                     "column": 15,
-                    "offset": 2892
+                    "offset": 4079
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 91,
+                  "line": 104,
                   "column": 5,
-                  "offset": 2882
+                  "offset": 4069
                 }
               },
               {
@@ -18390,16 +18446,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 92,
+                    "line": 105,
                     "column": 12,
-                    "offset": 2921
+                    "offset": 4108
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 92,
+                  "line": 105,
                   "column": 5,
-                  "offset": 2914
+                  "offset": 4101
                 }
               },
               {
@@ -18407,16 +18463,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 93,
+                    "line": 106,
                     "column": 14,
-                    "offset": 2950
+                    "offset": 4137
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 93,
+                  "line": 106,
                   "column": 5,
-                  "offset": 2941
+                  "offset": 4128
                 }
               },
               {
@@ -18424,16 +18480,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 94,
+                    "line": 107,
                     "column": 18,
-                    "offset": 2972
+                    "offset": 4159
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 94,
+                  "line": 107,
                   "column": 5,
-                  "offset": 2959
+                  "offset": 4146
                 }
               }
             ]
@@ -18441,9 +18497,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 99,
+              "line": 112,
               "column": 1,
-              "offset": 3116
+              "offset": 4303
             },
             "name": "Principle",
             "fields": [
@@ -18452,16 +18508,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 100,
+                    "line": 113,
                     "column": 11,
-                    "offset": 3145
+                    "offset": 4332
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 100,
+                  "line": 113,
                   "column": 5,
-                  "offset": 3139
+                  "offset": 4326
                 }
               },
               {
@@ -18469,16 +18525,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 101,
+                    "line": 114,
                     "column": 16,
-                    "offset": 3176
+                    "offset": 4363
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 101,
+                  "line": 114,
                   "column": 5,
-                  "offset": 3165
+                  "offset": 4352
                 }
               },
               {
@@ -18486,16 +18542,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 102,
+                    "line": 115,
                     "column": 12,
-                    "offset": 3194
+                    "offset": 4381
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 102,
+                  "line": 115,
                   "column": 5,
-                  "offset": 3187
+                  "offset": 4374
                 }
               }
             ]
@@ -18503,9 +18559,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 109,
+              "line": 122,
               "column": 1,
-              "offset": 3523
+              "offset": 4710
             },
             "name": "Synthesis",
             "fields": [
@@ -18514,16 +18570,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 110,
+                    "line": 123,
                     "column": 11,
-                    "offset": 3552
+                    "offset": 4739
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 110,
+                  "line": 123,
                   "column": 5,
-                  "offset": 3546
+                  "offset": 4733
                 }
               },
               {
@@ -18531,16 +18587,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 111,
+                    "line": 124,
                     "column": 17,
-                    "offset": 3584
+                    "offset": 4771
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 111,
+                  "line": 124,
                   "column": 5,
-                  "offset": 3572
+                  "offset": 4759
                 }
               },
               {
@@ -18548,16 +18604,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 112,
+                    "line": 125,
                     "column": 17,
-                    "offset": 3607
+                    "offset": 4794
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 112,
+                  "line": 125,
                   "column": 5,
-                  "offset": 3595
+                  "offset": 4782
                 }
               },
               {
@@ -18565,16 +18621,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 113,
+                    "line": 126,
                     "column": 17,
-                    "offset": 3628
+                    "offset": 4815
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 113,
+                  "line": 126,
                   "column": 5,
-                  "offset": 3616
+                  "offset": 4803
                 }
               },
               {
@@ -18582,16 +18638,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 114,
+                    "line": 127,
                     "column": 12,
-                    "offset": 3644
+                    "offset": 4831
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 114,
+                  "line": 127,
                   "column": 5,
-                  "offset": 3637
+                  "offset": 4824
                 }
               }
             ]
@@ -18599,9 +18655,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 118,
+              "line": 131,
               "column": 1,
-              "offset": 3727
+              "offset": 4914
             },
             "name": "Validation",
             "fields": [
@@ -18612,22 +18668,22 @@
                     "name": "Synthesis",
                     "resolved": "unboxd.meta.decision.Synthesis",
                     "pos": {
-                      "line": 119,
+                      "line": 132,
                       "column": 16,
-                      "offset": 3762
+                      "offset": 4949
                     }
                   },
                   "pos": {
-                    "line": 119,
+                    "line": 132,
                     "column": 16,
-                    "offset": 3762
+                    "offset": 4949
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 119,
+                  "line": 132,
                   "column": 5,
-                  "offset": 3751
+                  "offset": 4938
                 }
               },
               {
@@ -18635,16 +18691,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 120,
+                    "line": 133,
                     "column": 15,
-                    "offset": 3795
+                    "offset": 4982
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 120,
+                  "line": 133,
                   "column": 5,
-                  "offset": 3785
+                  "offset": 4972
                 }
               },
               {
@@ -18652,16 +18708,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 121,
+                    "line": 134,
                     "column": 13,
-                    "offset": 3814
+                    "offset": 5001
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 121,
+                  "line": 134,
                   "column": 5,
-                  "offset": 3806
+                  "offset": 4993
                 }
               },
               {
@@ -18669,16 +18725,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 122,
+                    "line": 135,
                     "column": 13,
-                    "offset": 3833
+                    "offset": 5020
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 122,
+                  "line": 135,
                   "column": 5,
-                  "offset": 3825
+                  "offset": 5012
                 }
               }
             ]
@@ -18686,9 +18742,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 125,
+              "line": 138,
               "column": 1,
-              "offset": 3841
+              "offset": 5028
             },
             "name": "Productionization",
             "fields": [
@@ -18699,22 +18755,22 @@
                     "name": "Synthesis",
                     "resolved": "unboxd.meta.decision.Synthesis",
                     "pos": {
-                      "line": 126,
+                      "line": 139,
                       "column": 16,
-                      "offset": 3883
+                      "offset": 5070
                     }
                   },
                   "pos": {
-                    "line": 126,
+                    "line": 139,
                     "column": 16,
-                    "offset": 3883
+                    "offset": 5070
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 126,
+                  "line": 139,
                   "column": 5,
-                  "offset": 3872
+                  "offset": 5059
                 }
               },
               {
@@ -18722,16 +18778,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 127,
+                    "line": 140,
                     "column": 14,
-                    "offset": 3915
+                    "offset": 5102
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 127,
+                  "line": 140,
                   "column": 5,
-                  "offset": 3906
+                  "offset": 5093
                 }
               },
               {
@@ -18739,16 +18795,16 @@
                 "type": {
                   "primitive": "datetime",
                   "pos": {
-                    "line": 128,
+                    "line": 141,
                     "column": 17,
-                    "offset": 3938
+                    "offset": 5125
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 128,
+                  "line": 141,
                   "column": 5,
-                  "offset": 3926
+                  "offset": 5113
                 }
               }
             ]
@@ -18756,27 +18812,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 131,
+              "line": 144,
               "column": 1,
-              "offset": 3950
+              "offset": 5137
             },
             "name": "Considers",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 131,
+                "line": 144,
                 "column": 20,
-                "offset": 3969
+                "offset": 5156
               }
             },
             "target": {
               "name": "Option",
               "resolved": "unboxd.meta.decision.Option",
               "pos": {
-                "line": 131,
+                "line": 144,
                 "column": 32,
-                "offset": 3981
+                "offset": 5168
               }
             },
             "fields": [
@@ -18785,16 +18841,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 132,
+                    "line": 145,
                     "column": 15,
-                    "offset": 4004
+                    "offset": 5191
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 132,
+                  "line": 145,
                   "column": 5,
-                  "offset": 3994
+                  "offset": 5181
                 }
               }
             ]
@@ -18802,27 +18858,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 135,
+              "line": 148,
               "column": 1,
-              "offset": 4012
+              "offset": 5199
             },
             "name": "Weighs",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 135,
+                "line": 148,
                 "column": 17,
-                "offset": 4028
+                "offset": 5215
               }
             },
             "target": {
               "name": "Criterion",
               "resolved": "unboxd.meta.decision.Criterion",
               "pos": {
-                "line": 135,
+                "line": 148,
                 "column": 29,
-                "offset": 4040
+                "offset": 5227
               }
             },
             "fields": [
@@ -18831,16 +18887,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 136,
+                    "line": 149,
                     "column": 17,
-                    "offset": 4068
+                    "offset": 5255
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 136,
+                  "line": 149,
                   "column": 5,
-                  "offset": 4056
+                  "offset": 5243
                 }
               }
             ]
@@ -18848,27 +18904,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 139,
+              "line": 152,
               "column": 1,
-              "offset": 4076
+              "offset": 5263
             },
             "name": "GroundedIn",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 139,
+                "line": 152,
                 "column": 21,
-                "offset": 4096
+                "offset": 5283
               }
             },
             "target": {
               "name": "Evidence",
               "resolved": "unboxd.meta.decision.Evidence",
               "pos": {
-                "line": 139,
+                "line": 152,
                 "column": 33,
-                "offset": 4108
+                "offset": 5295
               }
             },
             "fields": [
@@ -18877,16 +18933,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 140,
+                    "line": 153,
                     "column": 15,
-                    "offset": 4133
+                    "offset": 5320
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 140,
+                  "line": 153,
                   "column": 5,
-                  "offset": 4123
+                  "offset": 5310
                 }
               }
             ]
@@ -18894,27 +18950,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 143,
+              "line": 156,
               "column": 1,
-              "offset": 4141
+              "offset": 5328
             },
             "name": "Applies",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 143,
+                "line": 156,
                 "column": 18,
-                "offset": 4158
+                "offset": 5345
               }
             },
             "target": {
               "name": "Method",
               "resolved": "unboxd.meta.decision.Method",
               "pos": {
-                "line": 143,
+                "line": 156,
                 "column": 30,
-                "offset": 4170
+                "offset": 5357
               }
             },
             "fields": [
@@ -18923,16 +18979,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 144,
+                    "line": 157,
                     "column": 14,
-                    "offset": 4192
+                    "offset": 5379
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 144,
+                  "line": 157,
                   "column": 5,
-                  "offset": 4183
+                  "offset": 5370
                 }
               }
             ]
@@ -18940,27 +18996,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 147,
+              "line": 160,
               "column": 1,
-              "offset": 4202
+              "offset": 5389
             },
             "name": "ScoresOption",
             "source": {
               "name": "Assessment",
               "resolved": "unboxd.meta.decision.Assessment",
               "pos": {
-                "line": 147,
+                "line": 160,
                 "column": 23,
-                "offset": 4224
+                "offset": 5411
               }
             },
             "target": {
               "name": "Option",
               "resolved": "unboxd.meta.decision.Option",
               "pos": {
-                "line": 147,
+                "line": 160,
                 "column": 37,
-                "offset": 4238
+                "offset": 5425
               }
             },
             "fields": [
@@ -18969,16 +19025,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 148,
+                    "line": 161,
                     "column": 17,
-                    "offset": 4263
+                    "offset": 5450
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 148,
+                  "line": 161,
                   "column": 5,
-                  "offset": 4251
+                  "offset": 5438
                 }
               }
             ]
@@ -18986,27 +19042,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 151,
+              "line": 164,
               "column": 1,
-              "offset": 4272
+              "offset": 5459
             },
             "name": "AgainstCriterion",
             "source": {
               "name": "Assessment",
               "resolved": "unboxd.meta.decision.Assessment",
               "pos": {
-                "line": 151,
+                "line": 164,
                 "column": 27,
-                "offset": 4298
+                "offset": 5485
               }
             },
             "target": {
               "name": "Criterion",
               "resolved": "unboxd.meta.decision.Criterion",
               "pos": {
-                "line": 151,
+                "line": 164,
                 "column": 41,
-                "offset": 4312
+                "offset": 5499
               }
             },
             "fields": [
@@ -19015,16 +19071,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 152,
+                    "line": 165,
                     "column": 17,
-                    "offset": 4340
+                    "offset": 5527
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 152,
+                  "line": 165,
                   "column": 5,
-                  "offset": 4328
+                  "offset": 5515
                 }
               }
             ]
@@ -19032,27 +19088,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 155,
+              "line": 168,
               "column": 1,
-              "offset": 4348
+              "offset": 5535
             },
             "name": "Chooses",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 155,
+                "line": 168,
                 "column": 18,
-                "offset": 4365
+                "offset": 5552
               }
             },
             "target": {
               "name": "Option",
               "resolved": "unboxd.meta.decision.Option",
               "pos": {
-                "line": 155,
+                "line": 168,
                 "column": 30,
-                "offset": 4377
+                "offset": 5564
               }
             },
             "fields": [
@@ -19061,16 +19117,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 156,
+                    "line": 169,
                     "column": 22,
-                    "offset": 4407
+                    "offset": 5594
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 156,
+                  "line": 169,
                   "column": 5,
-                  "offset": 4390
+                  "offset": 5577
                 }
               }
             ]
@@ -19078,27 +19134,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 159,
+              "line": 172,
               "column": 1,
-              "offset": 4416
+              "offset": 5603
             },
             "name": "Yields",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 159,
+                "line": 172,
                 "column": 17,
-                "offset": 4432
+                "offset": 5619
               }
             },
             "target": {
               "name": "Outcome",
               "resolved": "unboxd.meta.decision.Outcome",
               "pos": {
-                "line": 159,
+                "line": 172,
                 "column": 29,
-                "offset": 4444
+                "offset": 5631
               }
             },
             "fields": [
@@ -19107,16 +19163,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 160,
+                    "line": 173,
                     "column": 17,
-                    "offset": 4470
+                    "offset": 5657
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 160,
+                  "line": 173,
                   "column": 5,
-                  "offset": 4458
+                  "offset": 5645
                 }
               }
             ]
@@ -19124,27 +19180,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 163,
+              "line": 176,
               "column": 1,
-              "offset": 4478
+              "offset": 5665
             },
             "name": "Explains",
             "source": {
               "name": "Explanation",
               "resolved": "unboxd.meta.decision.Explanation",
               "pos": {
-                "line": 163,
+                "line": 176,
                 "column": 19,
-                "offset": 4496
+                "offset": 5683
               }
             },
             "target": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 163,
+                "line": 176,
                 "column": 34,
-                "offset": 4511
+                "offset": 5698
               }
             },
             "fields": [
@@ -19153,16 +19209,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 164,
+                    "line": 177,
                     "column": 15,
-                    "offset": 4536
+                    "offset": 5723
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 164,
+                  "line": 177,
                   "column": 5,
-                  "offset": 4526
+                  "offset": 5713
                 }
               }
             ]
@@ -19170,27 +19226,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 167,
+              "line": 180,
               "column": 1,
-              "offset": 4544
+              "offset": 5731
             },
             "name": "Cites",
             "source": {
               "name": "Explanation",
               "resolved": "unboxd.meta.decision.Explanation",
               "pos": {
-                "line": 167,
+                "line": 180,
                 "column": 16,
-                "offset": 4559
+                "offset": 5746
               }
             },
             "target": {
               "name": "Theory",
               "resolved": "unboxd.meta.decision.Theory",
               "pos": {
-                "line": 167,
+                "line": 180,
                 "column": 31,
-                "offset": 4574
+                "offset": 5761
               }
             },
             "fields": [
@@ -19199,16 +19255,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 168,
+                    "line": 181,
                     "column": 11,
-                    "offset": 4593
+                    "offset": 5780
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 168,
+                  "line": 181,
                   "column": 5,
-                  "offset": 4587
+                  "offset": 5774
                 }
               }
             ]
@@ -19216,27 +19272,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 171,
+              "line": 184,
               "column": 1,
-              "offset": 4603
+              "offset": 5790
             },
             "name": "DecomposesInto",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.decision.Theory",
               "pos": {
-                "line": 171,
+                "line": 184,
                 "column": 25,
-                "offset": 4627
+                "offset": 5814
               }
             },
             "target": {
               "name": "Theory",
               "resolved": "unboxd.meta.decision.Theory",
               "pos": {
-                "line": 171,
+                "line": 184,
                 "column": 35,
-                "offset": 4637
+                "offset": 5824
               }
             },
             "fields": [
@@ -19245,16 +19301,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 172,
+                    "line": 185,
                     "column": 11,
-                    "offset": 4656
+                    "offset": 5843
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 172,
+                  "line": 185,
                   "column": 5,
-                  "offset": 4650
+                  "offset": 5837
                 }
               }
             ]
@@ -19262,27 +19318,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 175,
+              "line": 188,
               "column": 1,
-              "offset": 4666
+              "offset": 5853
             },
             "name": "ReducesTo",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.decision.Theory",
               "pos": {
-                "line": 175,
+                "line": 188,
                 "column": 20,
-                "offset": 4685
+                "offset": 5872
               }
             },
             "target": {
               "name": "Principle",
               "resolved": "unboxd.meta.decision.Principle",
               "pos": {
-                "line": 175,
+                "line": 188,
                 "column": 30,
-                "offset": 4695
+                "offset": 5882
               }
             },
             "fields": [
@@ -19291,16 +19347,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 176,
+                    "line": 189,
                     "column": 12,
-                    "offset": 4718
+                    "offset": 5905
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 176,
+                  "line": 189,
                   "column": 5,
-                  "offset": 4711
+                  "offset": 5898
                 }
               }
             ]
@@ -19308,27 +19364,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 179,
+              "line": 192,
               "column": 1,
-              "offset": 4726
+              "offset": 5913
             },
             "name": "GroundsIn",
             "source": {
               "name": "Explanation",
               "resolved": "unboxd.meta.decision.Explanation",
               "pos": {
-                "line": 179,
+                "line": 192,
                 "column": 20,
-                "offset": 4745
+                "offset": 5932
               }
             },
             "target": {
               "name": "Principle",
               "resolved": "unboxd.meta.decision.Principle",
               "pos": {
-                "line": 179,
+                "line": 192,
                 "column": 35,
-                "offset": 4760
+                "offset": 5947
               }
             },
             "fields": [
@@ -19337,16 +19393,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 180,
+                    "line": 193,
                     "column": 12,
-                    "offset": 4783
+                    "offset": 5970
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 180,
+                  "line": 193,
                   "column": 5,
-                  "offset": 4776
+                  "offset": 5963
                 }
               }
             ]
@@ -19354,27 +19410,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 183,
+              "line": 196,
               "column": 1,
-              "offset": 4793
+              "offset": 5980
             },
             "name": "ComposedOf",
             "source": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 183,
+                "line": 196,
                 "column": 21,
-                "offset": 4813
+                "offset": 6000
               }
             },
             "target": {
               "name": "Decision",
               "resolved": "unboxd.meta.decision.Decision",
               "pos": {
-                "line": 183,
+                "line": 196,
                 "column": 33,
-                "offset": 4825
+                "offset": 6012
               }
             },
             "fields": [
@@ -19383,16 +19439,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 184,
+                    "line": 197,
                     "column": 11,
-                    "offset": 4846
+                    "offset": 6033
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 184,
+                  "line": 197,
                   "column": 5,
-                  "offset": 4840
+                  "offset": 6027
                 }
               }
             ]
@@ -19400,27 +19456,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 189,
+              "line": 202,
               "column": 1,
-              "offset": 4969
+              "offset": 6156
             },
             "name": "ComposesFrom",
             "source": {
               "name": "Synthesis",
               "resolved": "unboxd.meta.decision.Synthesis",
               "pos": {
-                "line": 189,
+                "line": 202,
                 "column": 23,
-                "offset": 4991
+                "offset": 6178
               }
             },
             "target": {
               "name": "Principle",
               "resolved": "unboxd.meta.decision.Principle",
               "pos": {
-                "line": 189,
+                "line": 202,
                 "column": 36,
-                "offset": 5004
+                "offset": 6191
               }
             },
             "fields": [
@@ -19429,16 +19485,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 190,
+                    "line": 203,
                     "column": 15,
-                    "offset": 5030
+                    "offset": 6217
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 190,
+                  "line": 203,
                   "column": 5,
-                  "offset": 5020
+                  "offset": 6207
                 }
               }
             ]
@@ -19446,27 +19502,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 193,
+              "line": 206,
               "column": 1,
-              "offset": 5038
+              "offset": 6225
             },
             "name": "Validates",
             "source": {
               "name": "Validation",
               "resolved": "unboxd.meta.decision.Validation",
               "pos": {
-                "line": 193,
+                "line": 206,
                 "column": 20,
-                "offset": 5057
+                "offset": 6244
               }
             },
             "target": {
               "name": "Synthesis",
               "resolved": "unboxd.meta.decision.Synthesis",
               "pos": {
-                "line": 193,
+                "line": 206,
                 "column": 34,
-                "offset": 5071
+                "offset": 6258
               }
             },
             "fields": [
@@ -19475,16 +19531,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 194,
+                    "line": 207,
                     "column": 15,
-                    "offset": 5097
+                    "offset": 6284
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 194,
+                  "line": 207,
                   "column": 5,
-                  "offset": 5087
+                  "offset": 6274
                 }
               }
             ]
@@ -19492,27 +19548,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 197,
+              "line": 210,
               "column": 1,
-              "offset": 5107
+              "offset": 6294
             },
             "name": "Productionizes",
             "source": {
               "name": "Productionization",
               "resolved": "unboxd.meta.decision.Productionization",
               "pos": {
-                "line": 197,
+                "line": 210,
                 "column": 25,
-                "offset": 5131
+                "offset": 6318
               }
             },
             "target": {
               "name": "Synthesis",
               "resolved": "unboxd.meta.decision.Synthesis",
               "pos": {
-                "line": 197,
+                "line": 210,
                 "column": 46,
-                "offset": 5152
+                "offset": 6339
               }
             },
             "fields": [
@@ -19521,16 +19577,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 198,
+                    "line": 211,
                     "column": 12,
-                    "offset": 5175
+                    "offset": 6362
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 198,
+                  "line": 211,
                   "column": 5,
-                  "offset": 5168
+                  "offset": 6355
                 }
               }
             ]

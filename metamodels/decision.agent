@@ -29,6 +29,19 @@ vocabulary models {
     term operations_research means "queueing, scheduling, and allocation"
 }
 
+// Hybrid human+AI decision-making (Alam & Khan, "Enhancing AI-Human
+// Collaborative Decision-Making in Industry 4.0", IEEE Access 2024): the machine
+// supplies data-scale analysis, the human supplies intuition and context, and a
+// trust-calibrated, feedback-tuned blend chooses — the formal basis for the
+// decision-intelligence north star and the community/SME human-in-the-loop.
+vocabulary hybrid {
+    term complementarity means "AI does data-scale analysis, humans bring intuition and context; participatory, not AI-as-sole-decider — each corrects the other"
+    term collaborative means "chosen = argmax_a [ theta * U_human(a) + (1 - theta) * U_ai(a) ] — a weighted blend of human and AI utility"
+    term trust_calibrated means "the balance theta tracks calibrated trust: T = w*(reliability + transparency + explainability + consistency) - discrepancies"
+    term feedback_tuned means "theta and weights update from outcomes: theta <- theta + alpha*(target - actual); the loop refines decisions over time"
+    term uncertainty_penalty means "utility is penalized by uncertainty: U_total = beta*U_h + (1 - beta)*U_ai - lambda*sigma — cautious when variance is high"
+}
+
 entity Decision {
     question: string required
     framework: string
