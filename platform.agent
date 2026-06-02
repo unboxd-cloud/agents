@@ -913,6 +913,7 @@ constitution PlatformConstitution {
     rule alignment: "treat alignment with human values and intent as a first-class, continuously verified property, not an afterthought"
     rule quantumReady: "the universal-intelligence model is substrate-agnostic and quantum-ready (QAIXI, arXiv:2505.21170): agents may take classical or quantum actions and must account for contextuality"
     rule edgeModels: "agents on the edge run small local models (TinyLLM-style, arXiv:2412.15304); prefer the smallest model that meets the bar, keeping inference local, private, and cheap"
+    rule zeroCost: "prefer zero-cost agents: local/open-source models (TinyLLM, Ollama) on existing hardware with no per-token API cost; use paid models only when they clearly pay for themselves (cost-normalized accuracy)"
     rule airgapped: "operate fully air-gapped when required: local inference and embedded storage, with no outbound network dependency"
     rule deviceLocal: "the default installation is a device-local agent: it runs on the device, offline-capable, syncing only when permitted"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
