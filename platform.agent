@@ -102,6 +102,7 @@ vocabulary tooling {
     term zot means "zot — OCI-native registry for storing and distributing runnables"
     term seatunnel means "Apache SeaTunnel — data connectors / integration (multi-source/sink, batch and CDC)"
     term n8n means "n8n — low-code workflow automation, offered as a managed service"
+    term search means "search as a service — enterprise search over the fabric and RAG"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -440,6 +441,14 @@ entity Composer {
     name: string required
 }
 
+// Anything the platform does not produce natively — frameworks, runtimes, tools
+// — is consumed as a Service behind a stable interface.
+entity Service {
+    name: string required
+    provider: string
+    native: bool
+}
+
 // Workflow is the deterministic workflow that runs an automation: Temporal is
 // the primary engine, Prefect the backup.
 entity Workflow {
@@ -703,6 +712,10 @@ relation ExposedAsTool Composer -> Tool {
     iface: string
 }
 
+relation Consumes Agent -> Service {
+    iface: string
+}
+
 relation FeedsTrust Evaluation -> Trust {
     weight: float
 }
@@ -894,6 +907,7 @@ constitution PlatformConstitution {
     rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
     rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
+    rule serviceOrNative: "everything the platform does not produce natively — frameworks, runtimes, tools — is consumed as a service behind a stable interface; native capabilities are produced by the platform itself"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
     rule socialTrust: "trust is social, propagative, and composable: the weighted aggregate of ratings from every agent and human interacted with, propagated across the trust graph — not one human's view"
