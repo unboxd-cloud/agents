@@ -920,6 +920,7 @@ constitution PlatformConstitution {
     rule serviceOrNative: "everything the platform does not produce natively — frameworks, runtimes, tools — is consumed as a service behind a stable interface; native capabilities are produced by the platform itself"
     rule modelRouter: "route across pluggable providers via the model router; prefer local/open-source/free-tier, evaluating cost, latency, and trust"
     rule sla: "service-agent offerings (consulting, deployment, bug fixes, maintenance, support) are delivered under an Agent-SLA; SLA attainment is the service agent's KPI"
+    rule economy: "agents participate in an agent economy: they offer services, transact agent-to-agent against budgeted wallets, and settle — all governed and audited; trust and performance shape pricing and selection"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
     rule socialTrust: "trust is social, propagative, and composable: the weighted aggregate of ratings from every agent and human interacted with, propagated across the trust graph — not one human's view"

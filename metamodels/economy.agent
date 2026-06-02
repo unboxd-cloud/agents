@@ -1,0 +1,67 @@
+// economy.agent — the agent economy. Agents are economic actors: they offer
+// services at a price, transact agent-to-agent against a budgeted wallet, list on
+// a marketplace, and settle — every exchange governed and audited. Trust and
+// performance (see trust.agent, eval.agent) shape pricing and selection; the
+// platform KPI (ARR) is the aggregate.
+namespace unboxd.meta.economy
+
+entity Actor {
+    id: string required
+    kind: string
+}
+
+entity Wallet {
+    actor: Actor required
+    balance: float
+    currency: string
+}
+
+entity Offering {
+    provider: Actor required
+    name: string required
+    price: float
+    unit: string
+}
+
+entity Order {
+    buyer: Actor required
+    offering: Offering required
+    quantity: float
+}
+
+entity Transaction {
+    order: Order required
+    amount: float
+    settled: bool
+}
+
+entity Marketplace {
+    name: string required
+}
+
+entity Listing {
+    marketplace: Marketplace required
+    offering: Offering required
+    rank: int
+}
+
+relation Holds Actor -> Wallet {
+    primary: bool
+}
+
+relation Offers Actor -> Offering {
+    since: datetime
+}
+
+relation Lists Marketplace -> Listing {
+    featured: bool
+}
+
+relation Settles Transaction -> Order {
+    at: datetime
+}
+
+// Agent-to-agent value exchange, gated and audited like any A2A call.
+relation Trades Actor -> Actor {
+    via: string
+}
