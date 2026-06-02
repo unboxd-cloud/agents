@@ -532,6 +532,17 @@ entity Experience {
     score: float
 }
 
+// Every touchpoint and interaction is an experience.
+entity Touchpoint {
+    name: string required
+    channel: string
+}
+
+entity Interaction {
+    touchpoint: Touchpoint required
+    at: datetime
+}
+
 // Trust in an agent. Performance (Evaluation) is an input to trust, not the goal.
 entity Trust {
     subject: Agent required
@@ -659,6 +670,10 @@ relation Equips Agent -> Agent {
 // (Evaluation) feeds trust.
 relation OptimizesExperience Agent -> Experience {
     target: float
+}
+
+relation IsExperience Interaction -> Experience {
+    measured: bool
 }
 
 relation OptimizesTrust Agent -> Trust {
@@ -874,6 +889,7 @@ constitution PlatformConstitution {
     rule graphLoop: "the graph is the agent loop: the agent observes, decides, and acts by traversing and mutating the governed graph; every step is a graph operation"
     rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
     rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
+    rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
