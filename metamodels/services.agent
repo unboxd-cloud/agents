@@ -1,0 +1,108 @@
+// services.agent — multi-provider AI services metamodel, aligned to AGenNext
+// Agent-Services. LLM providers are pluggable behind a model Router (prefer
+// local/open-source); service modules (cost prediction, data control, ROI, agent
+// eval, AI research, ...) compose over the providers, with RAG and tool
+// integration.
+namespace unboxd.meta.services
+
+vocabulary providers {
+    term openai means "OpenAI GPT models"
+    term anthropic means "Anthropic Claude models"
+    term google means "Google Gemini models"
+    term bedrock means "AWS Bedrock / AgentCore"
+    term azure means "Azure AI Foundry"
+    term ollama means "Ollama local models"
+    term openrouter means "OpenRouter unified API"
+    term watson means "IBM Watson"
+    term einstein means "Salesforce Einstein"
+    term mistral means "Mistral AI"
+}
+
+vocabulary modules {
+    term cost_prediction means "estimate API costs across providers"
+    term localization means "multi-language and local model support"
+    term data_control means "privacy, retention, and audit controls"
+    term data_prep means "text cleaning, chunking, validation"
+    term data_generation means "synthetic test data"
+    term use_case_id means "identify AI use cases for business"
+    term roi_measurement means "calculate AI ROI"
+    term agent_eval means "benchmark agent performance"
+    term ai_research means "paper/model/technique library"
+}
+
+entity Provider {
+    name: string required
+    kind: string
+    local: bool
+}
+
+entity Model {
+    provider: Provider required
+    name: string required
+    contextWindow: int
+}
+
+// Router selects a provider/model per request (prefer local/open-source/free-tier).
+entity Router {
+    strategy: string
+}
+
+entity Service {
+    name: string required
+    module: string
+}
+
+entity Capability {
+    name: string required
+}
+
+relation Offers Provider -> Model {
+    pricePerMTokens: float
+}
+
+relation Routes Router -> Provider {
+    preferred: bool
+}
+
+relation Selects Router -> Model {
+    reason: string
+}
+
+relation Uses Service -> Model {
+    purpose: string
+}
+
+relation Provides Service -> Capability {
+    stable: bool
+}
+
+// Professional-services offerings the platform's service agents deliver — each
+// backed by an SLA (Agent-SLA) with response and resolution targets.
+vocabulary offerings {
+    term consulting means "advisory and architecture consulting"
+    term deployment_assistance means "deployment and onboarding assistance"
+    term bug_fixes means "defect triage and fixes"
+    term maintenance means "ongoing maintenance and upgrades"
+    term support means "incident support"
+}
+
+entity SLA {
+    name: string required
+    objective: string
+    responseMins: int
+    resolutionHours: int
+}
+
+entity Engagement {
+    service: Service required
+    sla: SLA required
+    status: string
+}
+
+relation BackedBy Service -> SLA {
+    tier: string
+}
+
+relation Delivers Engagement -> Service {
+    period: string
+}
