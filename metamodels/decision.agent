@@ -1,0 +1,110 @@
+// decision.agent — decision-making theory. A decision chooses among options to
+// maximize expected utility over weighted criteria, grounded in verified
+// evidence, using a chosen framework and quantitative methods. Decision
+// intelligence — better decisions and actionable outcomes — is the north star.
+//
+//   expectedUtility(o) = SUM_c weight_c * score(o, c)
+//   chosen             = argmax_o expectedUtility(o)
+namespace unboxd.meta.decision
+
+// Decision-making frameworks the agent may choose.
+vocabulary frameworks {
+    term ooda means "Observe-Orient-Decide-Act"
+    term react means "Reason + Act (ReAct)"
+    term plan_execute means "plan, then execute"
+    term expected_utility means "maximize expected utility"
+    term multi_criteria means "multi-criteria decision analysis (MCDA)"
+    term bayesian means "Bayesian decision theory"
+}
+
+// Quantitative model families the agent wields as tools, skills, and knowledge.
+vocabulary models {
+    term mathematical means "algebra, calculus, linear algebra, graph theory"
+    term statistical means "inference, regression, hypothesis testing, time-series"
+    term probabilistic means "Bayesian inference, Markov and hidden Markov models"
+    term optimization means "linear/convex/integer programming and search"
+    term machine_learning means "supervised, unsupervised, and reinforcement models"
+    term causal means "causal inference, DAGs, counterfactuals"
+    term simulation means "Monte Carlo, discrete-event, agent-based simulation"
+    term operations_research means "queueing, scheduling, and allocation"
+}
+
+entity Decision {
+    question: string required
+    framework: string
+    madeBy: string
+    confidence: float
+}
+
+entity Option {
+    decision: Decision required
+    label: string required
+}
+
+entity Criterion {
+    decision: Decision required
+    name: string required
+    weight: float
+}
+
+entity Evidence {
+    decision: Decision required
+    source: string
+    verified: bool
+}
+
+// Method is a mathematical/statistical/etc. model the agent applies. The same
+// method is at once a tool (callable), a skill (it can wield), and knowledge
+// (it understands when and why to use it).
+entity Method {
+    name: string required
+    family: string required
+    asTool: bool
+    asSkill: bool
+    asKnowledge: bool
+}
+
+entity Assessment {
+    option: Option required
+    criterion: Criterion required
+    score: float
+    method: string
+}
+
+entity Outcome {
+    decision: Decision required
+    result: string
+    utility: float
+}
+
+relation Considers Decision -> Option {
+    feasible: bool
+}
+
+relation Weighs Decision -> Criterion {
+    normalized: bool
+}
+
+relation GroundedIn Decision -> Evidence {
+    verified: bool
+}
+
+relation Applies Decision -> Method {
+    purpose: string
+}
+
+relation ScoresOption Assessment -> Option {
+    confidence: float
+}
+
+relation AgainstCriterion Assessment -> Criterion {
+    normalized: bool
+}
+
+relation Chooses Decision -> Option {
+    expectedUtility: float
+}
+
+relation Yields Decision -> Outcome {
+    actionable: bool
+}
