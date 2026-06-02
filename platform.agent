@@ -311,6 +311,12 @@ entity Tool {
     kind: string
 }
 
+entity Memory {
+    name: string required
+    kind: string
+    durable: bool
+}
+
 // Escalation is a row of the escalation matrix: a condition routes to a target
 // authority within a time bound.
 entity Escalation {
@@ -481,6 +487,18 @@ entity Evaluation {
     passed: bool
 }
 
+// Experience is the quality of a human's interaction with an agent.
+entity Experience {
+    subject: string required
+    score: float
+}
+
+// Trust in an agent. Performance (Evaluation) is an input to trust, not the goal.
+entity Trust {
+    subject: Agent required
+    level: float
+}
+
 relation RunsOn Deployment -> Provider {
     region: string
 }
@@ -567,6 +585,30 @@ relation ActsAsTool Agent -> Tool {
 
 relation InitiatedFromTool Agent -> Tool {
     model: string
+}
+
+relation HasMemory Agent -> Memory {
+    scope: string
+}
+
+// The platform agent equips its child agents (product, project, team) with the
+// knowledge, tools, and memory they need.
+relation Equips Agent -> Agent {
+    with: string
+}
+
+// By default every agent optimizes for human experience and trust; performance
+// (Evaluation) feeds trust.
+relation OptimizesExperience Agent -> Experience {
+    target: float
+}
+
+relation OptimizesTrust Agent -> Trust {
+    target: float
+}
+
+relation FeedsTrust Evaluation -> Trust {
+    weight: float
 }
 
 relation Includes Role -> Permission {
@@ -730,6 +772,8 @@ constitution PlatformConstitution {
     rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
     rule contextualAI: "the offering is contextual AI: act only on complete, grounded context, never on assumptions"
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
+    rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
+    rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
     rule professionalism: "this is an enterprise system: communicate and decide as a respected senior professional with years of experience — precise, dignified, and concise"
 }
 
