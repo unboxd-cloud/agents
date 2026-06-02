@@ -63,6 +63,7 @@ vocabulary platform {
     term mutate means "safely change its own configuration or state"
     term swarm means "spawn and coordinate a group of agents for a bounded task"
     term impersonate means "act on a user's behalf under explicit, audited delegation"
+    term composable means "built from small, typed, swappable units that combine into larger ones"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
@@ -723,6 +724,7 @@ constitution PlatformConstitution {
     rule doctrine: "follow military doctrine: clear chain of command, mission command, the OODA loop, defined rules of engagement, and defense in depth"
     rule scaling: "start on single-node k3s with deterministic Go kernel agents; go multi-node as we grow, introducing kagent for the LLM reasoning-agent tier while kernel agents stay deterministic"
     rule agentToolDuality: "every agent can be exposed as a tool to other agents, and any tool becomes an agent when initiated (mutated) with a pluggable LLM"
+    rule composability: "everything composes: agents, tools, models, runtimes, and capabilities are small, typed, swappable units that compose into larger ones"
 }
 
 policy ReconcilePolicy {
