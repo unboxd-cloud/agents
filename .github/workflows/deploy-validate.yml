@@ -1,0 +1,54 @@
+name: deploy-validate
+
+# Validate deployment artifacts against real tooling the local dev environment
+# lacks: Helm (lint + template) and a live Kubernetes API (server-side dry-run on
+# a throwaway k3s cluster via k3d).
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "deploy/**"
+      - "platform.agent"
+      - ".github/workflows/deploy-validate.yml"
+
+concurrency:
+  group: deploy-validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  helm:
+    name: helm lint + template
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: azure/setup-helm@v4
+        with:
+          version: v3.16.4
+      - name: helm lint
+        run: |
+          helm lint deploy/helm/platform
+          helm lint deploy/helm/agent-chart
+      - name: helm template
+        run: |
+          helm template platform deploy/helm/platform >/dev/null
+          helm template orchestrator deploy/helm/agent-chart \
+            --set agent.kind=kernel \
+            --set-file agent.definition=platform.agent >/dev/null
+
+  k3s:
+    name: k3s server-side validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up k3d (k3s in Docker)
+        run: |
+          curl -sfL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+          k3d cluster create ci --wait --timeout 180s
+          kubectl version
+      - name: Server-side validate manifests
+        run: |
+          kubectl apply --dry-run=server -f deploy/liferay/liferay.yaml
+          kubectl apply --dry-run=server -f deploy/sandbox/pod.yaml
+      - name: Tear down
+        if: always()
+        run: k3d cluster delete ci || true
