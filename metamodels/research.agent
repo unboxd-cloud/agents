@@ -13,6 +13,40 @@ vocabulary modes {
     term benchmark means "measure against a baseline"
 }
 
+// The research topics the brain studies — the corpus made first-class (see
+// docs/research-corpus.md). Each is an active area where questions are posed,
+// hypotheses tested, and validated findings promoted.
+vocabulary topics {
+    term self_evolving_agents means "agents that improve under governance (arXiv:2507.21046, 2508.07407)"
+    term value_learning means "learning objectives and values for alignment (arXiv:1308.0702)"
+    term universal_intelligence means "universal/quantum-aware agent intelligence (QAIXI, arXiv:2505.21170)"
+    term small_models means "small, local models for the zero-cost floor (TinyLLM, arXiv:2412.15304)"
+    term graph_substrate means "the recursive graph as substrate, model, runtime, and digital twin"
+    term blockchain_graphs means "blockchain as a graph; append-only ledgers, contracts as edge templates (arXiv:1708.08749)"
+    term federated_databases means "the fractal object of federated data; bottom-up federation (arXiv:2211.00373)"
+    term graph_neural_networks means "GNNs over graphs; link prediction for unknown-edge discovery (arXiv:2211.15348)"
+    term human_ai_collaboration means "trust-calibrated hybrid human+AI decisions (IEEE Access 2024, doi:10.1109/ACCESS.2024.3449415)"
+    term decision_intelligence means "decisions to actionable outcomes — the north star"
+    term information_economics means "asymmetry, signaling, screening, adverse selection, moral hazard"
+    term price_coordination means "price signals coordinate dispersed knowledge (Hayek 1945); Alchian-Allen selection"
+    term non_stationarity means "model and cost drift; selection as a bandit (Sims 1980); probability and confidence"
+    term evolution means "variation, selection, inheritance, extinction; punctuated equilibrium"
+    term conservation means "net-zero accounting; the zero-cost universe"
+    term conformance_benchmarking means "continuous conformance; MLCommons risk, reliability, and benchmarks"
+    term distributed_runtimes means "Dapr/Diagrid building blocks; The Graph query-as-a-service; CRDT federation"
+    term innovation_process means "sustaining vs disruptive; the governed innovation funnel; measuring innovation"
+}
+
+// The corpora the topics are grounded in (where papers are indexed).
+vocabulary corpora {
+    term arxiv means "arXiv preprints"
+    term ieee means "IEEE Xplore"
+    term springer means "Springer / Birkhauser"
+    term acm means "ACM Digital Library"
+    term mlcommons means "MLCommons benchmarks and working groups"
+    term cncf means "CNCF projects and documentation"
+}
+
 entity Question {
     statement: string required
     priority: string
