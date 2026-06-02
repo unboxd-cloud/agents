@@ -1,0 +1,74 @@
+// benchmark.agent — the benchmarking metamodel.
+//
+// The platform agent publishes benchmarking reports by running agent-bench: it
+// initiates a second platform-agent from the SAME blueprint (the .agent
+// definition), so the comparison is apples-to-apples — our agent vs another
+// platform-agent on identical footing. Reports are emitted as JSON-LD aligned to
+// schema.org (see schemaorg.agent) so they are verifiable and linkable.
+namespace unboxd.meta.benchmark
+
+// Blueprint is an .agent definition; both participants are instantiated from the
+// same blueprint. Only a certified blueprint may serve as the reference (first)
+// participant — the baseline our platform agent is benchmarked as.
+entity Blueprint {
+    name: string required
+    uri: string
+    certified: bool
+}
+
+// Participant is one agent in a benchmark — ours or another platform's — both
+// from the same blueprint.
+entity Participant {
+    blueprint: Blueprint required
+    label: string required
+    platform: string
+}
+
+// Suite is a benchmark suite, e.g. agent-bench / AgentBench.
+entity Suite {
+    name: string required
+    source: string
+}
+
+entity Task {
+    suite: Suite required
+    name: string required
+    weight: float
+}
+
+entity Result {
+    participant: Participant required
+    task: Task required
+    score: float
+    passed: bool
+    latencyMs: float
+}
+
+// Report is the published, JSON-LD (schema.org) benchmarking report.
+entity Report {
+    suite: Suite required
+    format: string
+    jsonld: string
+}
+
+relation InstantiatedFrom Participant -> Blueprint {
+    instance: string
+}
+
+// agent-bench runs our agent against another platform-agent built from the same
+// blueprint.
+relation RunsAgainst Participant -> Participant {
+    suite: string
+}
+
+relation Includes Suite -> Task {
+    order: int
+}
+
+relation Scores Result -> Task {
+    rank: int
+}
+
+relation Compares Report -> Participant {
+    rank: int
+}

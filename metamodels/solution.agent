@@ -31,6 +31,9 @@ entity Brief {
 //                     AND unverifiedSources(b) == 0
 //
 // Until complete(b), the agent reports "complete context missing" and asks.
+// Completeness also brings accountability: a complete, confirmed brief (and the
+// solution built on it) has a named owner who signed off and is accountable for
+// the outcome — fully audited.
 entity Requirement {
     brief: Brief required
     name: string required
@@ -41,6 +44,13 @@ entity Clarification {
     brief: Brief required
     question: string required
     answered: bool
+}
+
+entity Accountability {
+    brief: Brief required
+    owner: string required
+    signedOff: bool
+    at: datetime
 }
 
 entity Solution {
@@ -105,6 +115,10 @@ relation Needs Brief -> Requirement {
 
 relation Asks Brief -> Clarification {
     blocking: bool
+}
+
+relation Accountable Brief -> Accountability {
+    role: string
 }
 
 relation HasPlan Solution -> Plan {

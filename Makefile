@@ -53,6 +53,10 @@ agents: ## Validate all ADL agent definitions (*.agent) and metamodels
 		$(BIN)/platform agent check $$f || exit 1; \
 	done
 
+.PHONY: bench
+bench: ## Run core engine benchmarks (ADL runtime + agentdb)
+	$(GO) test -run=^$$ -bench=. -benchmem ./pkg/adl/ ./pkg/agentdb/
+
 .PHONY: adl-wasm
 adl-wasm: ## Build the ADL runtime as WASM for the TS tooling
 	GOOS=js GOARCH=wasm $(GO) build -o $(ADL_WEB)/adl.wasm ./cmd/adl-wasm
