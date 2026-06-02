@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T08:05:44.94315614Z",
+  "generatedAt": "2026-06-02T08:06:06.121508674Z",
   "count": 37,
   "models": [
     {
@@ -37279,8 +37279,8 @@
                 }
               },
               {
-                "name": "arbiter",
-                "meaning": "the graph is the arbiter: a theory is valid only if the graph justifies it; an unjustified gap escalates to a research working group whose validated answer rejoins the graph",
+                "name": "plural_taxonomy",
+                "meaning": "every user and every society brings their own taxonomy (vocabulary, ontology, categories); the graph federates them with no single imposed ontology, and translates across them — each world carries its own naming, mapped onto shared edges",
                 "pos": {
                   "line": 20,
                   "column": 5,
@@ -37288,57 +37288,66 @@
                 }
               },
               {
-                "name": "digital_twin",
-                "meaning": "with every entity, relation, dimension, and governance on one graph, the synced whole is a governed, trackable digital twin — reasoned, simulated, and acted through",
+                "name": "arbiter",
+                "meaning": "the graph is the arbiter: a theory is valid only if the graph justifies it; an unjustified gap escalates to a research working group whose validated answer rejoins the graph",
                 "pos": {
                   "line": 21,
                   "column": 5,
-                  "offset": 3010
+                  "offset": 3084
+                }
+              },
+              {
+                "name": "digital_twin",
+                "meaning": "with every entity, relation, dimension, and governance on one graph, the synced whole is a governed, trackable digital twin — reasoned, simulated, and acted through",
+                "pos": {
+                  "line": 22,
+                  "column": 5,
+                  "offset": 3283
                 }
               },
               {
                 "name": "time_travel",
                 "meaning": "time is a dimension: index every node and edge bitemporally (valid-time and transaction-time), append-only, so the graph is queryable as-of any moment — replay the past, inspect the present, and project/simulate the future",
                 "pos": {
-                  "line": 22,
+                  "line": 23,
                   "column": 5,
-                  "offset": 3207
+                  "offset": 3480
                 }
               },
               {
                 "name": "time_is_distance",
                 "meaning": "time is a distance on the graph — a path through versioned edges; traveling in time is traversal: walk the edges forward to replay, backward to rewind, and the distance between two states is the length of that path",
                 "pos": {
-                  "line": 23,
+                  "line": 24,
                   "column": 5,
-                  "offset": 3461
+                  "offset": 3734
                 }
               },
               {
                 "name": "ever_expanding",
                 "meaning": "the graph keeps expanding — new nodes, edges, and worlds are added continuously as knowledge grows and relations are discovered; it is never finished, a living and growing twin (the unknown edges are always the frontier)",
                 "pos": {
-                  "line": 24,
+                  "line": 25,
                   "column": 5,
-                  "offset": 3712
+                  "offset": 3985
                 }
               },
               {
                 "name": "universal_transformation",
                 "meaning": "everything is transformable to everything: edges are transformations, so between any two worlds there exists a path; a transformation may carry cost or loss, which the graph makes explicit (convert, compress, reduce, minimize)",
                 "pos": {
-                  "line": 25,
+                  "line": 26,
                   "column": 5,
-                  "offset": 3967
+                  "offset": 4240
                 }
               },
               {
                 "name": "transformation_boundary",
                 "meaning": "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)",
                 "pos": {
-                  "line": 26,
+                  "line": 27,
                   "column": 5,
-                  "offset": 4236
+                  "offset": 4509
                 }
               }
             ]
@@ -37346,9 +37355,9 @@
           {
             "kind": "Vocabulary",
             "pos": {
-              "line": 36,
+              "line": 37,
               "column": 1,
-              "offset": 5051
+              "offset": 5324
             },
             "name": "ledger",
             "terms": [
@@ -37356,54 +37365,54 @@
                 "name": "append_only",
                 "meaning": "history is append-only and hash-linked: tamper-evident, immutable, replayable — provenance and audit by construction (see agentdb TemporalStore)",
                 "pos": {
-                  "line": 37,
+                  "line": 38,
                   "column": 5,
-                  "offset": 5075
+                  "offset": 5348
                 }
               },
               {
                 "name": "contract_edge_template",
                 "meaning": "a smart contract is a template for future edges: a node that, under conditions, creates constrained future edges — the recursive metamodel object graph",
                 "pos": {
-                  "line": 38,
+                  "line": 39,
                   "column": 5,
-                  "offset": 5251
+                  "offset": 5524
                 }
               },
               {
                 "name": "canonical_chain",
                 "meaning": "competing branches/forks reconcile to one canonical chain; a fork that builds a different world is a hard fork (a new lineage)",
                 "pos": {
-                  "line": 39,
+                  "line": 40,
                   "column": 5,
-                  "offset": 5445
+                  "offset": 5718
                 }
               },
               {
                 "name": "dao_agent",
                 "meaning": "a DAO is an autonomous agent: lives online, owns property (a wallet), hires humans for what it cannot do, and rewards activity — the agent economy",
                 "pos": {
-                  "line": 40,
+                  "line": 41,
                   "column": 5,
-                  "offset": 5605
+                  "offset": 5878
                 }
               },
               {
                 "name": "permissioned",
                 "meaning": "the platform is permissioned and governed (Hyperledger-like), not trustless proof-of-work: identity, trust, and governance replace mining — governance instead of a peer-to-peer heat engine",
                 "pos": {
-                  "line": 41,
+                  "line": 42,
                   "column": 5,
-                  "offset": 5781
+                  "offset": 6054
                 }
               },
               {
                 "name": "code_is_not_law",
                 "meaning": "code is not the final law: a governed brain may correct a conforming-but-wrong outcome (unlike the Ethereum 'code is law' split), because conformance is to the standard, not merely the protocol",
                 "pos": {
-                  "line": 42,
+                  "line": 43,
                   "column": 5,
-                  "offset": 6002
+                  "offset": 6275
                 }
               }
             ]
@@ -37411,9 +37420,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 45,
+              "line": 46,
               "column": 1,
-              "offset": 6228
+              "offset": 6501
             },
             "name": "Theory",
             "fields": [
@@ -37422,16 +37431,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 46,
+                    "line": 47,
                     "column": 11,
-                    "offset": 6254
+                    "offset": 6527
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 46,
+                  "line": 47,
                   "column": 5,
-                  "offset": 6248
+                  "offset": 6521
                 }
               },
               {
@@ -37439,16 +37448,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 47,
+                    "line": 48,
                     "column": 13,
-                    "offset": 6282
+                    "offset": 6555
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 47,
+                  "line": 48,
                   "column": 5,
-                  "offset": 6274
+                  "offset": 6547
                 }
               },
               {
@@ -37456,16 +37465,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 48,
+                    "line": 49,
                     "column": 13,
-                    "offset": 6301
+                    "offset": 6574
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 48,
+                  "line": 49,
                   "column": 5,
-                  "offset": 6293
+                  "offset": 6566
                 }
               }
             ]
@@ -37473,9 +37482,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 52,
+              "line": 53,
               "column": 1,
-              "offset": 6373
+              "offset": 6646
             },
             "name": "Axiom",
             "fields": [
@@ -37486,22 +37495,22 @@
                     "name": "Theory",
                     "resolved": "unboxd.meta.theory.Theory",
                     "pos": {
-                      "line": 53,
+                      "line": 54,
                       "column": 13,
-                      "offset": 6400
+                      "offset": 6673
                     }
                   },
                   "pos": {
-                    "line": 53,
+                    "line": 54,
                     "column": 13,
-                    "offset": 6400
+                    "offset": 6673
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 53,
+                  "line": 54,
                   "column": 5,
-                  "offset": 6392
+                  "offset": 6665
                 }
               },
               {
@@ -37509,16 +37518,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 54,
+                    "line": 55,
                     "column": 16,
-                    "offset": 6431
+                    "offset": 6704
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 54,
+                  "line": 55,
                   "column": 5,
-                  "offset": 6420
+                  "offset": 6693
                 }
               }
             ]
@@ -37526,9 +37535,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 57,
+              "line": 58,
               "column": 1,
-              "offset": 6450
+              "offset": 6723
             },
             "name": "Proposition",
             "fields": [
@@ -37539,22 +37548,22 @@
                     "name": "Theory",
                     "resolved": "unboxd.meta.theory.Theory",
                     "pos": {
-                      "line": 58,
+                      "line": 59,
                       "column": 13,
-                      "offset": 6483
+                      "offset": 6756
                     }
                   },
                   "pos": {
-                    "line": 58,
+                    "line": 59,
                     "column": 13,
-                    "offset": 6483
+                    "offset": 6756
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 58,
+                  "line": 59,
                   "column": 5,
-                  "offset": 6475
+                  "offset": 6748
                 }
               },
               {
@@ -37562,16 +37571,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 59,
+                    "line": 60,
                     "column": 16,
-                    "offset": 6514
+                    "offset": 6787
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 59,
+                  "line": 60,
                   "column": 5,
-                  "offset": 6503
+                  "offset": 6776
                 }
               },
               {
@@ -37579,16 +37588,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 60,
+                    "line": 61,
                     "column": 13,
-                    "offset": 6542
+                    "offset": 6815
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 60,
+                  "line": 61,
                   "column": 5,
-                  "offset": 6534
+                  "offset": 6807
                 }
               }
             ]
@@ -37596,9 +37605,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 63,
+              "line": 64,
               "column": 1,
-              "offset": 6550
+              "offset": 6823
             },
             "name": "Proof",
             "fields": [
@@ -37609,22 +37618,22 @@
                     "name": "Proposition",
                     "resolved": "unboxd.meta.theory.Proposition",
                     "pos": {
-                      "line": 64,
+                      "line": 65,
                       "column": 18,
-                      "offset": 6582
+                      "offset": 6855
                     }
                   },
                   "pos": {
-                    "line": 64,
+                    "line": 65,
                     "column": 18,
-                    "offset": 6582
+                    "offset": 6855
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 64,
+                  "line": 65,
                   "column": 5,
-                  "offset": 6569
+                  "offset": 6842
                 }
               },
               {
@@ -37632,16 +37641,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 65,
+                    "line": 66,
                     "column": 13,
-                    "offset": 6615
+                    "offset": 6888
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 65,
+                  "line": 66,
                   "column": 5,
-                  "offset": 6607
+                  "offset": 6880
                 }
               },
               {
@@ -37649,16 +37658,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 66,
+                    "line": 67,
                     "column": 12,
-                    "offset": 6633
+                    "offset": 6906
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 66,
+                  "line": 67,
                   "column": 5,
-                  "offset": 6626
+                  "offset": 6899
                 }
               }
             ]
@@ -37666,9 +37675,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 69,
+              "line": 70,
               "column": 1,
-              "offset": 6641
+              "offset": 6914
             },
             "name": "Evidence",
             "fields": [
@@ -37679,22 +37688,22 @@
                     "name": "Proposition",
                     "resolved": "unboxd.meta.theory.Proposition",
                     "pos": {
-                      "line": 70,
+                      "line": 71,
                       "column": 18,
-                      "offset": 6676
+                      "offset": 6949
                     }
                   },
                   "pos": {
-                    "line": 70,
+                    "line": 71,
                     "column": 18,
-                    "offset": 6676
+                    "offset": 6949
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 70,
+                  "line": 71,
                   "column": 5,
-                  "offset": 6663
+                  "offset": 6936
                 }
               },
               {
@@ -37702,16 +37711,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 71,
+                    "line": 72,
                     "column": 13,
-                    "offset": 6709
+                    "offset": 6982
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 71,
+                  "line": 72,
                   "column": 5,
-                  "offset": 6701
+                  "offset": 6974
                 }
               },
               {
@@ -37719,16 +37728,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 72,
+                    "line": 73,
                     "column": 15,
-                    "offset": 6730
+                    "offset": 7003
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 72,
+                  "line": 73,
                   "column": 5,
-                  "offset": 6720
+                  "offset": 6993
                 }
               }
             ]
@@ -37736,27 +37745,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 75,
+              "line": 76,
               "column": 1,
-              "offset": 6739
+              "offset": 7012
             },
             "name": "Assumes",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 75,
+                "line": 76,
                 "column": 18,
-                "offset": 6756
+                "offset": 7029
               }
             },
             "target": {
               "name": "Axiom",
               "resolved": "unboxd.meta.theory.Axiom",
               "pos": {
-                "line": 75,
+                "line": 76,
                 "column": 28,
-                "offset": 6766
+                "offset": 7039
               }
             },
             "fields": [
@@ -37765,16 +37774,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 76,
+                    "line": 77,
                     "column": 16,
-                    "offset": 6789
+                    "offset": 7062
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 76,
+                  "line": 77,
                   "column": 5,
-                  "offset": 6778
+                  "offset": 7051
                 }
               }
             ]
@@ -37782,27 +37791,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 79,
+              "line": 80,
               "column": 1,
-              "offset": 6797
+              "offset": 7070
             },
             "name": "States",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 79,
+                "line": 80,
                 "column": 17,
-                "offset": 6813
+                "offset": 7086
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 79,
+                "line": 80,
                 "column": 27,
-                "offset": 6823
+                "offset": 7096
               }
             },
             "fields": [
@@ -37811,16 +37820,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 80,
+                    "line": 81,
                     "column": 14,
-                    "offset": 6850
+                    "offset": 7123
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 80,
+                  "line": 81,
                   "column": 5,
-                  "offset": 6841
+                  "offset": 7114
                 }
               }
             ]
@@ -37828,27 +37837,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 83,
+              "line": 84,
               "column": 1,
-              "offset": 6858
+              "offset": 7131
             },
             "name": "Proves",
             "source": {
               "name": "Proof",
               "resolved": "unboxd.meta.theory.Proof",
               "pos": {
-                "line": 83,
+                "line": 84,
                 "column": 17,
-                "offset": 6874
+                "offset": 7147
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 83,
+                "line": 84,
                 "column": 26,
-                "offset": 6883
+                "offset": 7156
               }
             },
             "fields": [
@@ -37857,16 +37866,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 84,
+                    "line": 85,
                     "column": 12,
-                    "offset": 6908
+                    "offset": 7181
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 84,
+                  "line": 85,
                   "column": 5,
-                  "offset": 6901
+                  "offset": 7174
                 }
               }
             ]
@@ -37874,27 +37883,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 87,
+              "line": 88,
               "column": 1,
-              "offset": 6918
+              "offset": 7191
             },
             "name": "Supports",
             "source": {
               "name": "Evidence",
               "resolved": "unboxd.meta.theory.Evidence",
               "pos": {
-                "line": 87,
+                "line": 88,
                 "column": 19,
-                "offset": 6936
+                "offset": 7209
               }
             },
             "target": {
               "name": "Proposition",
               "resolved": "unboxd.meta.theory.Proposition",
               "pos": {
-                "line": 87,
+                "line": 88,
                 "column": 31,
-                "offset": 6948
+                "offset": 7221
               }
             },
             "fields": [
@@ -37903,16 +37912,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 88,
+                    "line": 89,
                     "column": 13,
-                    "offset": 6974
+                    "offset": 7247
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 88,
+                  "line": 89,
                   "column": 5,
-                  "offset": 6966
+                  "offset": 7239
                 }
               }
             ]
@@ -37920,27 +37929,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 92,
+              "line": 93,
               "column": 1,
-              "offset": 7048
+              "offset": 7321
             },
             "name": "ComposesWith",
             "source": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 92,
+                "line": 93,
                 "column": 23,
-                "offset": 7070
+                "offset": 7343
               }
             },
             "target": {
               "name": "Theory",
               "resolved": "unboxd.meta.theory.Theory",
               "pos": {
-                "line": 92,
+                "line": 93,
                 "column": 33,
-                "offset": 7080
+                "offset": 7353
               }
             },
             "fields": [
@@ -37949,16 +37958,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 93,
+                    "line": 94,
                     "column": 10,
-                    "offset": 7098
+                    "offset": 7371
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 93,
+                  "line": 94,
                   "column": 5,
-                  "offset": 7093
+                  "offset": 7366
                 }
               }
             ]
