@@ -1,0 +1,85 @@
+// compliance.agent — the compliance metamodel, aligned to AGenNext
+// Agent-Compliance. Agents act on behalf of a company while serving a client, so
+// they must comply with the law, industry rules, company policy, client
+// obligations, privacy, data security, and terms of service before acting.
+// Compliance defines the obligations and checks; enforcement and evidence live in
+// the runtime, guard, trust, and traces layers.
+namespace unboxd.meta.compliance
+
+vocabulary domains {
+    term privacy means "privacy and data protection"
+    term data_residency means "data residency"
+    term financial means "financial compliance"
+    term healthcare means "healthcare compliance"
+    term employment means "employment/labor compliance"
+    term intellectual_property means "intellectual property"
+    term export_control means "export control"
+    term records_retention means "records retention"
+    term contractual means "contractual restrictions"
+    term terms_of_service means "SaaS/API terms of service"
+    term security_standards means "security standards"
+}
+
+// Obligation is a compliance requirement from a legal, regulatory, policy, or
+// contractual source, scoped to a jurisdiction.
+entity Obligation {
+    name: string required
+    domain: string required
+    source: string
+    jurisdiction: string
+}
+
+entity Check {
+    obligation: Obligation required
+    name: string required
+    automated: bool
+}
+
+entity ResidencyRule {
+    region: string required
+    scope: string
+}
+
+entity RetentionRule {
+    dataKind: string required
+    retainDays: int
+    deleteAfter: bool
+}
+
+entity ConsentRule {
+    purpose: string required
+    mandatory: bool
+}
+
+entity Evidence {
+    obligation: Obligation required
+    uri: string
+    at: datetime
+}
+
+entity Review {
+    obligation: Obligation required
+    reviewer: string
+    status: string
+    at: datetime
+}
+
+relation Enforces Check -> Obligation {
+    blocking: bool
+}
+
+relation AppliesIn Obligation -> ResidencyRule {
+    strict: bool
+}
+
+relation Retains Obligation -> RetentionRule {
+    policy: string
+}
+
+relation RequiresEvidence Obligation -> Evidence {
+    mandatory: bool
+}
+
+relation Reviews Review -> Obligation {
+    outcome: string
+}
