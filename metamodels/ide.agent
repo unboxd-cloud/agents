@@ -1,0 +1,94 @@
+// ide.agent — the Agent-IDE metamodel (Agent Workspace OS, on Eclipse Theia).
+// A browser IDE to build, run, and govern agents: panels, an MCP gateway, a
+// ReAct agent loop, semantic memory, and a governance gate on every tool call.
+// The Agent Builder is itself a tool that composes agents (the composer surface);
+// the ADL runtime (pkg/adl, via WASM) powers live validation in the editor.
+namespace unboxd.meta.ide
+
+vocabulary panels {
+    term dashboard means "dashboard panel"
+    term agent_builder means "agent builder panel"
+    term orchestrate means "multi-agent orchestration panel"
+    term bench means "benchmarking panel"
+    term knowledge means "knowledge panel"
+    term artifacts means "artifacts panel"
+    term mcp_tools means "MCP / tools panel"
+    term workspaces means "workspaces panel"
+    term identity means "identity panel"
+    term runs means "runs panel"
+    term replay means "replay panel"
+    term governance means "governance panel"
+    term optimize means "optimize panel"
+}
+
+vocabulary tools {
+    term file_rw means "read/write/list/delete workspace files"
+    term shell means "execute shell commands"
+    term http_client means "outbound HTTP requests"
+    term browser means "fetch URL and extract text"
+    term web_search means "web search"
+    term vector_search means "semantic search over the knowledge store"
+    term code_exec means "run code in a sandbox"
+    term db_query means "SQL query against a database"
+    term openhands_task means "delegate to an OpenHands agent"
+}
+
+entity Workspace {
+    name: string required
+}
+
+entity Panel {
+    workspace: Workspace required
+    name: string required
+    location: string
+}
+
+entity Tool {
+    name: string required
+    gated: bool
+}
+
+entity McpServer {
+    name: string required
+    transport: string
+}
+
+// Builder is the Agent Builder: a tool that composes agents in a workspace.
+entity Builder {
+    name: string required
+}
+
+// Run is one agent run (ReAct: thought -> tool -> observation -> result),
+// streamed step by step.
+entity Run {
+    workspace: Workspace required
+    pattern: string
+    status: string
+}
+
+// ToolCall is gated: every tool call passes the governance/policy gate first.
+entity ToolCall {
+    run: Run required
+    tool: Tool required
+    approved: bool
+}
+
+relation Opens Workspace -> Panel {
+    location: string
+}
+
+relation Bridges McpServer -> Tool {
+    transport: string
+}
+
+relation Builds Builder -> Workspace {
+    composes: bool
+}
+
+relation Calls Run -> ToolCall {
+    step: int
+}
+
+relation Gates ToolCall -> Tool {
+    policy: string
+}
