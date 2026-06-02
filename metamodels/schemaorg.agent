@@ -1,0 +1,28 @@
+// schemaorg.agent — JSON-LD / schema.org alignment.
+//
+// Maps the platform's core types onto schema.org types via ADL `maps to`, so
+// stored records can be emitted as JSON-LD (with an @context binding each type
+// to https://schema.org/<Type> and @id from the record id). This gives the graph
+// a standard, linked-data vocabulary for interoperability and SEO/discovery,
+// without coupling the internal model to it.
+namespace unboxd.meta.schemaorg
+
+vocabulary schemaorg {
+    term Person means "a human principal" maps to schema.Person
+    term Organization means "a tenant or organization" maps to schema.Organization
+    term SoftwareApplication means "a service or application" maps to schema.SoftwareApplication
+    term Service means "a platform service" maps to schema.Service
+    term Product means "a catalog product" maps to schema.Product
+    term Offer means "a catalog offering" maps to schema.Offer
+    term Action means "an action or task" maps to schema.Action
+    term Event means "an emitted event" maps to schema.Event
+    term Role means "an access role" maps to schema.Role
+    term Permission means "a permission grant" maps to schema.DigitalDocumentPermission
+    term Order means "a contract or order" maps to schema.Order
+    term Invoice means "an invoice" maps to schema.Invoice
+    term MonetaryAmount means "a monetary amount" maps to schema.MonetaryAmount
+    term Dataset means "a knowledge base or dataset" maps to schema.Dataset
+    term DigitalDocument means "a document or artifact" maps to schema.DigitalDocument
+    term Message means "a message" maps to schema.Message
+    term Comment means "a conversation comment" maps to schema.Comment
+}

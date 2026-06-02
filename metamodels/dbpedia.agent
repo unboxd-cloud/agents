@@ -1,0 +1,22 @@
+// dbpedia.agent — DBpedia as a real, referenceable knowledge graph.
+//
+// DBpedia provides stable URIs (https://dbpedia.org/resource/<Thing>) and the
+// DBpedia ontology (dbo:) extracted from Wikipedia, so the platform can ground
+// facts in shared, real-world knowledge — both past and present — rather than
+// inventing its own identifiers. Maps the platform's core types onto the DBpedia
+// ontology; resources in knowledge.agent carry DBpedia URIs.
+namespace unboxd.meta.dbpedia
+
+vocabulary dbpedia {
+    term Agent means "an acting entity" maps to dbo.Agent
+    term Person means "a person" maps to dbo.Person
+    term Organisation means "an organisation" maps to dbo.Organisation
+    term Company means "a company" maps to dbo.Company
+    term Software means "a software system" maps to dbo.Software
+    term Service means "a service" maps to dbo.Service
+    term Product means "a product" maps to dbo.Product
+    term Event means "an event in time" maps to dbo.Event
+    term Place means "a place" maps to dbo.Place
+    term Activity means "an activity" maps to dbo.Activity
+    term Work means "a created work or artifact" maps to dbo.Work
+}

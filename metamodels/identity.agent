@@ -1,17 +1,53 @@
-// identity.agent — the identity & security metamodel: principals, credentials,
-// verified identities, sessions/tokens, and the roles/permissions that govern
-// what they may do.
+// identity.agent — the identity & security metamodel: principals (humans and
+// service accounts), organizations and groups, credentials/keys/MFA, verified
+// identities, sessions and tokens, and the roles/permissions/bindings and
+// secrets that govern what a principal may do.
 namespace unboxd.meta.identity
 
 entity Principal {
     id: string required
     kind: string required
+    displayName: string
+    active: bool
+}
+
+entity Human extends Principal {
+    email: string
+    title: string
+}
+
+entity ServiceAccount extends Principal {
+    owner: string
+}
+
+entity Organization {
+    id: string required
+    name: string required
+}
+
+entity Group {
+    org: Organization required
+    name: string required
 }
 
 entity Credential {
     principal: Principal required
     kind: string required
     issuer: string
+    createdAt: datetime
+    expiresAt: datetime
+}
+
+entity ApiKey {
+    principal: Principal required
+    prefix: string required
+    lastUsedAt: datetime
+}
+
+entity MfaFactor {
+    principal: Principal required
+    kind: string required
+    verified: bool
 }
 
 entity Identity {
@@ -24,11 +60,13 @@ entity Session {
     principal: Principal required
     startedAt: datetime
     expiresAt: datetime
+    ip: string
 }
 
 entity Token {
     session: Session required
     scope: string
+    kind: string
 }
 
 entity Role {
@@ -38,22 +76,54 @@ entity Role {
 
 entity Permission {
     name: string required
+    action: string required
+    scope: string
+}
+
+entity RoleBinding {
+    role: Role required
+    principal: Principal required
     scope: string
 }
 
 entity Secret {
     name: string required
     ref: string
+    rotationDays: int
+}
+
+relation HasGroup Organization -> Group {
+    createdAt: datetime
+}
+
+relation MemberOf Principal -> Group {
+    since: datetime
 }
 
 relation Authenticates Credential -> Principal {
     method: string
 }
 
-relation Holds Principal -> Role {
-    grantedAt: datetime
+relation Protects MfaFactor -> Principal {
+    primary: bool
+}
+
+relation Verifies Identity -> Principal {
+    assurance: string
+}
+
+relation Binds RoleBinding -> Role {
+    via: string
+}
+
+relation AppliesTo RoleBinding -> Principal {
+    inherited: bool
 }
 
 relation Includes Role -> Permission {
     mandatory: bool
+}
+
+relation OwnsSecret Principal -> Secret {
+    grantedAt: datetime
 }
