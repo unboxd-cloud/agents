@@ -22,6 +22,27 @@ entity Brief {
     complete: bool
 }
 
+// Theory of completeness: an agent may proceed only when its context is provably
+// complete. A Brief is complete iff every required Requirement is satisfied, no
+// Clarification is open, and every cited Source is verified:
+//
+//   completeness(b) = satisfied(b) / required(b)
+//   complete(b)     = (completeness(b) == 1) AND openClarifications(b) == 0
+//                     AND unverifiedSources(b) == 0
+//
+// Until complete(b), the agent reports "complete context missing" and asks.
+entity Requirement {
+    brief: Brief required
+    name: string required
+    satisfied: bool
+}
+
+entity Clarification {
+    brief: Brief required
+    question: string required
+    answered: bool
+}
+
 entity Solution {
     goal: Goal required
     rationale: string
@@ -74,6 +95,16 @@ relation Solves Solution -> Goal {
 // brief is complete and confirmed.
 relation Grounds Solution -> Brief {
     confirmed: bool
+}
+
+// Completeness theory: a brief needs requirements satisfied and clarifications
+// answered before it is complete.
+relation Needs Brief -> Requirement {
+    weight: float
+}
+
+relation Asks Brief -> Clarification {
+    blocking: bool
 }
 
 relation HasPlan Solution -> Plan {
