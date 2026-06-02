@@ -104,6 +104,10 @@ vocabulary tooling {
     term n8n means "n8n — low-code workflow automation, offered as a managed service"
     term search means "search as a service — enterprise search over the fabric and RAG"
     term sailpoint means "SailPoint — identity governance (IGA) source for entitlements"
+    term glpi means "GLPI — open-source ITSM/CMDB and asset management"
+    term coolify means "Coolify — self-hosted PaaS to build and deploy"
+    term dokploy means "Dokploy — self-hosted PaaS to build and deploy"
+    term dokku means "Dokku — lightweight PaaS to build and deploy"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -906,6 +910,8 @@ constitution PlatformConstitution {
     rule fabric: "maintain a unified data fabric with no duplicates: resolve identities and deduplicate to a single source of truth"
     rule integration: "integrate data through connectors (Apache SeaTunnel — multi-source/sink, batch and CDC) into the unified fabric"
     rule contextualConnectors: "data connectors and integrations are contextually populated from the user's entitlements — fetched from the IGA system (e.g. SailPoint) or Okta/SSO identity, app assignments, and scopes; users see only what they are entitled to"
+    rule itsm: "GLPI is the ITSM/CMDB backing the asset catalog; discovered SaaS tools, data sources, connectors, and gateways are cataloged and their schemas resolved to schema.org"
+    rule deployTools: "Coolify, Dokploy, and Dokku are available as build/deploy tools and skills for producing runnable images"
     rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
     rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
     rule ui: "build the UI once: a single design system (htmx over stdlib templates, no build step) reused across every surface — admin, org console, and IDE"
