@@ -35,6 +35,8 @@ func run(cmd string, args []string) error {
 	switch cmd {
 	case "compose":
 		return compose(args)
+	case "adl":
+		return adlCmd(args)
 	case "catalog":
 		profile := ""
 		if len(args) > 0 {
@@ -121,6 +123,8 @@ func usage() {
 
 Usage:
   platform compose up|down        run/stop the local sandbox (CONTAINER=podman|docker)
+  platform adl check <file>       parse + validate an ADL document (exit 1 on errors)
+  platform adl show  <file>       print the compiled ADL model + diagnostics as JSON
   platform catalog [profile]      list catalog offerings
   platform pricebook              show the active price book
   platform frameworks             list compliance frameworks
