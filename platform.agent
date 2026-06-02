@@ -114,6 +114,9 @@ vocabulary tooling {
     term coolify means "Coolify — self-hosted PaaS to build and deploy"
     term dokploy means "Dokploy — self-hosted PaaS to build and deploy"
     term dokku means "Dokku — lightweight PaaS to build and deploy"
+    term conductor means "Orkes Conductor — durable workflow orchestration"
+    term harness means "Harness — software delivery (CD, feature flags, IDP)"
+    term cortex_idp means "Cortex.io — internal developer portal (catalog, scorecards)"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.

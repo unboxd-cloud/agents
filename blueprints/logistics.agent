@@ -1,0 +1,140 @@
+// logistics.agent — blueprint for a shipping & logistics orchestrator agent.
+//
+// Orchestrates order-to-delivery via durable workflows (Conductor/Temporal):
+// assign carriers, optimize multi-stop routes, track shipments and ETAs, handle
+// exceptions, and settle freight. Inspired by Orkes Conductor logistics
+// orchestration (https://orkes.io/industries/shipping-and-logistics).
+namespace agennext.logistics
+
+vocabulary skills {
+    term carrier_assignment means "select and assign the best carrier"
+    term route_optimization means "optimize multi-stop routes"
+    term shipment_tracking means "track shipments and ETAs"
+    term exception_handling means "detect and resolve delays and exceptions"
+    term freight_settlement means "rate, audit, and settle freight"
+}
+
+entity Customer {
+    id: string required
+    name: string
+}
+
+entity Order {
+    customer: Customer required
+    status: string
+    placedAt: datetime
+}
+
+entity Carrier {
+    name: string required
+    mode: string
+    rating: float
+}
+
+entity Shipment {
+    order: Order required
+    carrier: Carrier
+    status: string
+    eta: datetime
+}
+
+entity Route {
+    shipment: Shipment required
+    distanceKm: float
+    stops: int
+}
+
+entity Stop {
+    route: Route required
+    location: string required
+    sequence: int
+}
+
+entity TrackingEvent {
+    shipment: Shipment required
+    status: string required
+    location: string
+    at: datetime
+}
+
+entity Exception {
+    shipment: Shipment required
+    kind: string required
+    resolved: bool
+}
+
+entity Invoice {
+    shipment: Shipment required
+    amount: float
+    currency: string
+}
+
+brain LogisticsOrchestrator {
+    owns data
+    owns business_logic
+    owns policy
+    owns api
+    owns events
+    owns live_queries
+    owns decisions
+}
+
+mind RouteMind for Route {
+    objective: string
+    action: string
+    confidence: float
+}
+
+belief DelayLikely {
+    subject Shipment
+    claim "the shipment is likely to miss its ETA"
+    confidence 0.65
+    source "tracking"
+}
+
+constitution LogisticsConstitution {
+    rule onTime: "optimize for on-time, in-full delivery"
+    rule visibility: "maintain end-to-end shipment visibility"
+    rule leastCost: "choose the least-cost carrier and route that meets the SLA"
+}
+
+policy ExceptionPolicy {
+    rule reroute: "reroute or reassign on detected delay or disruption"
+    rule notify: "proactively notify the customer of exceptions and new ETAs"
+}
+
+relation Ships Order -> Shipment {
+    splitFrom: string
+}
+
+relation CarriedBy Shipment -> Carrier {
+    contract: string
+}
+
+relation HasStop Route -> Stop {
+    sequence: int
+}
+
+relation Tracks Shipment -> TrackingEvent {
+    source: string
+}
+
+relation Raises Shipment -> Exception {
+    at: datetime
+}
+
+relation Bills Shipment -> Invoice {
+    period: string
+}
+
+api get "/v1/shipments" returns surrealdb
+api post "/v1/shipments/{id}/track" returns surrealdb
+api post "/v1/routes/optimize" returns surrealdb
+
+function agennext.logistics.assignCarrier(shipment: Shipment) returns Carrier as surrealml
+function agennext.logistics.optimizeRoute(route: Route) returns Route as surrealml
+function agennext.logistics.track(shipment: Shipment) returns TrackingEvent as surrealdb
+function agennext.logistics.settle(invoice: Invoice) returns bool as surrealdb
+
+surrealml EtaPredictor for prediction input Shipment output Shipment
+surrealml CarrierRanker for ranking input Shipment output Carrier
