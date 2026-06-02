@@ -1,0 +1,58 @@
+// theory.agent — Agent-Theory: the formal theories the brain holds and reasons
+// from. A Theory rests on Axioms (first principles), states Propositions, and is
+// supported by Proofs and Evidence. Theories compose (genesis by synthesis) and
+// are validated before they govern. The platform's foundations — completeness,
+// control, decision, trust, evolution, genesis — are theories in this sense
+// (see docs/theories.md).
+namespace unboxd.meta.theory
+
+entity Theory {
+    name: string required
+    domain: string
+    status: string
+}
+
+// Axiom is a first principle a theory assumes (irreducible).
+entity Axiom {
+    theory: Theory required
+    statement: string required
+}
+
+entity Proposition {
+    theory: Theory required
+    statement: string required
+    proven: bool
+}
+
+entity Proof {
+    proposition: Proposition required
+    method: string
+    valid: bool
+}
+
+entity Evidence {
+    proposition: Proposition required
+    source: string
+    strength: float
+}
+
+relation Assumes Theory -> Axiom {
+    primitive: bool
+}
+
+relation States Theory -> Proposition {
+    central: bool
+}
+
+relation Proves Proof -> Proposition {
+    rigor: string
+}
+
+relation Supports Evidence -> Proposition {
+    weight: float
+}
+
+// Theories compose into larger theories (genesis by synthesis).
+relation ComposesWith Theory -> Theory {
+    via: string
+}

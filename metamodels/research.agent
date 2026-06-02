@@ -1,0 +1,83 @@
+// research.agent — Agent-Research: how the brain conducts research. Research is
+// exploration and lives in the innovation lab, not production. A Question yields
+// falsifiable Hypotheses tested by sandboxed Experiments producing Observations
+// and Findings, grounded in a research Corpus (e.g. arXiv). Only validated
+// findings are promoted to production (see decision.agent: synthesis ->
+// validate -> productionize).
+namespace unboxd.meta.research
+
+vocabulary modes {
+    term exploration means "open-ended discovery (the innovation lab)"
+    term replication means "reproduce a known result"
+    term ablation means "isolate the contribution of a part"
+    term benchmark means "measure against a baseline"
+}
+
+entity Question {
+    statement: string required
+    priority: string
+}
+
+entity Hypothesis {
+    question: Question required
+    claim: string required
+    falsifiable: bool
+}
+
+entity Experiment {
+    hypothesis: Hypothesis required
+    method: string
+    sandboxed: bool
+}
+
+entity Observation {
+    experiment: Experiment required
+    result: string
+    at: datetime
+}
+
+entity Finding {
+    hypothesis: Hypothesis required
+    conclusion: string required
+    confidence: float
+    validated: bool
+}
+
+entity Corpus {
+    name: string required
+    kind: string
+}
+
+entity Paper {
+    corpus: Corpus required
+    uri: string
+    title: string
+}
+
+relation Poses Question -> Hypothesis {
+    order: int
+}
+
+relation Tests Experiment -> Hypothesis {
+    runs: int
+}
+
+relation Yields Experiment -> Observation {
+    metric: string
+}
+
+relation Supports Observation -> Finding {
+    weight: float
+}
+
+relation Cites Hypothesis -> Paper {
+    relevance: float
+}
+
+relation Indexes Corpus -> Paper {
+    rank: int
+}
+
+relation Concludes Finding -> Question {
+    answered: bool
+}
