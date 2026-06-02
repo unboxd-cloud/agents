@@ -47,6 +47,9 @@ jobs:
           kubectl version
       - name: Server-side validate manifests
         run: |
+          # The namespace must exist for server-side dry-run of namespaced
+          # resources (--dry-run=server does not persist the Namespace object).
+          kubectl create namespace liferay
           kubectl apply --dry-run=server -f deploy/liferay/liferay.yaml
           kubectl apply --dry-run=server -f deploy/sandbox/pod.yaml
       - name: Tear down
