@@ -41,6 +41,14 @@ entity CloudEvent {
     data: string
 }
 
+// EventConformance records validation of an event against the CloudEvents
+// conformance suite (https://github.com/cloudevents/conformance).
+entity EventConformance {
+    event: CloudEvent required
+    profile: string
+    valid: bool
+}
+
 // A2ACall is one agent-to-agent invocation. It is always gated (see GatedBy and
 // GovernedBy): the call is mediated by a Tool and bound by a Policy.
 entity A2ACall {
@@ -73,4 +81,8 @@ relation Carries Message -> CloudEvent {
 
 relation Emits Agent -> CloudEvent {
     at: datetime
+}
+
+relation Validates EventConformance -> CloudEvent {
+    suite: string
 }
