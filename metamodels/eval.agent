@@ -1,0 +1,75 @@
+// eval.agent — the evaluation metamodel, aligned to AGenNext Agent-Eval and its
+// CLEAR framework (Cost, Latency, Efficacy, Assurance, Reliability;
+// arXiv:2511.14136). Agent-Eval owns reusable scoring rubrics and metrics that
+// Agent-Bench uses to score benchmark runs. CLEAR evaluates enterprise agents
+// beyond task accuracy — cost-efficiency, reliability, and operational stability.
+namespace unboxd.meta.eval
+
+// The five CLEAR dimensions.
+vocabulary clear {
+    term cost means "economic efficiency: tokens, inference, and infrastructure"
+    term latency means "response time across plan, execute, and reflect"
+    term efficacy means "task completion quality"
+    term assurance means "safety, security, and policy compliance"
+    term reliability means "consistency across repeated runs"
+}
+
+// CLEAR metrics and their formulas.
+vocabulary metrics {
+    term cna means "cost-normalized accuracy = accuracy / cost_usd * 100"
+    term cps means "cost per success = total_cost / successful_tasks"
+    term scr means "SLA compliance rate = tasks_within_sla / total_tasks * 100"
+    term pas means "policy adherence score"
+    term pass_at_k means "reliability across k runs (pass@k)"
+}
+
+// Subject is what is being scored: an agent, a team, or a benchmark run.
+entity Subject {
+    id: string required
+    kind: string
+}
+
+entity Dimension {
+    name: string required
+    weight: float
+}
+
+entity Metric {
+    subject: Subject required
+    dimension: Dimension required
+    name: string required
+    value: float
+    unit: string
+}
+
+entity Score {
+    subject: Subject required
+    composite: float
+    weighting: string
+}
+
+// Rubric is a reusable scoring definition (the CLEAR rubric).
+entity Rubric {
+    name: string required
+    source: string
+}
+
+relation HasMetric Subject -> Metric {
+    at: datetime
+}
+
+relation InDimension Metric -> Dimension {
+    normalized: bool
+}
+
+relation Aggregates Score -> Metric {
+    weight: float
+}
+
+relation ScoredSubject Score -> Subject {
+    rank: int
+}
+
+relation Defines Rubric -> Dimension {
+    order: int
+}
