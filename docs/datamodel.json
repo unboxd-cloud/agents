@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T08:09:02.909691421Z",
+  "generatedAt": "2026-06-02T08:09:22.733247673Z",
   "count": 37,
   "models": [
     {
@@ -30697,9 +30697,74 @@
           {
             "kind": "Vocabulary",
             "pos": {
-              "line": 15,
+              "line": 17,
               "column": 1,
-              "offset": 894
+              "offset": 1052
+            },
+            "name": "partnerships",
+            "terms": [
+              {
+                "name": "alliance",
+                "meaning": "independent parties collaborate while each stays autonomous",
+                "pos": {
+                  "line": 18,
+                  "column": 5,
+                  "offset": 1082
+                }
+              },
+              {
+                "name": "joint_venture",
+                "meaning": "parties form a shared venture for a specific goal",
+                "pos": {
+                  "line": 19,
+                  "column": 5,
+                  "offset": 1168
+                }
+              },
+              {
+                "name": "consortium",
+                "meaning": "many parties pool resources under shared governance",
+                "pos": {
+                  "line": 20,
+                  "column": 5,
+                  "offset": 1249
+                }
+              },
+              {
+                "name": "revenue_share",
+                "meaning": "partners split revenue by contribution (unit of work)",
+                "pos": {
+                  "line": 21,
+                  "column": 5,
+                  "offset": 1329
+                }
+              },
+              {
+                "name": "federation",
+                "meaning": "autonomous parties federate capabilities while keeping ownership",
+                "pos": {
+                  "line": 22,
+                  "column": 5,
+                  "offset": 1414
+                }
+              },
+              {
+                "name": "white_label",
+                "meaning": "a partner rebrands and resells the offering as their own",
+                "pos": {
+                  "line": 23,
+                  "column": 5,
+                  "offset": 1507
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 27,
+              "column": 1,
+              "offset": 1665
             },
             "name": "modes",
             "terms": [
@@ -30707,45 +30772,45 @@
                 "name": "direct",
                 "meaning": "sell directly to the customer",
                 "pos": {
-                  "line": 16,
+                  "line": 28,
                   "column": 5,
-                  "offset": 917
+                  "offset": 1688
                 }
               },
               {
                 "name": "reseller",
                 "meaning": "a reseller marks up and resells",
                 "pos": {
-                  "line": 17,
+                  "line": 29,
                   "column": 5,
-                  "offset": 971
+                  "offset": 1742
                 }
               },
               {
                 "name": "agency",
                 "meaning": "an agency bills on the customer's behalf",
                 "pos": {
-                  "line": 18,
+                  "line": 30,
                   "column": 5,
-                  "offset": 1029
+                  "offset": 1800
                 }
               },
               {
                 "name": "marketplace",
                 "meaning": "sold through a marketplace",
                 "pos": {
-                  "line": 19,
+                  "line": 31,
                   "column": 5,
-                  "offset": 1094
+                  "offset": 1865
                 }
               },
               {
                 "name": "service_provider",
                 "meaning": "a managed service provider operates on the customer's behalf",
                 "pos": {
-                  "line": 20,
+                  "line": 32,
                   "column": 5,
-                  "offset": 1150
+                  "offset": 1921
                 }
               }
             ]
@@ -30753,9 +30818,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 23,
+              "line": 35,
               "column": 1,
-              "offset": 1244
+              "offset": 2015
             },
             "name": "OperatingModel",
             "fields": [
@@ -30764,16 +30829,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 24,
+                    "line": 36,
                     "column": 11,
-                    "offset": 1278
+                    "offset": 2049
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 24,
+                  "line": 36,
                   "column": 5,
-                  "offset": 1272
+                  "offset": 2043
                 }
               },
               {
@@ -30781,16 +30846,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 25,
+                    "line": 37,
                     "column": 11,
-                    "offset": 1304
+                    "offset": 2075
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 25,
+                  "line": 37,
                   "column": 5,
-                  "offset": 1298
+                  "offset": 2069
                 }
               }
             ]
@@ -30798,9 +30863,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 28,
+              "line": 40,
               "column": 1,
-              "offset": 1323
+              "offset": 2094
             },
             "name": "Partner",
             "fields": [
@@ -30809,16 +30874,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 29,
+                    "line": 41,
                     "column": 9,
-                    "offset": 1348
+                    "offset": 2119
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 29,
+                  "line": 41,
                   "column": 5,
-                  "offset": 1344
+                  "offset": 2115
                 }
               },
               {
@@ -30826,16 +30891,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 30,
+                    "line": 42,
                     "column": 11,
-                    "offset": 1374
+                    "offset": 2145
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 30,
+                  "line": 42,
                   "column": 5,
-                  "offset": 1368
+                  "offset": 2139
                 }
               },
               {
@@ -30843,16 +30908,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 31,
+                    "line": 43,
                     "column": 11,
-                    "offset": 1400
+                    "offset": 2171
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 31,
+                  "line": 43,
                   "column": 5,
-                  "offset": 1394
+                  "offset": 2165
                 }
               }
             ]
@@ -30860,9 +30925,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 34,
+              "line": 46,
               "column": 1,
-              "offset": 1409
+              "offset": 2180
             },
             "name": "PriceBook",
             "fields": [
@@ -30871,16 +30936,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 35,
+                    "line": 47,
                     "column": 14,
-                    "offset": 1441
+                    "offset": 2212
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 35,
+                  "line": 47,
                   "column": 5,
-                  "offset": 1432
+                  "offset": 2203
                 }
               }
             ]
@@ -30888,9 +30953,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 38,
+              "line": 50,
               "column": 1,
-              "offset": 1460
+              "offset": 2231
             },
             "name": "Meter",
             "fields": [
@@ -30899,16 +30964,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 39,
+                    "line": 51,
                     "column": 11,
-                    "offset": 1485
+                    "offset": 2256
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 39,
+                  "line": 51,
                   "column": 5,
-                  "offset": 1479
+                  "offset": 2250
                 }
               },
               {
@@ -30916,16 +30981,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 40,
+                    "line": 52,
                     "column": 11,
-                    "offset": 1511
+                    "offset": 2282
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 40,
+                  "line": 52,
                   "column": 5,
-                  "offset": 1505
+                  "offset": 2276
                 }
               }
             ]
@@ -30933,9 +30998,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 43,
+              "line": 55,
               "column": 1,
-              "offset": 1521
+              "offset": 2292
             },
             "name": "Rating",
             "fields": [
@@ -30946,22 +31011,22 @@
                     "name": "Meter",
                     "resolved": "unboxd.meta.operating.Meter",
                     "pos": {
-                      "line": 44,
+                      "line": 56,
                       "column": 12,
-                      "offset": 1548
+                      "offset": 2319
                     }
                   },
                   "pos": {
-                    "line": 44,
+                    "line": 56,
                     "column": 12,
-                    "offset": 1548
+                    "offset": 2319
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 44,
+                  "line": 56,
                   "column": 5,
-                  "offset": 1541
+                  "offset": 2312
                 }
               },
               {
@@ -30969,16 +31034,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 45,
+                    "line": 57,
                     "column": 15,
-                    "offset": 1577
+                    "offset": 2348
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 45,
+                  "line": 57,
                   "column": 5,
-                  "offset": 1567
+                  "offset": 2338
                 }
               },
               {
@@ -30986,16 +31051,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 46,
+                    "line": 58,
                     "column": 13,
-                    "offset": 1595
+                    "offset": 2366
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 46,
+                  "line": 58,
                   "column": 5,
-                  "offset": 1587
+                  "offset": 2358
                 }
               }
             ]
@@ -31003,9 +31068,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 49,
+              "line": 61,
               "column": 1,
-              "offset": 1604
+              "offset": 2375
             },
             "name": "Settlement",
             "fields": [
@@ -31016,22 +31081,22 @@
                     "name": "Partner",
                     "resolved": "unboxd.meta.operating.Partner",
                     "pos": {
-                      "line": 50,
+                      "line": 62,
                       "column": 14,
-                      "offset": 1637
+                      "offset": 2408
                     }
                   },
                   "pos": {
-                    "line": 50,
+                    "line": 62,
                     "column": 14,
-                    "offset": 1637
+                    "offset": 2408
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 50,
+                  "line": 62,
                   "column": 5,
-                  "offset": 1628
+                  "offset": 2399
                 }
               },
               {
@@ -31039,16 +31104,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 51,
+                    "line": 63,
                     "column": 12,
-                    "offset": 1665
+                    "offset": 2436
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 51,
+                  "line": 63,
                   "column": 5,
-                  "offset": 1658
+                  "offset": 2429
                 }
               },
               {
@@ -31056,16 +31121,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 52,
+                    "line": 64,
                     "column": 10,
-                    "offset": 1680
+                    "offset": 2451
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 52,
+                  "line": 64,
                   "column": 5,
-                  "offset": 1675
+                  "offset": 2446
                 }
               },
               {
@@ -31073,154 +31138,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 53,
-                    "column": 15,
-                    "offset": 1700
-                  }
-                },
-                "required": false,
-                "pos": {
-                  "line": 53,
-                  "column": 5,
-                  "offset": 1690
-                }
-              }
-            ]
-          },
-          {
-            "kind": "Relation",
-            "pos": {
-              "line": 56,
-              "column": 1,
-              "offset": 1710
-            },
-            "name": "Uses",
-            "source": {
-              "name": "OperatingModel",
-              "resolved": "unboxd.meta.operating.OperatingModel",
-              "pos": {
-                "line": 56,
-                "column": 15,
-                "offset": 1724
-              }
-            },
-            "target": {
-              "name": "Partner",
-              "resolved": "unboxd.meta.operating.Partner",
-              "pos": {
-                "line": 56,
-                "column": 33,
-                "offset": 1742
-              }
-            },
-            "fields": [
-              {
-                "name": "primary",
-                "type": {
-                  "primitive": "bool",
-                  "pos": {
-                    "line": 57,
-                    "column": 14,
-                    "offset": 1765
-                  }
-                },
-                "required": false,
-                "pos": {
-                  "line": 57,
-                  "column": 5,
-                  "offset": 1756
-                }
-              }
-            ]
-          },
-          {
-            "kind": "Relation",
-            "pos": {
-              "line": 60,
-              "column": 1,
-              "offset": 1773
-            },
-            "name": "Prices",
-            "source": {
-              "name": "PriceBook",
-              "resolved": "unboxd.meta.operating.PriceBook",
-              "pos": {
-                "line": 60,
-                "column": 17,
-                "offset": 1789
-              }
-            },
-            "target": {
-              "name": "Meter",
-              "resolved": "unboxd.meta.operating.Meter",
-              "pos": {
-                "line": 60,
-                "column": 30,
-                "offset": 1802
-              }
-            },
-            "fields": [
-              {
-                "name": "unitPrice",
-                "type": {
-                  "primitive": "float",
-                  "pos": {
-                    "line": 61,
-                    "column": 16,
-                    "offset": 1825
-                  }
-                },
-                "required": false,
-                "pos": {
-                  "line": 61,
-                  "column": 5,
-                  "offset": 1814
-                }
-              }
-            ]
-          },
-          {
-            "kind": "Relation",
-            "pos": {
-              "line": 64,
-              "column": 1,
-              "offset": 1834
-            },
-            "name": "Rates",
-            "source": {
-              "name": "Rating",
-              "resolved": "unboxd.meta.operating.Rating",
-              "pos": {
-                "line": 64,
-                "column": 16,
-                "offset": 1849
-              }
-            },
-            "target": {
-              "name": "Meter",
-              "resolved": "unboxd.meta.operating.Meter",
-              "pos": {
-                "line": 64,
-                "column": 26,
-                "offset": 1859
-              }
-            },
-            "fields": [
-              {
-                "name": "period",
-                "type": {
-                  "primitive": "string",
-                  "pos": {
                     "line": 65,
-                    "column": 13,
-                    "offset": 1879
+                    "column": 15,
+                    "offset": 2471
                   }
                 },
                 "required": false,
                 "pos": {
                   "line": 65,
                   "column": 5,
-                  "offset": 1871
+                  "offset": 2461
                 }
               }
             ]
@@ -31230,16 +31157,16 @@
             "pos": {
               "line": 68,
               "column": 1,
-              "offset": 1889
+              "offset": 2481
             },
-            "name": "Settles",
+            "name": "Uses",
             "source": {
-              "name": "Settlement",
-              "resolved": "unboxd.meta.operating.Settlement",
+              "name": "OperatingModel",
+              "resolved": "unboxd.meta.operating.OperatingModel",
               "pos": {
                 "line": 68,
-                "column": 18,
-                "offset": 1906
+                "column": 15,
+                "offset": 2495
               }
             },
             "target": {
@@ -31247,8 +31174,100 @@
               "resolved": "unboxd.meta.operating.Partner",
               "pos": {
                 "line": 68,
-                "column": 32,
-                "offset": 1920
+                "column": 33,
+                "offset": 2513
+              }
+            },
+            "fields": [
+              {
+                "name": "primary",
+                "type": {
+                  "primitive": "bool",
+                  "pos": {
+                    "line": 69,
+                    "column": 14,
+                    "offset": 2536
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 69,
+                  "column": 5,
+                  "offset": 2527
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 72,
+              "column": 1,
+              "offset": 2544
+            },
+            "name": "Prices",
+            "source": {
+              "name": "PriceBook",
+              "resolved": "unboxd.meta.operating.PriceBook",
+              "pos": {
+                "line": 72,
+                "column": 17,
+                "offset": 2560
+              }
+            },
+            "target": {
+              "name": "Meter",
+              "resolved": "unboxd.meta.operating.Meter",
+              "pos": {
+                "line": 72,
+                "column": 30,
+                "offset": 2573
+              }
+            },
+            "fields": [
+              {
+                "name": "unitPrice",
+                "type": {
+                  "primitive": "float",
+                  "pos": {
+                    "line": 73,
+                    "column": 16,
+                    "offset": 2596
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 73,
+                  "column": 5,
+                  "offset": 2585
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 76,
+              "column": 1,
+              "offset": 2605
+            },
+            "name": "Rates",
+            "source": {
+              "name": "Rating",
+              "resolved": "unboxd.meta.operating.Rating",
+              "pos": {
+                "line": 76,
+                "column": 16,
+                "offset": 2620
+              }
+            },
+            "target": {
+              "name": "Meter",
+              "resolved": "unboxd.meta.operating.Meter",
+              "pos": {
+                "line": 76,
+                "column": 26,
+                "offset": 2630
               }
             },
             "fields": [
@@ -31257,16 +31276,62 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 69,
+                    "line": 77,
                     "column": 13,
-                    "offset": 1942
+                    "offset": 2650
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 69,
+                  "line": 77,
                   "column": 5,
-                  "offset": 1934
+                  "offset": 2642
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 80,
+              "column": 1,
+              "offset": 2660
+            },
+            "name": "Settles",
+            "source": {
+              "name": "Settlement",
+              "resolved": "unboxd.meta.operating.Settlement",
+              "pos": {
+                "line": 80,
+                "column": 18,
+                "offset": 2677
+              }
+            },
+            "target": {
+              "name": "Partner",
+              "resolved": "unboxd.meta.operating.Partner",
+              "pos": {
+                "line": 80,
+                "column": 32,
+                "offset": 2691
+              }
+            },
+            "fields": [
+              {
+                "name": "period",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 81,
+                    "column": 13,
+                    "offset": 2713
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 81,
+                  "column": 5,
+                  "offset": 2705
                 }
               }
             ]
@@ -31274,9 +31339,9 @@
           {
             "kind": "Vocabulary",
             "pos": {
-              "line": 75,
+              "line": 87,
               "column": 1,
-              "offset": 2167
+              "offset": 2938
             },
             "name": "autonomy",
             "terms": [
@@ -31284,27 +31349,27 @@
                 "name": "supervised",
                 "meaning": "every action gated by human approval",
                 "pos": {
-                  "line": 76,
+                  "line": 88,
                   "column": 5,
-                  "offset": 2193
+                  "offset": 2964
                 }
               },
               {
                 "name": "semi",
                 "meaning": "routine actions autonomous, sensitive ones gated",
                 "pos": {
-                  "line": 77,
+                  "line": 89,
                   "column": 5,
-                  "offset": 2258
+                  "offset": 3029
                 }
               },
               {
                 "name": "autonomous",
                 "meaning": "fully autonomous within policy and governance",
                 "pos": {
-                  "line": 78,
+                  "line": 90,
                   "column": 5,
-                  "offset": 2329
+                  "offset": 3100
                 }
               }
             ]
@@ -31312,9 +31377,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 81,
+              "line": 93,
               "column": 1,
-              "offset": 2402
+              "offset": 3173
             },
             "name": "AgentOperatingModel",
             "fields": [
@@ -31323,16 +31388,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 82,
+                    "line": 94,
                     "column": 12,
-                    "offset": 2442
+                    "offset": 3213
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 82,
+                  "line": 94,
                   "column": 5,
-                  "offset": 2435
+                  "offset": 3206
                 }
               },
               {
@@ -31340,16 +31405,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 83,
+                    "line": 95,
                     "column": 15,
-                    "offset": 2472
+                    "offset": 3243
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 83,
+                  "line": 95,
                   "column": 5,
-                  "offset": 2462
+                  "offset": 3233
                 }
               },
               {
@@ -31357,16 +31422,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 84,
+                    "line": 96,
                     "column": 18,
-                    "offset": 2505
+                    "offset": 3276
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 84,
+                  "line": 96,
                   "column": 5,
-                  "offset": 2492
+                  "offset": 3263
                 }
               },
               {
@@ -31374,16 +31439,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 85,
+                    "line": 97,
                     "column": 11,
-                    "offset": 2520
+                    "offset": 3291
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 85,
+                  "line": 97,
                   "column": 5,
-                  "offset": 2514
+                  "offset": 3285
                 }
               }
             ]
@@ -31391,27 +31456,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 88,
+              "line": 100,
               "column": 1,
-              "offset": 2530
+              "offset": 3301
             },
             "name": "SupervisedBy",
             "source": {
               "name": "AgentOperatingModel",
               "resolved": "unboxd.meta.operating.AgentOperatingModel",
               "pos": {
-                "line": 88,
+                "line": 100,
                 "column": 23,
-                "offset": 2552
+                "offset": 3323
               }
             },
             "target": {
               "name": "AgentOperatingModel",
               "resolved": "unboxd.meta.operating.AgentOperatingModel",
               "pos": {
-                "line": 88,
+                "line": 100,
                 "column": 46,
-                "offset": 2575
+                "offset": 3346
               }
             },
             "fields": [
@@ -31420,16 +31485,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 89,
+                    "line": 101,
                     "column": 11,
-                    "offset": 2607
+                    "offset": 3378
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 89,
+                  "line": 101,
                   "column": 5,
-                  "offset": 2601
+                  "offset": 3372
                 }
               }
             ]

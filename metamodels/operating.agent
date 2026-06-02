@@ -12,6 +12,18 @@ vocabulary saas_parity {
     term scope means "multi-tenancy, metering, billing, settlement, compliance, identity/SSO, SLAs, observability, marketplace, support, and lifecycle all apply to agents"
 }
 
+// Partnership models — how micro-companies, one-person companies, and agents
+// collaborate. Each is governed and revenue/credit is split by unit of work.
+vocabulary partnerships {
+    term alliance means "independent parties collaborate while each stays autonomous"
+    term joint_venture means "parties form a shared venture for a specific goal"
+    term consortium means "many parties pool resources under shared governance"
+    term revenue_share means "partners split revenue by contribution (unit of work)"
+    term federation means "autonomous parties federate capabilities while keeping ownership"
+    term white_label means "a partner rebrands and resells the offering as their own"
+}
+
+// Go-to-market / billing relationship modes (mirrors internal/billing).
 vocabulary modes {
     term direct means "sell directly to the customer"
     term reseller means "a reseller marks up and resells"
