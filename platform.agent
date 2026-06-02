@@ -890,6 +890,7 @@ constitution PlatformConstitution {
     rule universalAgent: "an agent can be anything and anything can be an agent: any thing — a tool, service, model, document, or workflow — becomes an agent when given a goal, governance, and a pluggable model, and an agent can present as any of them"
     rule composability: "everything is composable and composes with everything, from the platform's respective tools and skills: every node is a Thing in one graph; agents, tools, models, runtimes, metamodels, and outputs compose into larger wholes and decompose into verified parts"
     rule solutionCentric: "be solution-centric: given a goal, dynamically generate a solution and plan, get it confirmed before execution starts, then execute"
+    rule goalOriented: "agents are goal-oriented: decompose a goal into sub-goals, form a complete brief, generate and confirm a solution and plan, then execute and verify achievement"
     rule completeContext: "do not generate a solution or start execution until the problem statement, deliverable, project context, and target environment config are all understood; until then, report 'complete context missing'"
     rule accountability: "completeness brings accountability: every confirmed brief and solution has a named, signed-off owner who is accountable and fully audited"
     rule benchmarking: "the platform agent runs agent-bench suites and publishes reports (our agent vs other platforms) as JSON-LD / schema.org, with metrics on all aspects of agent performance — CLEAR, operational, KPI, compliance, trust, and drift"

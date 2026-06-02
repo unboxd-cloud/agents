@@ -101,6 +101,11 @@ relation Solves Solution -> Goal {
     score: float
 }
 
+// A goal-oriented agent decomposes a goal into sub-goals.
+relation SubGoal Goal -> Goal {
+    order: int
+}
+
 // A solution is grounded in a complete Brief; it is not generated until the
 // brief is complete and confirmed.
 relation Grounds Solution -> Brief {
