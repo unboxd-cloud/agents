@@ -43,6 +43,7 @@ vocabulary information {
     term screening means "the uninformed side sorts quality — the CLEAR eval scorecard, benchmarks"
     term adverse_selection means "low quality drives out high when quality is hidden — countered by provenance"
     term moral_hazard means "an actor takes hidden risk once engaged — countered by governance and audit"
+    term verifiable_value means "transactions are faster because value is verifiable on the graph: every unit carries provenance and is checkable instantly, so settlement needs no slow trust-establishment or clearing (no six-block wait) — verifiability removes friction"
 }
 
 entity Actor {

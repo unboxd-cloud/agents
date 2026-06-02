@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T08:06:36.890452944Z",
+  "generatedAt": "2026-06-02T08:07:12.250805183Z",
   "count": 37,
   "models": [
     {
@@ -20548,15 +20548,24 @@
                   "column": 5,
                   "offset": 4562
                 }
+              },
+              {
+                "name": "verifiable_value",
+                "meaning": "transactions are faster because value is verifiable on the graph: every unit carries provenance and is checkable instantly, so settlement needs no slow trust-establishment or clearing (no six-block wait) — verifiability removes friction",
+                "pos": {
+                  "line": 46,
+                  "column": 5,
+                  "offset": 4670
+                }
               }
             ]
           },
           {
             "kind": "Entity",
             "pos": {
-              "line": 48,
+              "line": 49,
               "column": 1,
-              "offset": 4669
+              "offset": 4942
             },
             "name": "Actor",
             "fields": [
@@ -20565,16 +20574,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 49,
+                    "line": 50,
                     "column": 9,
-                    "offset": 4692
+                    "offset": 4965
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 49,
+                  "line": 50,
                   "column": 5,
-                  "offset": 4688
+                  "offset": 4961
                 }
               },
               {
@@ -20582,16 +20591,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 50,
+                    "line": 51,
                     "column": 11,
-                    "offset": 4718
+                    "offset": 4991
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 50,
+                  "line": 51,
                   "column": 5,
-                  "offset": 4712
+                  "offset": 4985
                 }
               }
             ]
@@ -20599,9 +20608,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 53,
+              "line": 54,
               "column": 1,
-              "offset": 4728
+              "offset": 5001
             },
             "name": "Wallet",
             "fields": [
@@ -20612,22 +20621,22 @@
                     "name": "Actor",
                     "resolved": "unboxd.meta.economy.Actor",
                     "pos": {
-                      "line": 54,
+                      "line": 55,
                       "column": 12,
-                      "offset": 4755
+                      "offset": 5028
                     }
                   },
                   "pos": {
-                    "line": 54,
+                    "line": 55,
                     "column": 12,
-                    "offset": 4755
+                    "offset": 5028
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 54,
+                  "line": 55,
                   "column": 5,
-                  "offset": 4748
+                  "offset": 5021
                 }
               },
               {
@@ -20635,16 +20644,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 55,
+                    "line": 56,
                     "column": 14,
-                    "offset": 4783
+                    "offset": 5056
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 55,
+                  "line": 56,
                   "column": 5,
-                  "offset": 4774
+                  "offset": 5047
                 }
               },
               {
@@ -20652,16 +20661,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 56,
+                    "line": 57,
                     "column": 15,
-                    "offset": 4803
+                    "offset": 5076
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 56,
+                  "line": 57,
                   "column": 5,
-                  "offset": 4793
+                  "offset": 5066
                 }
               }
             ]
@@ -20669,9 +20678,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 59,
+              "line": 60,
               "column": 1,
-              "offset": 4813
+              "offset": 5086
             },
             "name": "Offering",
             "fields": [
@@ -20682,22 +20691,22 @@
                     "name": "Actor",
                     "resolved": "unboxd.meta.economy.Actor",
                     "pos": {
-                      "line": 60,
+                      "line": 61,
                       "column": 15,
-                      "offset": 4845
+                      "offset": 5118
                     }
                   },
                   "pos": {
-                    "line": 60,
+                    "line": 61,
                     "column": 15,
-                    "offset": 4845
+                    "offset": 5118
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 60,
+                  "line": 61,
                   "column": 5,
-                  "offset": 4835
+                  "offset": 5108
                 }
               },
               {
@@ -20705,16 +20714,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 61,
+                    "line": 62,
                     "column": 11,
-                    "offset": 4870
+                    "offset": 5143
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 61,
+                  "line": 62,
                   "column": 5,
-                  "offset": 4864
+                  "offset": 5137
                 }
               },
               {
@@ -20722,16 +20731,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 62,
+                    "line": 63,
                     "column": 12,
-                    "offset": 4897
+                    "offset": 5170
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 62,
+                  "line": 63,
                   "column": 5,
-                  "offset": 4890
+                  "offset": 5163
                 }
               },
               {
@@ -20739,16 +20748,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 63,
+                    "line": 64,
                     "column": 11,
-                    "offset": 4913
+                    "offset": 5186
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 63,
+                  "line": 64,
                   "column": 5,
-                  "offset": 4907
+                  "offset": 5180
                 }
               }
             ]
@@ -20756,9 +20765,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 66,
+              "line": 67,
               "column": 1,
-              "offset": 4923
+              "offset": 5196
             },
             "name": "Order",
             "fields": [
@@ -20769,22 +20778,22 @@
                     "name": "Actor",
                     "resolved": "unboxd.meta.economy.Actor",
                     "pos": {
-                      "line": 67,
+                      "line": 68,
                       "column": 12,
-                      "offset": 4949
+                      "offset": 5222
                     }
                   },
                   "pos": {
-                    "line": 67,
+                    "line": 68,
                     "column": 12,
-                    "offset": 4949
+                    "offset": 5222
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 67,
+                  "line": 68,
                   "column": 5,
-                  "offset": 4942
+                  "offset": 5215
                 }
               },
               {
@@ -20794,22 +20803,22 @@
                     "name": "Offering",
                     "resolved": "unboxd.meta.economy.Offering",
                     "pos": {
-                      "line": 68,
+                      "line": 69,
                       "column": 15,
-                      "offset": 4978
+                      "offset": 5251
                     }
                   },
                   "pos": {
-                    "line": 68,
+                    "line": 69,
                     "column": 15,
-                    "offset": 4978
+                    "offset": 5251
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 68,
+                  "line": 69,
                   "column": 5,
-                  "offset": 4968
+                  "offset": 5241
                 }
               },
               {
@@ -20817,16 +20826,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 69,
+                    "line": 70,
                     "column": 15,
-                    "offset": 5010
+                    "offset": 5283
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 69,
+                  "line": 70,
                   "column": 5,
-                  "offset": 5000
+                  "offset": 5273
                 }
               }
             ]
@@ -20834,9 +20843,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 72,
+              "line": 73,
               "column": 1,
-              "offset": 5019
+              "offset": 5292
             },
             "name": "Transaction",
             "fields": [
@@ -20847,22 +20856,22 @@
                     "name": "Order",
                     "resolved": "unboxd.meta.economy.Order",
                     "pos": {
-                      "line": 73,
+                      "line": 74,
                       "column": 12,
-                      "offset": 5051
+                      "offset": 5324
                     }
                   },
                   "pos": {
-                    "line": 73,
+                    "line": 74,
                     "column": 12,
-                    "offset": 5051
+                    "offset": 5324
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 73,
+                  "line": 74,
                   "column": 5,
-                  "offset": 5044
+                  "offset": 5317
                 }
               },
               {
@@ -20870,16 +20879,16 @@
                 "type": {
                   "primitive": "float",
                   "pos": {
-                    "line": 74,
+                    "line": 75,
                     "column": 13,
-                    "offset": 5078
+                    "offset": 5351
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 74,
+                  "line": 75,
                   "column": 5,
-                  "offset": 5070
+                  "offset": 5343
                 }
               },
               {
@@ -20887,16 +20896,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 75,
+                    "line": 76,
                     "column": 14,
-                    "offset": 5097
+                    "offset": 5370
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 75,
+                  "line": 76,
                   "column": 5,
-                  "offset": 5088
+                  "offset": 5361
                 }
               }
             ]
@@ -20904,9 +20913,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 78,
+              "line": 79,
               "column": 1,
-              "offset": 5105
+              "offset": 5378
             },
             "name": "Marketplace",
             "fields": [
@@ -20915,16 +20924,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 79,
+                    "line": 80,
                     "column": 11,
-                    "offset": 5136
+                    "offset": 5409
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 79,
+                  "line": 80,
                   "column": 5,
-                  "offset": 5130
+                  "offset": 5403
                 }
               }
             ]
@@ -20932,9 +20941,9 @@
           {
             "kind": "Entity",
             "pos": {
-              "line": 82,
+              "line": 83,
               "column": 1,
-              "offset": 5155
+              "offset": 5428
             },
             "name": "Listing",
             "fields": [
@@ -20945,22 +20954,22 @@
                     "name": "Marketplace",
                     "resolved": "unboxd.meta.economy.Marketplace",
                     "pos": {
-                      "line": 83,
+                      "line": 84,
                       "column": 18,
-                      "offset": 5189
+                      "offset": 5462
                     }
                   },
                   "pos": {
-                    "line": 83,
+                    "line": 84,
                     "column": 18,
-                    "offset": 5189
+                    "offset": 5462
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 83,
+                  "line": 84,
                   "column": 5,
-                  "offset": 5176
+                  "offset": 5449
                 }
               },
               {
@@ -20970,22 +20979,22 @@
                     "name": "Offering",
                     "resolved": "unboxd.meta.economy.Offering",
                     "pos": {
-                      "line": 84,
+                      "line": 85,
                       "column": 15,
-                      "offset": 5224
+                      "offset": 5497
                     }
                   },
                   "pos": {
-                    "line": 84,
+                    "line": 85,
                     "column": 15,
-                    "offset": 5224
+                    "offset": 5497
                   }
                 },
                 "required": true,
                 "pos": {
-                  "line": 84,
+                  "line": 85,
                   "column": 5,
-                  "offset": 5214
+                  "offset": 5487
                 }
               },
               {
@@ -20993,16 +21002,16 @@
                 "type": {
                   "primitive": "int",
                   "pos": {
-                    "line": 85,
+                    "line": 86,
                     "column": 11,
-                    "offset": 5252
+                    "offset": 5525
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 85,
+                  "line": 86,
                   "column": 5,
-                  "offset": 5246
+                  "offset": 5519
                 }
               }
             ]
@@ -21010,27 +21019,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 88,
+              "line": 89,
               "column": 1,
-              "offset": 5259
+              "offset": 5532
             },
             "name": "Holds",
             "source": {
               "name": "Actor",
               "resolved": "unboxd.meta.economy.Actor",
               "pos": {
-                "line": 88,
+                "line": 89,
                 "column": 16,
-                "offset": 5274
+                "offset": 5547
               }
             },
             "target": {
               "name": "Wallet",
               "resolved": "unboxd.meta.economy.Wallet",
               "pos": {
-                "line": 88,
+                "line": 89,
                 "column": 25,
-                "offset": 5283
+                "offset": 5556
               }
             },
             "fields": [
@@ -21039,16 +21048,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 89,
+                    "line": 90,
                     "column": 14,
-                    "offset": 5305
+                    "offset": 5578
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 89,
+                  "line": 90,
                   "column": 5,
-                  "offset": 5296
+                  "offset": 5569
                 }
               }
             ]
@@ -21056,27 +21065,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 92,
+              "line": 93,
               "column": 1,
-              "offset": 5313
+              "offset": 5586
             },
             "name": "Offers",
             "source": {
               "name": "Actor",
               "resolved": "unboxd.meta.economy.Actor",
               "pos": {
-                "line": 92,
+                "line": 93,
                 "column": 17,
-                "offset": 5329
+                "offset": 5602
               }
             },
             "target": {
               "name": "Offering",
               "resolved": "unboxd.meta.economy.Offering",
               "pos": {
-                "line": 92,
+                "line": 93,
                 "column": 26,
-                "offset": 5338
+                "offset": 5611
               }
             },
             "fields": [
@@ -21085,16 +21094,16 @@
                 "type": {
                   "primitive": "datetime",
                   "pos": {
-                    "line": 93,
+                    "line": 94,
                     "column": 12,
-                    "offset": 5360
+                    "offset": 5633
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 93,
+                  "line": 94,
                   "column": 5,
-                  "offset": 5353
+                  "offset": 5626
                 }
               }
             ]
@@ -21102,27 +21111,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 96,
+              "line": 97,
               "column": 1,
-              "offset": 5372
+              "offset": 5645
             },
             "name": "Lists",
             "source": {
               "name": "Marketplace",
               "resolved": "unboxd.meta.economy.Marketplace",
               "pos": {
-                "line": 96,
+                "line": 97,
                 "column": 16,
-                "offset": 5387
+                "offset": 5660
               }
             },
             "target": {
               "name": "Listing",
               "resolved": "unboxd.meta.economy.Listing",
               "pos": {
-                "line": 96,
+                "line": 97,
                 "column": 31,
-                "offset": 5402
+                "offset": 5675
               }
             },
             "fields": [
@@ -21131,16 +21140,16 @@
                 "type": {
                   "primitive": "bool",
                   "pos": {
-                    "line": 97,
+                    "line": 98,
                     "column": 15,
-                    "offset": 5426
+                    "offset": 5699
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 97,
+                  "line": 98,
                   "column": 5,
-                  "offset": 5416
+                  "offset": 5689
                 }
               }
             ]
@@ -21148,27 +21157,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 100,
+              "line": 101,
               "column": 1,
-              "offset": 5434
+              "offset": 5707
             },
             "name": "Settles",
             "source": {
               "name": "Transaction",
               "resolved": "unboxd.meta.economy.Transaction",
               "pos": {
-                "line": 100,
+                "line": 101,
                 "column": 18,
-                "offset": 5451
+                "offset": 5724
               }
             },
             "target": {
               "name": "Order",
               "resolved": "unboxd.meta.economy.Order",
               "pos": {
-                "line": 100,
+                "line": 101,
                 "column": 33,
-                "offset": 5466
+                "offset": 5739
               }
             },
             "fields": [
@@ -21177,16 +21186,16 @@
                 "type": {
                   "primitive": "datetime",
                   "pos": {
-                    "line": 101,
+                    "line": 102,
                     "column": 9,
-                    "offset": 5482
+                    "offset": 5755
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 101,
+                  "line": 102,
                   "column": 5,
-                  "offset": 5478
+                  "offset": 5751
                 }
               }
             ]
@@ -21194,27 +21203,27 @@
           {
             "kind": "Relation",
             "pos": {
-              "line": 105,
+              "line": 106,
               "column": 1,
-              "offset": 5565
+              "offset": 5838
             },
             "name": "Trades",
             "source": {
               "name": "Actor",
               "resolved": "unboxd.meta.economy.Actor",
               "pos": {
-                "line": 105,
+                "line": 106,
                 "column": 17,
-                "offset": 5581
+                "offset": 5854
               }
             },
             "target": {
               "name": "Actor",
               "resolved": "unboxd.meta.economy.Actor",
               "pos": {
-                "line": 105,
+                "line": 106,
                 "column": 26,
-                "offset": 5590
+                "offset": 5863
               }
             },
             "fields": [
@@ -21223,16 +21232,16 @@
                 "type": {
                   "primitive": "string",
                   "pos": {
-                    "line": 106,
+                    "line": 107,
                     "column": 10,
-                    "offset": 5607
+                    "offset": 5880
                   }
                 },
                 "required": false,
                 "pos": {
-                  "line": 106,
+                  "line": 107,
                   "column": 5,
-                  "offset": 5602
+                  "offset": 5875
                 }
               }
             ]
