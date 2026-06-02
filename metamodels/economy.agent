@@ -11,6 +11,19 @@ namespace unboxd.meta.economy
 vocabulary canon {
     term principles_of_economics means "N. Gregory Mankiw, Principles of Economics — tradeoffs, opportunity cost, marginal thinking, incentives"
     term wealth_of_nations means "Adam Smith, The Wealth of Nations (1776) — division of labor, markets, the invisible hand"
+    term use_of_knowledge means "F. A. Hayek, The Use of Knowledge in Society (1945) — the price system coordinates dispersed knowledge with no central order; agents move in the right direction on price signals alone"
+}
+
+// Information economics — how asymmetric information shapes the agent market.
+// The platform answers each with a mechanism: trust/reputation signals quality,
+// the eval scorecard screens, governance counters moral hazard, and provenance
+// counters adverse selection (cheap-but-bad agents/models).
+vocabulary information {
+    term asymmetry means "one side knows more than the other (a buyer can't see an agent's true quality)"
+    term signaling means "the informed side proves quality — trust score, certifications, track record"
+    term screening means "the uninformed side sorts quality — the CLEAR eval scorecard, benchmarks"
+    term adverse_selection means "low quality drives out high when quality is hidden — countered by provenance"
+    term moral_hazard means "an actor takes hidden risk once engaged — countered by governance and audit"
 }
 
 entity Actor {
