@@ -27,6 +27,7 @@ import (
 	"github.com/unboxd-cloud/platform/internal/provider"
 	"github.com/unboxd-cloud/platform/internal/s3"
 	"github.com/unboxd-cloud/platform/internal/server"
+	"github.com/unboxd-cloud/platform/internal/ui"
 	"github.com/unboxd-cloud/platform/pkg/sdk"
 )
 
@@ -305,34 +306,7 @@ func envOr(k, def string) string {
 	return def
 }
 
-const pageTemplate = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Unboxd Platform — Admin Control Panel</title>
-<script src="https://unpkg.com/htmx.org@1.9.12"></script>
-<style>
-  body{font:14px/1.5 system-ui,sans-serif;margin:0;background:#0f1117;color:#e6e6e6}
-  header{padding:16px 24px;background:#161922;border-bottom:1px solid #262b38}
-  h1{font-size:18px;margin:0}
-  main{padding:24px;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-  .card{background:#161922;border:1px solid #262b38;border-radius:10px;padding:16px}
-  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:#8b93a7;margin:0 0 10px}
-  .span2{grid-column:1/-1}
-  .pill{display:inline-block;background:#222838;border:1px solid #2f3750;border-radius:999px;padding:2px 10px;margin:2px;font-size:12px}
-  #chat-log{height:280px;overflow:auto;display:flex;flex-direction:column;gap:8px;margin-bottom:10px}
-  .msg{padding:8px 12px;border-radius:10px;max-width:90%;white-space:pre-wrap}
-  .msg.user{align-self:flex-end;background:#2f6df6;color:#fff}
-  .msg.bot{align-self:flex-start;background:#1c2230;border:1px solid #2a3346}
-  .msg.bot.err{border-color:#5a2d2d;background:#2a1d1d;color:#f0bcbc}
-  .trace{margin-top:6px;font-size:11px;color:#7f8aa3}
-  form.chat{display:flex;gap:8px}
-  input[type=text]{flex:1;background:#0f1320;border:1px solid #2a3346;color:#e6e6e6;border-radius:8px;padding:8px 12px}
-  button{background:#2f6df6;color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
-  a{color:#7fb0ff}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  td,th{text-align:left;padding:5px 8px;border-bottom:1px solid #232838}
-  code{color:#9ad}
-</style></head>
+var pageTemplate = ui.Head("Unboxd Platform — Admin Control Panel") + `
 <body>
 <header><h1>Unboxd Platform — Administrator Control Panel</h1></header>
 <main>

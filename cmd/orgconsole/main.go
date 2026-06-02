@@ -25,6 +25,7 @@ import (
 	"github.com/unboxd-cloud/platform/internal/s3"
 	"github.com/unboxd-cloud/platform/internal/server"
 	"github.com/unboxd-cloud/platform/internal/tenant"
+	"github.com/unboxd-cloud/platform/internal/ui"
 	"github.com/unboxd-cloud/platform/pkg/sdk"
 )
 
@@ -241,26 +242,7 @@ func envOr(k, def string) string {
 	return def
 }
 
-const orgTemplate = `<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Org Console — {{.Org.Name}}</title>
-<script src="https://unpkg.com/htmx.org@1.9.12"></script>
-<style>
-  body{font:14px/1.5 system-ui,sans-serif;margin:0;background:#0f1117;color:#e6e6e6}
-  header{padding:16px 24px;background:#161922;border-bottom:1px solid #262b38}
-  h1{font-size:18px;margin:0}
-  main{padding:24px;display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
-  .card{background:#161922;border:1px solid #262b38;border-radius:10px;padding:16px}
-  .card h2{font-size:13px;text-transform:uppercase;letter-spacing:.05em;color:#8b93a7;margin:0 0 10px}
-  .span2{grid-column:1/-1}
-  .pill{display:inline-block;background:#222838;border:1px solid #2f3750;border-radius:999px;padding:2px 10px;margin:2px;font-size:12px}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  td,th{text-align:left;padding:6px 8px;border-bottom:1px solid #232838}
-  input,select{background:#0f1320;border:1px solid #2a3346;color:#e6e6e6;border-radius:8px;padding:6px 10px;margin:2px}
-  button{background:#2f6df6;color:#fff;border:0;border-radius:8px;padding:8px 14px;cursor:pointer}
-  .note{background:#2a1d1d;border:1px solid #5a2d2d;color:#f0bcbc;padding:8px 12px;border-radius:8px}
-</style></head>
+var orgTemplate = ui.Head("Org Console — {{.Org.Name}}") + `
 <body>
 <header><h1>Organization Console — {{.Org.Name}} <code>({{.Org.ID}})</code></h1></header>
 <main>

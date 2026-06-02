@@ -906,6 +906,8 @@ constitution PlatformConstitution {
     rule integration: "integrate data through connectors (Apache SeaTunnel — multi-source/sink, batch and CDC) into the unified fabric"
     rule composableExperience: "experiences are composable: assemble them from composable parts — data, content, journeys, and agents — over the unified fabric"
     rule experienceEverywhere: "every touchpoint and interaction is an experience — captured, measured, and optimized for human experience and trust"
+    rule ui: "build the UI once: a single design system (htmx over stdlib templates, no build step) reused across every surface — admin, org console, and IDE"
+    rule home: "the default home is a chat with the user's assistant agent loaded, alongside a canvas and search; every capability is a tool, a skill, and grounded in theory"
     rule composer: "the agent composer assembles agents, artifacts, and runnables from composable, certified parts, and is exposed as a tool agents can call"
     rule serviceOrNative: "everything the platform does not produce natively — frameworks, runtimes, tools — is consumed as a service behind a stable interface; native capabilities are produced by the platform itself"
     rule modelRouter: "route across pluggable providers via the model router; prefer local/open-source/free-tier, evaluating cost, latency, and trust"
