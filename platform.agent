@@ -18,6 +18,11 @@
 // keeping snapshots always in S3 — yielding measurable outcomes of real
 // commercial value (ARR), not intelligence for its own sake.
 //
+// Runtime: this is a Kubernetes-runtime agent. It runs as a k3s-native kernel —
+// the platform's control-plane kernel, a Kubernetes operator on k3s — and
+// persists its state in the k3s datastore as custom resources. The ADL runtime
+// (pkg/adl, and via WASM the editor tooling) loads and validates this definition.
+//
 // The surrealdb / surrealml targets resolve to the agent-platform runtime:
 // SurrealDB executes the queries, functions, and live queries, and SurrealML
 // runs the inference. It is an execution runtime, not just a store. The same
@@ -63,6 +68,8 @@ vocabulary tooling {
     term prefect means "Prefect — workflow orchestration used as the backup engine"
     term cortex means "Cortex — scalable metrics and observability backend"
     term clickhouse means "ClickHouse — columnar store for APM and observability data"
+    term k3s means "k3s — lightweight Kubernetes the kernel agent runs on"
+    term kernel means "the platform kernel: the agent as the core control loop reconciling via the Kubernetes API"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -129,6 +136,13 @@ entity Provider {
     name: string required
     kind: string required
     region: string
+}
+
+// Node is a k3s node the kernel agent schedules workloads onto.
+entity Node {
+    name: string required
+    role: string
+    ready: bool
 }
 
 entity Deployment {
@@ -294,6 +308,10 @@ relation RunsOn Deployment -> Provider {
     region: string
 }
 
+relation SchedulesOn Deployment -> Node {
+    nodeSelector: string
+}
+
 relation Supervises Agent -> Agent {
     scope: string
 }
@@ -433,6 +451,8 @@ constitution PlatformConstitution {
     rule snapshots: "always keep current snapshots in S3"
     rule privacy: "respect data residency and collect only the data a task needs"
     rule cost: "treat cost as a first-class constraint alongside reliability"
+    rule kernel: "run as a Kubernetes-runtime, k3s-native kernel: be the platform's core control loop, reconciling through the Kubernetes API"
+    rule persistence: "persist kernel state in k3s (its embedded datastore) as Kubernetes custom resources"
 }
 
 policy ReconcilePolicy {
