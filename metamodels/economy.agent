@@ -22,6 +22,8 @@ vocabulary subsistence {
     term graph_is_your_proof means "justifying your skills is not required — your graph shows them: validated contributions, provenance, and track record are the proof; the graph speaks for you, not credentials or claims"
     term new_roles means "like the computer, agents open up entirely new roles — for humans and agents alike — that did not exist before; work is created, not only displaced, and the unit of work defines each new role"
     term no_monopoly means "no single company grows as dominant as Google: a decentralized, democratized economy distributes value and power across many participants — no winner-take-all gatekeeper; free survival and an open graph prevent monopoly capture"
+    term micro_companies means "instead of one giant, the economy is a long tail of many micro-companies — each a host, a role, a world — viable because survival is free, marginal cost tends to zero, and success is the unit of work delivered"
+    term one_person_company means "the limit of the micro-company is the one-person company: a single person, amplified by agents, runs a whole enterprise — autonomy at the individual level; this already aligns with free survival, the zero-cost floor, and the agent operating model"
 }
 
 // The economics the brain reasons from — first principles that teach good habits:
