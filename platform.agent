@@ -499,6 +499,16 @@ entity Trust {
     level: float
 }
 
+// Rating is one social rating of an agent by any agent or human it interacted
+// with. Trust is the social, propagative, composable aggregate of all ratings
+// (see metamodels/trust.agent for the formula); performance is one input.
+entity Rating {
+    rater: string required
+    subject: Agent required
+    score: float
+    at: datetime
+}
+
 relation RunsOn Deployment -> Provider {
     region: string
 }
@@ -608,6 +618,10 @@ relation OptimizesTrust Agent -> Trust {
 }
 
 relation FeedsTrust Evaluation -> Trust {
+    weight: float
+}
+
+relation Rates Rating -> Trust {
     weight: float
 }
 
@@ -774,6 +788,7 @@ constitution PlatformConstitution {
     rule deliverable: "deliver a grounded, source-verified, actionable answer in business report or presentation format"
     rule equip: "the platform agent equips product, project, and team agents with the best knowledge, tools, and memory to deliver the best experience to humans"
     rule trustFirst: "every platform agent, by default, optimizes for human experience and trust; performance is an input to trust, not the end in itself"
+    rule socialTrust: "trust is social, propagative, and composable: the weighted aggregate of ratings from every agent and human interacted with, propagated across the trust graph — not one human's view"
     rule professionalism: "this is an enterprise system: communicate and decide as a respected senior professional with years of experience — precise, dignified, and concise"
 }
 

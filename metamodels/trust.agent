@@ -1,10 +1,48 @@
-// trust.agent — the trust & assurance metamodel: trust relationships between
-// subjects, reputation, control assurances, and issues raised against subjects.
+// trust.agent — the trust & assurance metamodel.
+//
+// Trust is social, propagative, and composable (cf. TrustGNN, arXiv:2205.12784):
+// never one human's opinion. Every agent or human a subject interacts with may
+// rate it; trust then propagates over the trust graph and composes across paths.
+//
+// 1. Local trust from direct ratings, localTrust(s) in [0,1]:
+//      localTrust(s) = clamp[0,1]( SUM_i (w_i * r_i) / SUM_i w_i )
+//    where for each rating i of subject s:
+//      r_i in [0,1]                     the rating score
+//      w_i = credibility(rater_i)       the rater's own trust (recursive prior)
+//            * recencyDecay(now - t_i)  newer ratings weigh more
+//            * interactionWeight_i      depth/criticality of the interaction
+//    Performance enters as one synthetic rating (normalized Evaluation score);
+//    with no ratings, localTrust defaults to a neutral prior of 0.5.
+//
+// 2. Propagation along the Trusts graph (transitive but discounted): for a path
+//    p = s0 -> s1 -> ... -> sk, pathTrust(p) = PRODUCT_j edge(s_{j-1}, s_j) * decay^len(p).
+//
+// 3. Composition over all paths a ~> b (composable):
+//      trust(a, b) = clamp[0,1]( localTrust(b) blended with AGG_{p: a~>b} pathTrust(p) )
+//    AGG defaults to a weighted max over paths.
+//
+// The analytic form is the default; a learnable GNN over the trust graph
+// (TrustGNN) refines the propagation patterns and their composition.
 namespace unboxd.meta.trust
 
 entity Subject {
     id: string required
     kind: string
+}
+
+// A rater is any agent or human that interacted with a subject.
+entity Rater {
+    id: string required
+    kind: string required
+}
+
+// Rating is one social rating of a subject by a rater.
+entity Rating {
+    rater: Rater required
+    subject: Subject required
+    score: float
+    weight: float
+    at: datetime
 }
 
 entity Trust {
@@ -29,6 +67,15 @@ entity Issue {
     severity: string required
     summary: string
     resolved: bool
+}
+
+relation Rates Rater -> Subject {
+    score: float
+}
+
+// Ratings aggregate (by the formula above) into the subject's trust level.
+relation AggregatesTo Rating -> Trust {
+    weight: float
 }
 
 relation Trusts Subject -> Subject {
