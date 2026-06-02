@@ -55,6 +55,10 @@ vocabulary platform {
     term arr means "Annual Recurring Revenue generated from the platform"
     term operational_excellence means "reliability, efficiency, and relentless improvement"
     term automation means "AI capability converted into reliable, hands-off operation"
+    term transform means "reshape a workload or automation into a better form"
+    term mutate means "safely change its own configuration or state"
+    term swarm means "spawn and coordinate a group of agents for a bounded task"
+    term impersonate means "act on a user's behalf under explicit, audited delegation"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
@@ -140,6 +144,16 @@ vocabulary models {
     term open_source_llm means "self-hosted open-source CPU or GPU LLMs"
     term openai_compatible means "any OpenAI-compatible model endpoint"
     term socket means "a typed slot the deterministic substrate exposes for a pluggable model or tool"
+}
+
+// The military doctrine the agent operates by.
+vocabulary doctrine {
+    term ooda means "Observe-Orient-Decide-Act decision loop"
+    term chain_of_command means "a clear, unbroken line of authority"
+    term mission_command means "decentralized execution under a commander's intent"
+    term rules_of_engagement means "the bounds within which the agent may act"
+    term defense_in_depth means "layered, redundant defenses"
+    term command_and_control means "coordinated command of subordinate agents"
 }
 
 entity Tenant {
@@ -300,6 +314,13 @@ entity Trace {
     span: string
     actor: string
     at: datetime
+}
+
+// Swarm is a coordinated group of agents the kernel spawns for a bounded task.
+entity Swarm {
+    name: string required
+    purpose: string
+    size: int
 }
 
 // The human leadership the platform agent works with at human level and that
@@ -543,6 +564,14 @@ relation Traces Agent -> Trace {
     span: string
 }
 
+relation Spawns Agent -> Swarm {
+    strategy: string
+}
+
+relation ImpersonatesAs Agent -> Human {
+    reason: string
+}
+
 brain PlatformOrchestrator {
     owns data
     owns business_logic
@@ -669,6 +698,10 @@ constitution PlatformConstitution {
     rule definedProfile: "every agent has a defined scope, authority, roles, responsibilities, KPIs, skills, knowledge, and tools"
     rule escalation: "follow the escalation matrix: a clear, direct path routing each issue to the right authority within its time bound"
     rule traceability: "identify and trace every action, decision, and outcome with precision — full lineage via OpenTelemetry and Jaeger into Cortex and ClickHouse"
+    rule adaptive: "transform workloads, mutate its own configuration, and spawn agent swarms — always within deterministic, auditable bounds"
+    rule impersonation: "impersonate a user only with explicit, time-bound, fully-audited delegation (act-as), never silently"
+    rule governedAll: "everything is governed — every capability, action, and agent is bound by the constitution, policies, permissions, and the audit trail; nothing runs ungoverned"
+    rule doctrine: "follow military doctrine: clear chain of command, mission command, the OODA loop, defined rules of engagement, and defense in depth"
 }
 
 policy ReconcilePolicy {
@@ -767,6 +800,10 @@ function unboxd.platform.openIncident(service: Service) returns Incident as surr
 function unboxd.platform.rollback(deployment: Deployment) returns bool as surrealdb
 function unboxd.platform.audit(agent: Agent) returns AuditEvent as surrealdb
 function unboxd.platform.automate(service: Service) returns Automation as surrealdb
+function unboxd.platform.transform(automation: Automation) returns Automation as surrealdb
+function unboxd.platform.mutate(deployment: Deployment) returns bool as surrealdb
+function unboxd.platform.swarm(agent: Agent) returns Swarm as surrealdb
+function unboxd.platform.impersonate(user: Human) returns bool as surrealdb
 function unboxd.platform.orchestrate(automation: Automation) returns Workflow as surrealdb
 function unboxd.platform.observe(service: Service) returns Observation as surrealdb
 function unboxd.platform.trace(service: Service) returns Trace as surrealdb
