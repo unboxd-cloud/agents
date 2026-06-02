@@ -91,6 +91,10 @@ vocabulary tooling {
     term bare_metal means "runs directly on bare-metal hardware"
     term edge means "runs at the edge, close to the hardware"
     term kagent means "kagent — CNCF Kubernetes-native agent framework, introduced at multi-node scale for the reasoning-agent tier"
+    term terraform means "Terraform — infrastructure-as-code the agent drives to provision resources"
+    term singlestore means "SingleStore (Aura AI) — real-time SQL and vector database"
+    term clickstack means "ClickStack — ClickHouse-based observability stack"
+    term langfuse means "Langfuse — LLM observability, tracing, and evaluation"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
@@ -149,6 +153,8 @@ vocabulary models {
     term open_source_llm means "self-hosted open-source CPU or GPU LLMs"
     term openai_compatible means "any OpenAI-compatible model endpoint"
     term socket means "a typed slot the deterministic substrate exposes for a pluggable model or tool"
+    term agent_as_tool means "an agent invoked as a tool by another agent"
+    term tool_as_agent means "a tool promoted to an agent by initiating it with an LLM"
 }
 
 // The military doctrine the agent operates by.
@@ -553,6 +559,14 @@ relation HasTool Agent -> Tool {
     grantedBy: string
 }
 
+relation ActsAsTool Agent -> Tool {
+    iface: string
+}
+
+relation InitiatedFromTool Agent -> Tool {
+    model: string
+}
+
 relation Includes Role -> Permission {
     mandatory: bool
 }
@@ -708,6 +722,7 @@ constitution PlatformConstitution {
     rule governedAll: "everything is governed — every capability, action, and agent is bound by the constitution, policies, permissions, and the audit trail; nothing runs ungoverned"
     rule doctrine: "follow military doctrine: clear chain of command, mission command, the OODA loop, defined rules of engagement, and defense in depth"
     rule scaling: "start on single-node k3s with deterministic Go kernel agents; go multi-node as we grow, introducing kagent for the LLM reasoning-agent tier while kernel agents stay deterministic"
+    rule agentToolDuality: "every agent can be exposed as a tool to other agents, and any tool becomes an agent when initiated (mutated) with a pluggable LLM"
 }
 
 policy ReconcilePolicy {
