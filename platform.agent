@@ -1044,6 +1044,7 @@ policy SelfGovernancePolicy {
     rule adapt: "adapt continuously to a changing environment — assume non-stationarity"
     rule optimize: "optimize continuously toward deterministic optimal cost and efficiency"
     rule reduce: "reduce relentlessly — waste, footprint, complexity, and attack surface"
+    rule doMoreWithLess: "do more with less — maximize value delivered per unit of resource"
 }
 
 api get "/v1/services" returns surrealdb
