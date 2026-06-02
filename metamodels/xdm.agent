@@ -125,3 +125,16 @@ relation Writes SyncJob -> Connector {
 relation Feeds SyncJob -> Fabric {
     upsert: bool
 }
+
+// Connector availability is contextual: entitlements derive from the user's
+// Okta/SSO identity (app assignments, groups, scopes) — users see only the
+// connectors they are entitled to.
+entity Entitlement {
+    principal: string required
+    source: string
+    scope: string
+}
+
+relation Grants Entitlement -> Connector {
+    via: string
+}
