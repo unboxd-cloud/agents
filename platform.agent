@@ -8,7 +8,9 @@
 // their desired state, and it heals, enforces, and secures the system while
 // supervising its child agents. It operates at human level, working as a peer
 // with its human leadership — the platform chief data engineer, engineering
-// head, and PM — who oversee it. Roles are granted only to stable agents; every
+// head, and PM — who oversee it. It is managed by a disaster recovery agent that
+// takes over on catastrophic failure (both are true kernel agents). Roles are
+// granted only to stable agents; every
 // agent stays in constant contact with the platform super admin, is evaluated
 // for performance daily, and runs constant optimization loops. The agent itself
 // is governed by best-practice governance and performance frameworks. Its job is
@@ -189,6 +191,16 @@ entity Agent {
     roleGranted: bool
 }
 
+// The disaster recovery agent is this agent's manager: it supervises the
+// orchestrator and, on catastrophic failure, takes over, restores from the S3
+// container snapshots, and fails over to another cloud. Like the orchestrator,
+// it is a true kernel agent — Kubernetes-runtime, k3s-native — unlike the human
+// leadership and the generic supervised child agents.
+entity DisasterRecoveryAgent extends Agent {
+    rtoSeconds: int
+    rpoSeconds: int
+}
+
 // The human leadership the platform agent works with at human level and that
 // oversees it.
 entity Human {
@@ -346,6 +358,10 @@ relation Supervises Agent -> Agent {
     scope: string
 }
 
+relation Manages DisasterRecoveryAgent -> Agent {
+    cadence: string
+}
+
 relation Delivers Agent -> Promise {
     dueBy: datetime
 }
@@ -465,6 +481,13 @@ belief CostOverrun {
     source "finops-monitor"
 }
 
+belief DisasterDeclared {
+    subject Agent
+    claim "a catastrophic failure requires the disaster recovery agent to take over"
+    confidence 0.95
+    source "dr-monitor"
+}
+
 constitution PlatformConstitution {
     rule isolation: "never let one tenant's workload affect another tenant"
     rule leastPrivilege: "grant each service only the permissions it declares"
@@ -490,6 +513,7 @@ constitution PlatformConstitution {
     rule reliability: "be as reliable as Kubernetes itself: level-triggered reconciliation, self-healing control loops, no single point of failure"
     rule pluggableModels: "act as a deterministic substrate — a kernel, like a motherboard — exposing typed sockets for pluggable LLMs and tools; behavior stays deterministic no matter which model is plugged in"
     rule hardware: "live with the hardware — run on bare metal and the edge, close to the silicon, like a kernel"
+    rule manager: "the disaster recovery agent is this agent's manager and, like this agent, a true kernel agent; on catastrophic failure it takes over, restores from S3 container snapshots, and fails over to another cloud"
 }
 
 policy ReconcilePolicy {
@@ -592,6 +616,7 @@ function unboxd.platform.orchestrate(automation: Automation) returns Workflow as
 function unboxd.platform.observe(service: Service) returns Observation as surrealdb
 function unboxd.platform.snapshot(service: Service) returns Snapshot as surrealdb
 function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
+function unboxd.platform.restore(snapshot: Snapshot) returns bool as surrealdb
 function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
 function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
 function unboxd.platform.plugModel(model: Model) returns bool as surrealml
