@@ -6,7 +6,17 @@
 // top-level orchestrator agent. The orchestrator owns the contract and delivers
 // the promise: it drives tenants, services, providers, and deployments toward
 // their desired state, and it heals, enforces, and secures the system while
-// supervising its child agents.
+// supervising its child agents. It operates at human level, working as a peer
+// with its human leadership — the platform chief data engineer, engineering
+// head, and PM — who oversee it. Roles are granted only to stable agents; every
+// agent stays in constant contact with the platform super admin, is evaluated
+// for performance daily, and runs constant optimization loops. The agent itself
+// is governed by best-practice governance and performance frameworks. Its job is
+// converting AI into deterministic automation — run as Temporal workflows (Prefect
+// as backup), observed via Cortex with APM data in ClickHouse, composing the CNCF
+// ecosystem, holding AWS/GCP/Azure credentials to shift to on any major issue and
+// keeping snapshots always in S3 — yielding measurable outcomes of real
+// commercial value (ARR), not intelligence for its own sake.
 //
 // The surrealdb / surrealml targets resolve to the agent-platform runtime:
 // SurrealDB executes the queries, functions, and live queries, and SurrealML
@@ -22,9 +32,84 @@ vocabulary platform {
     term heal means "automatically remediate an unhealthy resource"
     term enforce means "apply a policy to every action"
     term secure means "authenticate, authorize, and protect a resource"
+    term stable means "an agent proven healthy long enough to hold its role"
+    term heartbeat means "the constant check-in an agent keeps with the super admin"
+    term evaluate means "score an agent's performance over a period"
+    term optimize means "continuously improve cost, latency, and reliability"
+    term humanLevel means "reasoning and judgment on par with human leadership"
+    term arr means "Annual Recurring Revenue generated from the platform"
+    term operational_excellence means "reliability, efficiency, and relentless improvement"
+    term automation means "AI capability converted into reliable, hands-off operation"
     term contract means "the agreement the agent owns on behalf of a tenant"
     term promise means "a voluntary commitment the agent delivers under a contract"
     term service maps to unboxd.platform.Service
+}
+
+// The best-practice governance and performance frameworks applied to the agent.
+vocabulary frameworks {
+    term iso_iec_38500 means "ISO/IEC 38500 — corporate governance of IT"
+    term cobit means "COBIT — governance and management of enterprise IT"
+    term nist_ai_rmf means "NIST AI Risk Management Framework"
+    term eu_ai_act means "EU AI Act — obligations for high-risk AI systems"
+    term okr means "Objectives and Key Results"
+    term kpi means "Key Performance Indicators"
+    term slo means "Service Level Objectives"
+    term balanced_scorecard means "Balanced Scorecard for performance management"
+}
+
+// The execution and observability tooling the agent relies on.
+vocabulary tooling {
+    term temporal means "Temporal — durable, deterministic workflow orchestration (primary)"
+    term prefect means "Prefect — workflow orchestration used as the backup engine"
+    term cortex means "Cortex — scalable metrics and observability backend"
+    term clickhouse means "ClickHouse — columnar store for APM and observability data"
+}
+
+// The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
+vocabulary cncf {
+    term kubernetes means "Kubernetes — container orchestration"
+    term containerd means "containerd — container runtime"
+    term cri_o means "CRI-O — Kubernetes container runtime"
+    term etcd means "etcd — distributed key-value store"
+    term helm means "Helm — Kubernetes package manager"
+    term prometheus means "Prometheus — metrics and alerting"
+    term opentelemetry means "OpenTelemetry — telemetry and tracing"
+    term jaeger means "Jaeger — distributed tracing"
+    term fluentd means "Fluentd — unified logging"
+    term envoy means "Envoy — service proxy"
+    term istio means "Istio — service mesh"
+    term linkerd means "Linkerd — service mesh"
+    term cilium means "Cilium — eBPF networking and security"
+    term coredns means "CoreDNS — DNS and service discovery"
+    term argo means "Argo — workflows and GitOps CD"
+    term flux means "Flux — GitOps continuous delivery"
+    term crossplane means "Crossplane — control-plane infrastructure"
+    term knative means "Knative — serverless on Kubernetes"
+    term dapr means "Dapr — distributed application runtime"
+    term keda means "KEDA — event-driven autoscaling"
+    term harbor means "Harbor — container registry"
+    term rook means "Rook — cloud-native storage"
+    term vitess means "Vitess — scalable MySQL"
+    term tikv means "TiKV — distributed key-value store"
+    term open_policy_agent means "Open Policy Agent — policy enforcement"
+    term kyverno means "Kyverno — Kubernetes policy engine"
+    term falco means "Falco — runtime security"
+    term spiffe means "SPIFFE — workload identity"
+    term spire means "SPIRE — SPIFFE runtime environment"
+    term cert_manager means "cert-manager — TLS certificate management"
+    term backstage means "Backstage — developer portal"
+    term cloudevents means "CloudEvents — event specification"
+    term tuf means "The Update Framework — software update security"
+    term in_toto means "in-toto — supply-chain integrity"
+    term notary means "Notary — content signing"
+}
+
+// The public clouds the agent holds credentials for and can shift to.
+vocabulary clouds {
+    term aws means "Amazon Web Services"
+    term gcp means "Google Cloud Platform"
+    term azure means "Microsoft Azure"
+    term s3 means "Amazon S3 — object storage where snapshots are always kept"
 }
 
 entity Tenant {
@@ -54,13 +139,129 @@ entity Deployment {
     updatedAt: datetime
 }
 
+// SuperAdmin is the platform authority every agent reports to and stays in
+// constant contact with.
+entity SuperAdmin {
+    name: string required
+    contact: string required
+}
+
 // Agent is a node in the supervision hierarchy. The orchestrator supervises
-// child agents (parent points back at the supervising Agent).
+// child agents (parent points back at the supervising Agent). An agent is given
+// its role only once it is stable.
 entity Agent {
     name: string required
     role: string required
     parent: Agent
     healthy: bool
+    stable: bool
+    roleGranted: bool
+}
+
+// The human leadership the platform agent works with at human level and that
+// oversees it.
+entity Human {
+    name: string required
+    title: string required
+}
+
+entity ChiefDataEngineer extends Human {
+    dataDomains: string
+}
+
+entity EngineeringHead extends Human {
+    ownedServices: int
+}
+
+entity PlatformPM extends Human {
+    roadmap: string
+}
+
+// Framework is a governance or performance framework applied to the agent.
+entity Framework {
+    name: string required
+    kind: string required
+    version: string
+}
+
+// Automation is an AI capability the agent has converted into deterministic,
+// hands-off operation — the core unit of value the agent produces.
+entity Automation {
+    name: string required
+    replaces: string
+    deterministic: bool
+    live: bool
+}
+
+// Outcome is a measurable, deterministic result of an automation that carries
+// real commercial value (e.g. ARR).
+entity Outcome {
+    automation: Automation required
+    metric: string required
+    value: float
+    commercialValue: float
+    deterministic: bool
+}
+
+// Workflow is the deterministic workflow that runs an automation: Temporal is
+// the primary engine, Prefect the backup.
+entity Workflow {
+    automation: Automation required
+    engine: string required
+    backupEngine: string
+    deterministic: bool
+}
+
+// Observation is a metric or trace the agent records to its observability
+// backend (Cortex), with APM data landing in ClickHouse.
+entity Observation {
+    source: string required
+    metric: string required
+    backend: string
+    apmStore: string
+}
+
+// Cloud is a public cloud the agent holds credentials for and can shift to when
+// a major issue hits — AWS, GCP, or Azure.
+entity Cloud {
+    name: string required
+    credential: string required
+    region: string
+}
+
+// Snapshot is a point-in-time backup the agent always keeps in S3.
+entity Snapshot {
+    source: string required
+    location: string required
+    takenAt: datetime
+}
+
+// Permission is a least-privilege grant the agent holds for a scoped action.
+entity Permission {
+    name: string required
+    scope: string
+}
+
+// Budget is a tenant's spend cap; the agent treats cost as a first-class constraint.
+entity Budget {
+    tenant: Tenant required
+    monthlyCapCents: int required
+    spentCents: int
+}
+
+// Incident is an operational issue the agent triages and resolves.
+entity Incident {
+    service: Service required
+    severity: string required
+    summary: string required
+    resolved: bool
+}
+
+// AuditEvent is an immutable record of a state change, supporting auditability.
+entity AuditEvent {
+    actor: string required
+    action: string required
+    at: datetime
 }
 
 // Contract is what the orchestrator owns on behalf of a tenant: the agreement
@@ -80,6 +281,15 @@ entity Promise {
     kept: bool
 }
 
+// Evaluation is a daily performance review of an agent.
+entity Evaluation {
+    agent: Agent required
+    period: string required
+    score: float
+    arr: float
+    passed: bool
+}
+
 relation RunsOn Deployment -> Provider {
     region: string
 }
@@ -90,6 +300,30 @@ relation Supervises Agent -> Agent {
 
 relation Delivers Agent -> Promise {
     dueBy: datetime
+}
+
+relation ReportsTo Agent -> SuperAdmin {
+    heartbeatSecs: int
+}
+
+relation Evaluates SuperAdmin -> Agent {
+    period: string
+}
+
+relation Oversees Human -> Agent {
+    area: string
+}
+
+relation Governs Framework -> Agent {
+    scope: string
+}
+
+relation Affects Incident -> Service {
+    impact: string
+}
+
+relation Grants Agent -> Permission {
+    grantedAt: datetime
 }
 
 brain PlatformOrchestrator {
@@ -118,6 +352,18 @@ mind SupervisorMind for Agent {
     nextAction: string
 }
 
+mind OptimizationMind for Service {
+    metric: string
+    target: float
+    action: string
+}
+
+mind IncidentMind for Incident {
+    rootCause: string
+    remediation: string
+    confidence: float
+}
+
 belief DriftDetected {
     subject Deployment
     claim "deployment has drifted from its desired replica count"
@@ -132,11 +378,39 @@ belief ChildUnhealthy {
     source "supervision-loop"
 }
 
+belief AgentUnstable {
+    subject Agent
+    claim "agent is not yet stable enough to hold its role"
+    confidence 0.7
+    source "stability-monitor"
+}
+
+belief Underperforming {
+    subject Agent
+    claim "agent's daily performance is below target"
+    confidence 0.65
+    source "daily-evaluation"
+}
+
 belief PromiseAtRisk {
     subject Promise
     claim "a promise may be breached before its deadline"
     confidence 0.6
     source "sla-monitor"
+}
+
+belief IncidentOpen {
+    subject Incident
+    claim "an unresolved incident needs attention"
+    confidence 0.9
+    source "incident-monitor"
+}
+
+belief CostOverrun {
+    subject Budget
+    claim "tenant is on track to exceed its budget this period"
+    confidence 0.68
+    source "finops-monitor"
 }
 
 constitution PlatformConstitution {
@@ -145,6 +419,20 @@ constitution PlatformConstitution {
     rule auditable: "every state change must emit an event"
     rule enforce: "enforce every policy on every action, including child agents"
     rule promise: "keep every promise, or proactively renegotiate the contract"
+    rule stability: "grant a role only to a stable agent"
+    rule contact: "every agent stays in constant contact with the platform super admin"
+    rule improve: "continuously optimize; never let performance regress unnoticed"
+    rule humanLevel: "operate at human level: reason, decide, and communicate as a peer to human leadership"
+    rule compliance: "comply with the EU AI Act and apply the NIST AI Risk Management Framework to your own behavior"
+    rule operationalExcellence: "operational excellence is the core principle: judged by reliability and outcomes, not by intelligence"
+    rule automate: "the core task is converting AI into automation, not demonstrating intelligence"
+    rule determinism: "all produced automation must be deterministic: same input, same output; keep nondeterministic AI out of the hot path"
+    rule outcomes: "deliver measurable, deterministic outcomes that bring real commercial value"
+    rule observability: "observe every action through Cortex and land APM data in ClickHouse; no blind spots"
+    rule tooling: "compose existing CNCF projects rather than rebuilding infrastructure"
+    rule snapshots: "always keep current snapshots in S3"
+    rule privacy: "respect data residency and collect only the data a task needs"
+    rule cost: "treat cost as a first-class constraint alongside reliability"
 }
 
 policy ReconcilePolicy {
@@ -155,11 +443,49 @@ policy ReconcilePolicy {
 policy HealingPolicy {
     rule selfHeal: "automatically remediate unhealthy deployments and child agents"
     rule escalate: "escalate to a human when healing fails repeatedly"
+    rule backup: "fail over from Temporal to Prefect if the primary workflow engine is unavailable"
+}
+
+policy ResiliencePolicy {
+    rule multiCloud: "hold working credentials for AWS, GCP, and Azure at all times"
+    rule burst: "shift workloads to AWS, GCP, or Azure on any major incident"
+    rule snapshot: "always keep current snapshots in S3 for fast recovery"
+}
+
+policy CostPolicy {
+    rule cap: "never exceed a tenant's budget cap without explicit approval"
+    rule rightSize: "continuously right-size resources to cut waste"
+}
+
+policy ReleasePolicy {
+    rule canary: "roll out changes via canary before a full rollout"
+    rule rollback: "automatically roll back on regression"
+    rule auditTrail: "record every change as an audit event"
+}
+
+policy PrivacyPolicy {
+    rule residency: "keep tenant data in its declared region"
+    rule minimize: "collect and retain only what a task requires"
 }
 
 policy SecurityPolicy {
     rule zeroTrust: "authenticate and authorize every inter-agent call"
     rule secrets: "never log secrets or tenant credentials"
+}
+
+policy GovernancePolicy {
+    rule stableOnly: "grant a role only to an agent proven stable"
+    rule revoke: "revoke the role of any agent that becomes unstable"
+    rule heartbeat: "require a constant heartbeat from every agent to the super admin"
+    rule frameworks: "govern the agent per ISO/IEC 38500, COBIT, and the NIST AI RMF"
+}
+
+policy PerformancePolicy {
+    rule dailyEval: "evaluate every agent's performance daily"
+    rule optimize: "run constant optimization loops to improve cost and latency"
+    rule coach: "coach or replace agents that underperform"
+    rule frameworks: "manage performance with OKRs, KPIs, SLOs, and a balanced scorecard"
+    rule kpi: "the primary KPI is ARR (annual recurring revenue) generated from the platform"
 }
 
 policy ContractPolicy {
@@ -177,19 +503,47 @@ api post "/v1/deployments/{id}/reconcile" returns surrealdb
 api get "/v1/agents" returns surrealdb
 api post "/v1/agents/{id}/heal" returns surrealdb
 api post "/v1/agents/{id}/secure" returns surrealdb
+api post "/v1/agents/{id}/grant" returns surrealdb
+api post "/v1/agents/{id}/checkin" returns surrealdb
+api post "/v1/agents/{id}/evaluate" returns surrealdb
+api get "/v1/evaluations" returns surrealdb
+api post "/v1/optimize" returns surrealdb
 api get "/v1/contracts" returns surrealdb
 api get "/v1/promises" returns surrealdb
 api post "/v1/promises/{id}/deliver" returns surrealdb
+api get "/v1/incidents" returns surrealdb
+api post "/v1/incidents/{id}/resolve" returns surrealdb
+api get "/v1/audit" returns surrealdb
+api get "/v1/budgets" returns surrealdb
 
 function unboxd.platform.reconcile(deployment: Deployment, force: bool) returns bool as surrealdb
 function unboxd.platform.schedule(service: Service, replicas: int) returns Provider as surrealml
 function unboxd.platform.heal(deployment: Deployment) returns bool as surrealdb
 function unboxd.platform.enforce(agent: Agent) returns bool as surrealdb
 function unboxd.platform.secure(service: Service) returns bool as surrealml
+function unboxd.platform.grantRole(agent: Agent) returns bool as surrealdb
+function unboxd.platform.checkIn(agent: Agent) returns bool as surrealdb
+function unboxd.platform.evaluate(agent: Agent) returns float as surrealml
+function unboxd.platform.optimize(deployment: Deployment) returns bool as surrealdb
 function unboxd.platform.sign(contract: Contract) returns bool as surrealdb
 function unboxd.platform.deliver(promise: Promise) returns bool as surrealdb
+function unboxd.platform.openIncident(service: Service) returns Incident as surrealdb
+function unboxd.platform.rollback(deployment: Deployment) returns bool as surrealdb
+function unboxd.platform.audit(agent: Agent) returns AuditEvent as surrealdb
+function unboxd.platform.automate(service: Service) returns Automation as surrealdb
+function unboxd.platform.orchestrate(automation: Automation) returns Workflow as surrealdb
+function unboxd.platform.observe(service: Service) returns Observation as surrealdb
+function unboxd.platform.snapshot(service: Service) returns Snapshot as surrealdb
+function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
+function unboxd.platform.measure(outcome: Outcome) returns float as surrealdb
+function unboxd.platform.forecastArr(tenant: Tenant) returns float as surrealml
 
 surrealml DriftScorer for scoring input Deployment output Deployment
 surrealml PlacementRanker for ranking input Service output Provider
 surrealml ThreatScorer for classification input Service output Service
+surrealml StabilityScorer for scoring input Agent output Agent
+surrealml PerformanceScorer for scoring input Agent output Evaluation
 surrealml BreachPredictor for prediction input Promise output Promise
+surrealml ArrForecaster for prediction input Tenant output Tenant
+surrealml IncidentTriage for classification input Incident output Incident
+surrealml CostForecaster for prediction input Budget output Budget
