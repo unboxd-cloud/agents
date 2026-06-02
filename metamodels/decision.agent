@@ -77,6 +77,57 @@ entity Outcome {
     utility: float
 }
 
+// Theory is a body of logic/theory a decision rests on; it can be decomposed
+// into parts so a complex decision stays explainable.
+entity Theory {
+    name: string required
+    domain: string
+    atomic: bool
+}
+
+// Explanation is the required justification for a decision: logical or
+// theoretical, citing theories (or their decomposed parts).
+entity Explanation {
+    decision: Decision required
+    basis: string required
+    logical: bool
+    theoretical: bool
+}
+
+// Principle is a first principle / axiom — the irreducible base that theories
+// decompose to and explanations ultimately ground in.
+entity Principle {
+    name: string required
+    statement: string
+    axiom: bool
+}
+
+// Synthesis is a new composition an agent proposes. An agent MAY claim it as
+// innovation only if it is composable — it decomposes into, and recomposes from,
+// verified parts and first principles. If it is not composable it stays a
+// candidate until independently validated. Recognized syntheses may productionize.
+entity Synthesis {
+    name: string required
+    proposedBy: string
+    composable: bool
+    recognized: bool
+    stage: string
+}
+
+// Validation is performed by a verifier other than the proposing agent.
+entity Validation {
+    synthesis: Synthesis required
+    verifier: string
+    method: string
+    passed: bool
+}
+
+entity Productionization {
+    synthesis: Synthesis required
+    version: string
+    releasedAt: datetime
+}
+
 relation Considers Decision -> Option {
     feasible: bool
 }
@@ -107,4 +158,42 @@ relation Chooses Decision -> Option {
 
 relation Yields Decision -> Outcome {
     actionable: bool
+}
+
+relation Explains Explanation -> Decision {
+    complete: bool
+}
+
+relation Cites Explanation -> Theory {
+    part: string
+}
+
+relation DecomposesInto Theory -> Theory {
+    part: string
+}
+
+relation ReducesTo Theory -> Principle {
+    axiom: bool
+}
+
+relation GroundsIn Explanation -> Principle {
+    chain: string
+}
+
+relation ComposedOf Decision -> Decision {
+    role: string
+}
+
+// A synthesis composes verified principles; that composability is what lets an
+// agent claim it as innovation.
+relation ComposesFrom Synthesis -> Principle {
+    verified: bool
+}
+
+relation Validates Validation -> Synthesis {
+    evidence: string
+}
+
+relation Productionizes Productionization -> Synthesis {
+    gated: bool
 }
