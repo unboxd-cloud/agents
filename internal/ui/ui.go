@@ -33,6 +33,30 @@ const CSS = `
   form.chat{display:flex;gap:8px}
 `
 
+// ChatHome returns the chat-first home — the Assistant (loaded), a Search box
+// that routes through the assistant, and a Canvas scratch area — built once and
+// reused by every surface. postURL is the chat endpoint: it receives name=msg and
+// returns an HTML fragment appended to #chat-log.
+func ChatHome(postURL string) string {
+	return `
+  <div class="card span2"><h2>Assistant</h2>
+    <div id="chat-log"><div class="msg bot">Your assistant is loaded. Ask anything, or type <code>help</code>.</div></div>
+    <form class="chat" hx-post="` + postURL + `" hx-target="#chat-log" hx-swap="beforeend"
+          hx-on::after-request="this.reset();document.getElementById('chat-log').scrollTop=1e9">
+      <input type="text" name="msg" placeholder="ask the assistant…" autocomplete="off" autofocus>
+      <button type="submit">Send</button>
+    </form>
+    <form class="chat" hx-post="` + postURL + `" hx-target="#chat-log" hx-swap="beforeend" style="margin-top:8px"
+          hx-on::after-request="this.reset();document.getElementById('chat-log').scrollTop=1e9">
+      <input type="text" name="msg" placeholder="search…" autocomplete="off">
+      <button type="submit">Search</button>
+    </form>
+  </div>
+
+  <div class="card span2"><h2>Canvas</h2>
+    <textarea placeholder="scratch canvas — notes, drafts, plans…" style="width:100%;height:160px;background:#0f1320;border:1px solid #2a3346;color:#e6e6e6;border-radius:8px;padding:8px 12px"></textarea></div>`
+}
+
 // Head returns the shared document head (doctype, meta, htmx, shared CSS) for the
 // given title. The title may contain template actions; the result is concatenated
 // with a surface's <body> before parsing. Surfaces append their own body and a

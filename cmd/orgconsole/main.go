@@ -9,6 +9,7 @@ package main
 
 import (
 	"context"
+	"html"
 	"html/template"
 	"log"
 	"net/http"
@@ -75,6 +76,7 @@ func main() {
 	mux.HandleFunc("/compliance", c.setCompliance)
 	mux.HandleFunc("/settings", c.setSnapshots)
 	mux.HandleFunc("/spend", c.spend)
+	mux.HandleFunc("/chat", c.chat)
 
 	addr := envOr("ORGCONSOLE_ADDR", ":8085")
 	log.Printf("org admin console for %q on %s", orgID, addr)
@@ -193,6 +195,60 @@ func (c *console) spend(w http.ResponseWriter, r *http.Request) {
 	c.render(w, v)
 }
 
+func (c *console) chat(w http.ResponseWriter, r *http.Request) {
+	msg := strings.TrimSpace(r.FormValue("msg"))
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	_, _ = w.Write([]byte(chatBubble(msg, c.assist(r.Context(), msg))))
+}
+
+// assist is the org console's assistant: it answers from the same data the
+// console manages (members, compliance, catalog, spend).
+func (c *console) assist(ctx context.Context, msg string) string {
+	cmd := ""
+	if f := strings.Fields(strings.ToLower(msg)); len(f) > 0 {
+		cmd = f[0]
+	}
+	switch cmd {
+	case "", "help":
+		return "I can help with: members, compliance, catalog, spend. Ask away."
+	case "members":
+		org, _ := c.tenants.Get(c.orgID)
+		var b strings.Builder
+		for _, m := range org.Members {
+			b.WriteString(m.Subject + " (" + string(m.Profile) + ")\n")
+		}
+		if b.Len() == 0 {
+			return "no members yet"
+		}
+		return b.String()
+	case "compliance":
+		p, _ := c.profiles.Get(c.orgID)
+		return "jurisdiction " + p.Jurisdiction + "; frameworks " + strings.Join(p.Frameworks, ", ")
+	case "catalog":
+		offers, err := c.sdk.ListOfferings(ctx, "")
+		if err != nil {
+			return "catalog unavailable: " + err.Error()
+		}
+		var b strings.Builder
+		for _, o := range offers {
+			b.WriteString(o.ID + " — " + o.Project + "\n")
+		}
+		if b.Len() == 0 {
+			return "catalog is empty"
+		}
+		return b.String()
+	case "spend":
+		return "see the Spend preview card below, or ask me to estimate usage."
+	default:
+		return "ask me about members, compliance, catalog, or spend."
+	}
+}
+
+func chatBubble(msg, resp string) string {
+	return `<div class="msg user">` + html.EscapeString(msg) +
+		`</div><div class="msg bot">` + html.EscapeString(resp) + `</div>`
+}
+
 func (c *console) render(w http.ResponseWriter, v view) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	if err := c.tmpl.Execute(w, v); err != nil {
@@ -246,6 +302,7 @@ var orgTemplate = ui.Head("Org Console — {{.Org.Name}}") + `
 <body>
 <header><h1>Organization Console — {{.Org.Name}} <code>({{.Org.ID}})</code></h1></header>
 <main>
+` + ui.ChatHome("/chat") + `
   {{range .Notes}}<div class="card span2 note">{{.}}</div>{{end}}
 
   <div class="card"><h2>Members &amp; personas</h2>
