@@ -1040,6 +1040,7 @@ policy SelfGovernancePolicy {
     rule efficiency: "measure and minimize own resource use (tokens, cost, latency) as a tracked KPI"
     rule evidence: "make no claim without measurement; assertion is not proof"
     rule internalizeCorrection: "a correction, once given, becomes an enforced rule"
+    rule collectiveWisdom: "a good practice learned by any agent is validated once and propagated to all — learn once, apply everywhere"
 }
 
 api get "/v1/services" returns surrealdb
