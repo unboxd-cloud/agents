@@ -1,0 +1,272 @@
+// community.agent — Agent-Community: how the platform taps human intelligence to
+// keep raising the bar. The machine owns excellence (deterministic, repeatable
+// conformance); humans own innovation (the new principle, the better composition,
+// the judgment that the standard should move). A closed fine-tuning crowd
+// saturates and stops innovating, and real experts have no time to tune models —
+// so contribution must be near-zero friction: three everyday gestures (input,
+// suggestion, feedback) captured inline, in the contributor's own language, as a
+// byproduct of their work. The asset improved is the brain/graph, not the rented
+// cortex. Contributions are visible and social: one person's suggestion seeds
+// another's idea, peers validate, and validation propagates as trust (TrustGNN).
+// Behind the light surface the gesture lands as a governed claim — proposed,
+// peer-validated, gated — so nothing reaches the model unproven (see
+// governance.agent, trust.agent, research.agent, decision.agent).
+namespace unboxd.meta.community
+
+// The three everyday gestures — the only contribution surface a busy expert will
+// actually use.
+vocabulary kinds {
+    term input means "a fact the platform did not have (a price changed, a new model shipped, this dataset differs)"
+    term suggestion means "a proposed change (this default is wrong, swap this tool, raise this threshold)"
+    term feedback means "a judgment on something the platform already did (this decision or result was right or wrong)"
+}
+
+// A contribution moves through governed states; it only changes the model after
+// it clears the gate. The UX is light; the backend is rigorous.
+vocabulary states {
+    term open means "submitted, awaiting peer validation"
+    term validated means "net trust-weighted validation crossed the bar"
+    term rejected means "net validation fell below the bar; not adopted"
+    term promoted means "passed the governance gate and raised the standard"
+}
+
+// A contributor is a human SME or an agent; both contribute and validate, and
+// both carry a trust weight that scales the weight of their validations.
+entity Contributor {
+    subject: string required
+    kind: string
+    expertise: string
+    trust: float
+}
+
+// A Contribution is one gesture, attached inline to a target (a decision, a
+// scorecard row, an agent, a model element). seedOf links it to the contribution
+// that sparked it — the social edge that lets innovation compound.
+entity Contribution {
+    by: Contributor required
+    kind: string required
+    target: string
+    body: string required
+    state: string
+    score: float
+    at: datetime
+}
+
+// Peer validation: a verdict by another contributor, weighted by their trust.
+// Distributed and trust-weighted — corroboration outweighs a single voice.
+entity Validation {
+    contribution: Contribution required
+    by: Contributor required
+    agree: bool
+    weight: float
+    at: datetime
+}
+
+// Promotion is the governance gate: only a validated contribution may be
+// promoted, and promotion is an auditable transition that raises the standard
+// the daily conformance run then proves against.
+entity Promotion {
+    contribution: Contribution required
+    approvedBy: string
+    at: datetime
+    raisesBar: bool
+}
+
+// What a contribution is attached to (inline, in context).
+relation Targets Contribution -> Contribution {
+    inline: bool
+}
+
+// The social edge: one suggestion seeds another's idea (cross-pollination →
+// synthesis; the human dialectic).
+relation Seeds Contribution -> Contribution {
+    sparked: string
+}
+
+// Peer validation, trust-weighted.
+relation Validates Validation -> Contribution {
+    weight: float
+}
+
+// A correct validation raises the contributor's trust (propagative trust).
+relation Raises Validation -> Contributor {
+    delta: float
+}
+
+// Promotion adopts a validated contribution into the model under governance.
+relation Promotes Promotion -> Contribution {
+    gated: bool
+}
+
+// --- The community innovation pipeline -------------------------------------
+// A raw gesture becomes a governed improvement through an ordered, gated funnel:
+//   identify  — name the need and define the problem statement
+//   explore   — survey existing solutions and prior art FIRST
+//   propose   — propose a new idea (a new composition)
+//   validate  — test the idea against the problem and the evidence
+//   promote   — adopt the validated idea under governance (raises the bar)
+// Two gates make the funnel honest. You may not propose before exploring (you
+// cannot claim novelty without surveying prior art — composition over rebuild).
+// And an idea counts as innovation only if it is composable; otherwise it is an
+// unprovable synthesis claim and is not adopted (see decision.agent: synthesis
+// must be validated, and only a composable composition is innovation).
+vocabulary pipeline {
+    term identify means "identify the need and define the problem statement"
+    term explore means "survey existing solutions and prior art before building"
+    term propose means "propose a new idea (a new, composable composition)"
+    term validate means "test the idea against the problem and the evidence"
+    term promote means "adopt the validated idea under governance"
+}
+
+// A Need is an identified problem: who raised it and the problem statement that
+// scopes it. Light gestures (a suggestion, a recurring piece of feedback)
+// escalate into a Need when they prove significant.
+entity Need {
+    raisedBy: Contributor required
+    statement: string required
+    context: string
+    priority: string
+    stage: string
+}
+
+// Exploration is the prior-art survey for a Need — done before any idea is
+// proposed, so the platform composes what exists instead of rebuilding it.
+entity Exploration {
+    need: Need required
+    method: string
+    surveyed: bool
+    gap: string
+}
+
+// An ExistingSolution found during exploration, with a fit/gap read and whether
+// it is reusable (compose) rather than something to rebuild.
+entity ExistingSolution {
+    exploration: Exploration required
+    name: string required
+    source: string
+    fit: string
+    reusable: bool
+}
+
+// An Idea is the proposed new composition addressing the Need. composedOf names
+// the existing solutions it composes; composable gates whether it may be claimed
+// as innovation at all.
+entity Idea {
+    need: Need required
+    proposedBy: Contributor required
+    summary: string required
+    composedOf: string
+    composable: bool
+    novel: bool
+    state: string
+}
+
+// Assessment is idea validation: a peer verdict with evidence and confidence,
+// trust-weighted like any other validation.
+entity Assessment {
+    idea: Idea required
+    by: Contributor required
+    verdict: bool
+    evidence: string
+    confidence: float
+}
+
+// A significant gesture escalates into a Need (the funnel's entry point).
+relation Escalates Contribution -> Need {
+    reason: string
+}
+
+// Identification: a Need defines its prior-art exploration.
+relation Defines Need -> Exploration {
+    ordered: bool
+}
+
+// Exploration surveys existing solutions.
+relation Surveys Exploration -> ExistingSolution {
+    rank: int
+}
+
+// An Idea addresses a Need (proposed only after exploration).
+relation Addresses Idea -> Need {
+    after: string
+}
+
+// Innovation as composition: the Idea composes existing solutions.
+relation Composes Idea -> ExistingSolution {
+    role: string
+}
+
+// Idea validation, trust-weighted.
+relation Assesses Assessment -> Idea {
+    weight: float
+}
+
+// --- Maturation & publishing ------------------------------------------------
+// A validated idea is not yet in production. It graduates through a
+// track-specific publishing process, advancing one gated stage at a time (no
+// skipping; every advance is governed and auditable). The model is generic over
+// the track so each community defines its own ordered stages — two canonical
+// tracks are shown.
+//
+// New Product Development (NPD): the product maturity ladder.
+vocabulary npd {
+    term prototype means "a throwaway proof that it can work"
+    term mvp means "minimum viable product — the smallest thing of real value"
+    term alpha means "feature-incomplete; internal testing"
+    term beta means "feature-complete; limited external testing"
+    term production means "generally available and operated under SLA"
+}
+
+// Research publication (e.g. arXiv preprint, IEEE peer review): the scholarly
+// maturity ladder.
+vocabulary publication {
+    term preprint means "posted as a preprint (e.g. arXiv) — not yet reviewed"
+    term submitted means "submitted to a venue (e.g. IEEE)"
+    term review means "under peer review"
+    term revision means "revise and resubmit"
+    term accepted means "accepted by the venue"
+    term published means "published in the proceedings or journal"
+}
+
+// A Track is a named, ordered publishing process. stages is the ordered list of
+// readiness stages (comma-separated) — npd, research, or any community's own.
+entity Track {
+    name: string required
+    stages: string required
+    terminal: string
+}
+
+// Maturation records a validated idea advancing one gated stage along a track.
+entity Maturation {
+    idea: Idea required
+    track: Track required
+    stage: string required
+    at: datetime
+    approvedBy: string
+}
+
+// Release is the terminal event — the idea reaches the track's terminal stage
+// (production for NPD, published for research) and is live.
+entity Release {
+    idea: Idea required
+    track: Track required
+    stage: string required
+    uri: string
+    at: datetime
+}
+
+// A validated idea matures along a track.
+relation Matures Idea -> Maturation {
+    via: string
+}
+
+// Each maturation advances the idea to the next stage on its track (gated).
+relation Advances Maturation -> Track {
+    toStage: string
+    gated: bool
+}
+
+// Reaching the terminal stage publishes/ships the idea.
+relation Publishes Idea -> Release {
+    terminal: bool
+}
