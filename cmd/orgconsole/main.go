@@ -13,6 +13,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/unboxd-cloud/platform/internal/api"
@@ -20,17 +22,19 @@ import (
 	"github.com/unboxd-cloud/platform/internal/catalog"
 	"github.com/unboxd-cloud/platform/internal/compliance"
 	"github.com/unboxd-cloud/platform/internal/metering"
+	"github.com/unboxd-cloud/platform/internal/s3"
 	"github.com/unboxd-cloud/platform/internal/server"
 	"github.com/unboxd-cloud/platform/internal/tenant"
 	"github.com/unboxd-cloud/platform/pkg/sdk"
 )
 
 type console struct {
-	orgID    string
-	tenants  *tenant.MemStore
-	profiles *compliance.MemStore
-	sdk      *sdk.Client
-	tmpl     *template.Template
+	orgID     string
+	tenants   *tenant.MemStore
+	profiles  *compliance.MemStore
+	snapshots *s3.MemStore
+	sdk       *sdk.Client
+	tmpl      *template.Template
 }
 
 func main() {
@@ -45,11 +49,12 @@ func main() {
 	client.Tenant = orgID
 
 	c := &console{
-		orgID:    orgID,
-		tenants:  tenant.NewMemStore(),
-		profiles: compliance.NewMemStore(),
-		sdk:      client,
-		tmpl:     template.Must(template.New("org").Parse(orgTemplate)),
+		orgID:     orgID,
+		tenants:   tenant.NewMemStore(),
+		profiles:  compliance.NewMemStore(),
+		snapshots: s3.NewMemStore(),
+		sdk:       client,
+		tmpl:      template.Must(template.New("org").Parse(orgTemplate)),
 	}
 	// Seed the org (the console manages exactly one organization).
 	if _, err := c.tenants.Create(tenant.Tenant{ID: orgID, Name: orgName,
@@ -58,11 +63,16 @@ func main() {
 	}
 	_ = c.profiles.Set(compliance.Profile{TenantID: orgID, Jurisdiction: "EU-DE",
 		Frameworks: []string{"GDPR", "SOC2"}, DataResidency: []string{"EU-DE", "EU-FR"}})
+	// Seed S3 cluster-snapshot settings from the deploy-time environment.
+	if st, ok := s3.FromEnv(orgID); ok {
+		_ = c.snapshots.Set(st)
+	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/", c.home)
 	mux.HandleFunc("/members", c.addMember)
 	mux.HandleFunc("/compliance", c.setCompliance)
+	mux.HandleFunc("/settings", c.setSnapshots)
 	mux.HandleFunc("/spend", c.spend)
 
 	addr := envOr("ORGCONSOLE_ADDR", ":8085")
@@ -74,6 +84,7 @@ type view struct {
 	Org        tenant.Tenant
 	Profiles   []tenant.Profile
 	Compliance compliance.Profile
+	Snapshots  s3.Settings
 	Offerings  []catalog.Offering
 	Spend      *api.RateResponse
 	Notes      []string
@@ -82,7 +93,8 @@ type view struct {
 func (c *console) view(ctx context.Context) view {
 	org, _ := c.tenants.Get(c.orgID)
 	prof, _ := c.profiles.Get(c.orgID)
-	v := view{Org: org, Compliance: prof, Profiles: tenant.ValidProfiles()}
+	snap, _ := c.snapshots.Get(c.orgID)
+	v := view{Org: org, Compliance: prof, Snapshots: snap.Redacted(), Profiles: tenant.ValidProfiles()}
 	offers, err := c.sdk.ListOfferings(ctx, "")
 	if err != nil {
 		v.Notes = append(v.Notes, "catalog unavailable: "+err.Error())
@@ -129,6 +141,32 @@ func (c *console) setCompliance(w http.ResponseWriter, r *http.Request) {
 	}
 	_ = c.profiles.Set(p)
 	c.render(w, c.view(r.Context()))
+}
+
+func (c *console) setSnapshots(w http.ResponseWriter, r *http.Request) {
+	cur, _ := c.snapshots.Get(c.orgID)
+	st := s3.Settings{
+		Scope:       c.orgID,
+		Bucket:      strings.TrimSpace(r.FormValue("bucket")),
+		Region:      strings.TrimSpace(r.FormValue("region")),
+		Endpoint:    strings.TrimSpace(r.FormValue("endpoint")),
+		Prefix:      strings.TrimSpace(r.FormValue("prefix")),
+		AccessKeyID: strings.TrimSpace(r.FormValue("accessKeyId")),
+		SecretKey:   s3.SecretOrKeep(r.FormValue("secretKey"), cur.SecretKey),
+		Schedule:    strings.TrimSpace(r.FormValue("schedule")),
+	}
+	if v := strings.TrimSpace(r.FormValue("retentionDays")); v != "" {
+		if n, err := strconv.Atoi(v); err == nil {
+			st.RetentionDays = n
+		}
+	}
+	v := c.view(r.Context())
+	if err := c.snapshots.Set(st); err != nil {
+		v.Notes = append(v.Notes, "invalid S3 settings: bucket and region are required")
+	} else {
+		v = c.view(r.Context())
+	}
+	c.render(w, v)
 }
 
 func (c *console) spend(w http.ResponseWriter, r *http.Request) {
@@ -249,6 +287,25 @@ const orgTemplate = `<!doctype html>
       <input type="text" name="frameworks" placeholder="GDPR,SOC2">
       <input type="text" name="residency" placeholder="EU-DE,EU-FR">
       <button type="submit">Update</button>
+    </form>
+  </div>
+
+  <div class="card"><h2>k3s cluster snapshots (S3)</h2>
+    <p>Where this org's k3s cluster snapshots are stored for disaster recovery.</p>
+    <p>Bucket: <span class="pill">{{if .Snapshots.Bucket}}{{.Snapshots.Bucket}}{{else}}unset{{end}}</span>
+       Region: <span class="pill">{{if .Snapshots.Region}}{{.Snapshots.Region}}{{else}}unset{{end}}</span>
+       {{if .Snapshots.Schedule}}Schedule: <span class="pill">{{.Snapshots.Schedule}}</span>{{end}}
+       {{if .Snapshots.RetentionDays}}Retention: <span class="pill">{{.Snapshots.RetentionDays}}d</span>{{end}}</p>
+    <form hx-post="/settings" hx-target="body" hx-swap="outerHTML">
+      <input type="text" name="bucket" value="{{.Snapshots.Bucket}}" placeholder="bucket" required>
+      <input type="text" name="region" value="{{.Snapshots.Region}}" placeholder="us-east-1" required>
+      <input type="text" name="endpoint" value="{{.Snapshots.Endpoint}}" placeholder="endpoint (S3-compatible, optional)">
+      <input type="text" name="prefix" value="{{.Snapshots.Prefix}}" placeholder="prefix (optional)">
+      <input type="text" name="accessKeyId" value="{{.Snapshots.AccessKeyID}}" placeholder="access key id">
+      <input type="password" name="secretKey" value="{{.Snapshots.SecretKey}}" placeholder="secret key">
+      <input type="text" name="schedule" value="{{.Snapshots.Schedule}}" placeholder="cron e.g. 0 */6 * * *">
+      <input type="text" name="retentionDays" value="{{if .Snapshots.RetentionDays}}{{.Snapshots.RetentionDays}}{{end}}" placeholder="retention days">
+      <button type="submit">Save S3 settings</button>
     </form>
   </div>
 

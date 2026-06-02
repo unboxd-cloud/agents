@@ -16,6 +16,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 
@@ -24,6 +25,7 @@ import (
 	"github.com/unboxd-cloud/platform/internal/metering"
 	"github.com/unboxd-cloud/platform/internal/observe"
 	"github.com/unboxd-cloud/platform/internal/provider"
+	"github.com/unboxd-cloud/platform/internal/s3"
 	"github.com/unboxd-cloud/platform/internal/server"
 	"github.com/unboxd-cloud/platform/pkg/sdk"
 )
@@ -49,6 +51,23 @@ func main() {
 	}
 
 	page := template.Must(template.New("page").Parse(pageTemplate))
+
+	// Platform-wide S3 settings for k3s cluster snapshots, seeded at deploy time
+	// from S3_* environment variables and editable below.
+	snaps := s3.NewMemStore()
+	if st, ok := s3.FromEnv("platform"); ok {
+		_ = snaps.Set(st)
+	}
+	renderPage := func(w http.ResponseWriter) {
+		cur, _ := snaps.Get("platform")
+		_ = page.Execute(w, map[string]any{
+			"Providers": provider.DefaultRegistry().Names(),
+			"Modes":     operatingModes(),
+			"BI":        bi,
+			"S3":        cur.Redacted(),
+		})
+	}
+
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
@@ -56,11 +75,30 @@ func main() {
 			http.NotFound(w, r)
 			return
 		}
-		_ = page.Execute(w, map[string]any{
-			"Providers": provider.DefaultRegistry().Names(),
-			"Modes":     operatingModes(),
-			"BI":        bi,
-		})
+		renderPage(w)
+	})
+
+	// Platform-wide S3 cluster-snapshot settings.
+	mux.HandleFunc("/settings", func(w http.ResponseWriter, r *http.Request) {
+		cur, _ := snaps.Get("platform")
+		st := s3.Settings{
+			Scope:       "platform",
+			Bucket:      strings.TrimSpace(r.FormValue("bucket")),
+			Region:      strings.TrimSpace(r.FormValue("region")),
+			Endpoint:    strings.TrimSpace(r.FormValue("endpoint")),
+			Prefix:      strings.TrimSpace(r.FormValue("prefix")),
+			AccessKeyID: strings.TrimSpace(r.FormValue("accessKeyId")),
+			SecretKey:   s3.SecretOrKeep(r.FormValue("secretKey"), cur.SecretKey),
+			Schedule:    strings.TrimSpace(r.FormValue("schedule")),
+		}
+		if v := strings.TrimSpace(r.FormValue("retentionDays")); v != "" {
+			if n, err := strconv.Atoi(v); err == nil {
+				st.RetentionDays = n
+			}
+		}
+		_ = snaps.Set(st)
+		w.Header().Set("Content-Type", "text/html; charset=utf-8")
+		renderPage(w)
 	})
 
 	// htmx chat endpoint: returns an HTML fragment appended to the chat log.
@@ -311,6 +349,25 @@ const pageTemplate = `<!doctype html>
     {{range .Providers}}<span class="pill">{{.}}</span>{{else}}<em>none</em>{{end}}</div>
   <div class="card"><h2>Operating models</h2>
     {{range .Modes}}<span class="pill">{{.}}</span>{{end}}</div>
+
+  <div class="card span2"><h2>k3s cluster snapshots (S3) — platform default</h2>
+    <p>Snapshots of the k3s cluster (etcd/datastore) are stored in S3 for disaster recovery. Set the platform-wide default here; orgs may override on their console.</p>
+    <p>Bucket: <span class="pill">{{if .S3.Bucket}}{{.S3.Bucket}}{{else}}unset{{end}}</span>
+       Region: <span class="pill">{{if .S3.Region}}{{.S3.Region}}{{else}}unset{{end}}</span>
+       {{if .S3.Schedule}}Schedule: <span class="pill">{{.S3.Schedule}}</span>{{end}}
+       {{if .S3.RetentionDays}}Retention: <span class="pill">{{.S3.RetentionDays}}d</span>{{end}}</p>
+    <form hx-post="/settings" hx-target="body" hx-swap="outerHTML">
+      <input type="text" name="bucket" value="{{.S3.Bucket}}" placeholder="bucket" required>
+      <input type="text" name="region" value="{{.S3.Region}}" placeholder="us-east-1" required>
+      <input type="text" name="endpoint" value="{{.S3.Endpoint}}" placeholder="endpoint (S3-compatible, optional)">
+      <input type="text" name="prefix" value="{{.S3.Prefix}}" placeholder="prefix (optional)">
+      <input type="text" name="accessKeyId" value="{{.S3.AccessKeyID}}" placeholder="access key id">
+      <input type="password" name="secretKey" value="{{.S3.SecretKey}}" placeholder="secret key">
+      <input type="text" name="schedule" value="{{.S3.Schedule}}" placeholder="cron e.g. 0 */6 * * *">
+      <input type="text" name="retentionDays" value="{{if .S3.RetentionDays}}{{.S3.RetentionDays}}{{end}}" placeholder="retention days">
+      <button type="submit">Save S3 settings</button>
+    </form>
+  </div>
 
   <div class="card span2"><h2>Flow traces (APM)
       &nbsp;<a href="/debug/traces.json" target="_blank">export OTLP/JSON</a></h2>

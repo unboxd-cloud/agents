@@ -49,6 +49,15 @@ services:
       BILLING_URL: "http://billing:8082"
       COMPLIANCE_URL: "http://compliance:8084"
       METERING_URL: "http://metering:8081"
+      # k3s cluster-snapshot storage (S3). Seeds the platform-wide default shown
+      # in the admin console; editable there. Credentials should come from a
+      # Secret (see s3Snapshots below), not be committed in values.
+      S3_BUCKET: ""
+      S3_REGION: "us-east-1"
+      S3_ENDPOINT: ""
+      S3_PREFIX: "k3s-snapshots/"
+      S3_SNAPSHOT_SCHEDULE: "0 */6 * * *"
+      S3_RETENTION_DAYS: "14"
   orgconsole:
     port: 8085
     env:
@@ -57,14 +66,36 @@ services:
       BILLING_URL: "http://billing:8082"
       COMPLIANCE_URL: "http://compliance:8084"
       METERING_URL: "http://metering:8081"
+      # k3s cluster-snapshot storage (S3) for this org; editable in the console.
+      S3_BUCKET: ""
+      S3_REGION: "us-east-1"
+      S3_ENDPOINT: ""
+      S3_PREFIX: "k3s-snapshots/"
+      S3_SNAPSHOT_SCHEDULE: "0 */6 * * *"
+      S3_RETENTION_DAYS: "14"
 
-# The operator agent (GitOps + Kubernetes orchestrator). No service port.
+# The operator agent (GitOps + Kubernetes orchestrator). No service port. It is
+# the k3s controller that takes cluster (etcd/datastore) snapshots to S3.
 operator:
   enabled: true
   env:
     GITOPS_DIR: /etc/platform/datasets
     RECONCILE_INTERVAL: "30s"
     PROVIDER: kubernetes
+    # k3s cluster-snapshot storage (S3); credentials via the s3Snapshots Secret.
+    S3_BUCKET: ""
+    S3_REGION: "us-east-1"
+    S3_ENDPOINT: ""
+    S3_PREFIX: "k3s-snapshots/"
+    S3_SNAPSHOT_SCHEDULE: "0 */6 * * *"
+    S3_RETENTION_DAYS: "14"
+
+# S3 credentials for k3s cluster snapshots. Provide via --set or a sealed Secret;
+# do not commit real keys. When set, wire S3_ACCESS_KEY_ID / S3_SECRET_ACCESS_KEY
+# into the admin/orgconsole/operator env from this Secret in your overlay.
+s3Snapshots:
+  accessKeyID: ""
+  secretAccessKey: ""
 
 replicaCount: 1
 
