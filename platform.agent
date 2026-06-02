@@ -101,6 +101,7 @@ vocabulary tooling {
     term buildpacks means "Cloud Native Buildpacks (pack) — build OCI images from source, no Dockerfile"
     term zot means "zot — OCI-native registry for storing and distributing runnables"
     term seatunnel means "Apache SeaTunnel — data connectors / integration (multi-source/sink, batch and CDC)"
+    term n8n means "n8n — low-code workflow automation, offered as a managed service"
 }
 
 // The CNCF ecosystem the agent can compose, rather than rebuilding infrastructure.
