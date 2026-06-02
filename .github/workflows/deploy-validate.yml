@@ -43,7 +43,21 @@ jobs:
       - name: Set up k3d (k3s in Docker)
         run: |
           curl -sfL https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
-          k3d cluster create ci --wait --timeout 180s
+          # Cluster creation pulls the k3s image from Docker Hub, which
+          # intermittently times out on shared runners. Retry with backoff,
+          # cleaning up the partial cluster between attempts.
+          for attempt in 1 2 3; do
+            if k3d cluster create ci --wait --timeout 180s; then
+              break
+            fi
+            echo "k3d cluster create failed (attempt $attempt) — retrying"
+            k3d cluster delete ci || true
+            if [ "$attempt" = 3 ]; then
+              echo "k3d cluster create failed after 3 attempts" >&2
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
           kubectl version
       - name: Server-side validate manifests
         run: |
