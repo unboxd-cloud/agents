@@ -1,0 +1,71 @@
+# agent-chart deploys one agent described by an ADL (.agent) document.
+#
+# Provide the definition at install time:
+#   helm install orchestrator ./deploy/helm/agent-chart \
+#     --set-file agent.definition=platform.agent \
+#     --set agent.kind=kernel
+#
+# Agent kinds (see platform.agent):
+#   kernel    deterministic Go Kubernetes controller (gets RBAC); orchestrator + DR
+#   container a pod-based workload agent supervised by a kernel agent
+#   scoped    a container agent for an org/team/user/project/product
+#   plugin    an app plugin agent running in a host app's context
+agent:
+  name: platform-orchestrator
+  kind: kernel
+  replicas: 1
+  # The ADL document contents, injected via --set-file agent.definition=<file>.
+  definition: ""
+
+image:
+  registry: ghcr.io
+  repository: unboxd-cloud
+  name: agent
+  tag: "0.1.0"
+  pullPolicy: IfNotPresent
+
+# Pluggable model the agent may use. The deterministic core does not depend on
+# which model is plugged in; kernel agents typically leave this empty.
+model:
+  provider: ""        # e.g. openai-compatible, anthropic, local
+  name: ""
+  endpoint: ""
+  deterministic: true
+
+# k3s cluster-snapshot storage (used by kernel agents). Credentials should come
+# from a Secret, not be committed here.
+s3:
+  bucket: ""
+  region: "us-east-1"
+  endpoint: ""
+  prefix: "k3s-snapshots/"
+  schedule: "0 */6 * * *"
+  retentionDays: 14
+
+# Extra environment variables for the agent container.
+env: {}
+
+# Kernel agents reconcile via the Kubernetes API and need RBAC; other kinds do not.
+rbac:
+  create: true
+
+serviceAccount:
+  create: true
+  name: ""
+
+resources:
+  requests:
+    cpu: 50m
+    memory: 64Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  readOnlyRootFilesystem: true
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
