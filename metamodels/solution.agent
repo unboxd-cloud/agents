@@ -1,0 +1,55 @@
+// solution.agent — the solution metamodel. Our agents are solution-centric:
+// given a goal they dynamically generate a solution and a concrete plan, which
+// must be confirmed (the propose -> approve gate) before any execution starts.
+// Only a confirmed solution runs.
+namespace unboxd.meta.solution
+
+entity Goal {
+    statement: string required
+    priority: string
+}
+
+entity Solution {
+    goal: Goal required
+    rationale: string
+    generated: bool
+    confirmed: bool
+    confirmedBy: string
+    confirmedAt: datetime
+}
+
+entity Plan {
+    solution: Solution required
+    summary: string
+}
+
+entity PlanStep {
+    plan: Plan required
+    name: string required
+    order: int
+    tool: string
+}
+
+entity Execution {
+    solution: Solution required
+    status: string
+    startedAt: datetime
+    finishedAt: datetime
+}
+
+relation Solves Solution -> Goal {
+    score: float
+}
+
+relation HasPlan Solution -> Plan {
+    version: int
+}
+
+relation DecomposesInto Plan -> PlanStep {
+    order: int
+}
+
+// Execution runs a solution only once it is confirmed (confirm-before-execute).
+relation Runs Execution -> Solution {
+    onlyIfConfirmed: bool
+}

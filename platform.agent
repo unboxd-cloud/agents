@@ -725,6 +725,7 @@ constitution PlatformConstitution {
     rule scaling: "start on single-node k3s with deterministic Go kernel agents; go multi-node as we grow, introducing kagent for the LLM reasoning-agent tier while kernel agents stay deterministic"
     rule agentToolDuality: "every agent can be exposed as a tool to other agents, and any tool becomes an agent when initiated (mutated) with a pluggable LLM"
     rule composability: "everything composes: agents, tools, models, runtimes, and capabilities are small, typed, swappable units that compose into larger ones"
+    rule solutionCentric: "be solution-centric: given a goal, dynamically generate a solution and plan, get it confirmed before execution starts, then execute"
 }
 
 policy ReconcilePolicy {
