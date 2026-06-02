@@ -26,6 +26,23 @@ vocabulary domains {
     term cloud_architect_deployment means "cloud architect deployment workflows"
 }
 
+// Aspects of agent performance the benchmark measures, beyond task domains.
+vocabulary aspects {
+    term tool_selection means "choosing the right tool for the task"
+    term llm_selection means "choosing the right model, preferring local/open-source/free-tier"
+    term operational_excellence means "reliability, efficiency, and stability in production"
+    term decision_framework means "the decision-making framework the agent chose for the task"
+}
+
+// Decision-making frameworks an agent may choose (and be scored on).
+vocabulary decisionFrameworks {
+    term ooda means "Observe-Orient-Decide-Act"
+    term react means "Reason + Act (ReAct)"
+    term plan_execute means "plan, then execute"
+    term reflexion means "Reflexion: self-critique loop"
+    term tree_of_thoughts means "Tree of Thoughts"
+}
+
 // Blueprint is an .agent definition. Only a certified blueprint serves as the
 // reference (first) participant; both participants share the same blueprint.
 entity Blueprint {
@@ -100,6 +117,16 @@ entity Report {
     uri: string
 }
 
+// A published report carries metrics on ALL dimensions — CLEAR (cost, latency,
+// efficacy, assurance, reliability), operational metrics, KPIs, compliance,
+// trust, and drift — not just a pass/fail summary.
+entity DimensionScore {
+    package: ResultPackage required
+    dimension: string required
+    value: float
+    unit: string
+}
+
 relation InstantiatedFrom Participant -> Blueprint {
     instance: string
 }
@@ -131,4 +158,9 @@ relation Publishes Report -> ResultPackage {
 
 relation Compares Report -> Participant {
     rank: int
+}
+
+// The result package covers all aspects of agent performance.
+relation Covers ResultPackage -> DimensionScore {
+    weight: float
 }
