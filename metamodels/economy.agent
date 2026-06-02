@@ -13,6 +13,7 @@ vocabulary canon {
     term wealth_of_nations means "Adam Smith, The Wealth of Nations (1776) — division of labor, markets, the invisible hand"
     term use_of_knowledge means "F. A. Hayek, The Use of Knowledge in Society (1945) — the price system coordinates dispersed knowledge with no central order; agents move in the right direction on price signals alone"
     term exchange_and_production means "Alchian & Allen, Exchange and Production (University Economics) — the Alchian–Allen effect: a fixed per-unit cost lowers the relative price of the higher grade, so fixed per-call overhead biases selection toward the premium model/agent"
+    term macroeconomics_and_reality means "C. Sims, Macroeconomics and Reality (1980) — the classical structural assumptions (linearity, error-free observation, fixed exogeneity, normal disturbances, dynamic stability) rarely hold; prefer empirical, non-stationary methods over assumed structure"
 }
 
 // Information economics — how asymmetric information shapes the agent market.
