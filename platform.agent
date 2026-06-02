@@ -293,6 +293,15 @@ entity Escalation {
     withinMins: int
 }
 
+// Trace is a precise, end-to-end record the agent emits so any action, decision,
+// or outcome can be identified and traced with full lineage.
+entity Trace {
+    traceId: string required
+    span: string
+    actor: string
+    at: datetime
+}
+
 // The human leadership the platform agent works with at human level and that
 // oversees it.
 entity Human {
@@ -530,6 +539,10 @@ relation EscalatesTo Escalation -> Agent {
     order: int
 }
 
+relation Traces Agent -> Trace {
+    span: string
+}
+
 brain PlatformOrchestrator {
     owns data
     owns business_logic
@@ -655,6 +668,7 @@ constitution PlatformConstitution {
     rule scopedAgents: "org, team, user-assistant, project, and product agents are scoped container agents under the kernel agents"
     rule definedProfile: "every agent has a defined scope, authority, roles, responsibilities, KPIs, skills, knowledge, and tools"
     rule escalation: "follow the escalation matrix: a clear, direct path routing each issue to the right authority within its time bound"
+    rule traceability: "identify and trace every action, decision, and outcome with precision — full lineage via OpenTelemetry and Jaeger into Cortex and ClickHouse"
 }
 
 policy ReconcilePolicy {
@@ -755,6 +769,7 @@ function unboxd.platform.audit(agent: Agent) returns AuditEvent as surrealdb
 function unboxd.platform.automate(service: Service) returns Automation as surrealdb
 function unboxd.platform.orchestrate(automation: Automation) returns Workflow as surrealdb
 function unboxd.platform.observe(service: Service) returns Observation as surrealdb
+function unboxd.platform.trace(service: Service) returns Trace as surrealdb
 function unboxd.platform.snapshot(service: Service) returns Snapshot as surrealdb
 function unboxd.platform.failover(deployment: Deployment) returns Cloud as surrealdb
 function unboxd.platform.restore(snapshot: Snapshot) returns bool as surrealdb
