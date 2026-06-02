@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-06-02T08:13:38.545493727Z",
+  "generatedAt": "2026-06-02T08:17:33.666264173Z",
   "count": 38,
   "models": [
     {
@@ -13496,6 +13496,288 @@
                   "line": 35,
                   "column": 5,
                   "offset": 664
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Vocabulary",
+            "pos": {
+              "line": 43,
+              "column": 1,
+              "offset": 1074
+            },
+            "name": "spaces",
+            "terms": [
+              {
+                "name": "chat",
+                "meaning": "the assistant chat workspace (the default home)",
+                "pos": {
+                  "line": 44,
+                  "column": 5,
+                  "offset": 1098
+                }
+              },
+              {
+                "name": "canvas",
+                "meaning": "a scratch and build canvas",
+                "pos": {
+                  "line": 45,
+                  "column": 5,
+                  "offset": 1168
+                }
+              },
+              {
+                "name": "community",
+                "meaning": "the community-development space — the innovation funnel and gesture feed",
+                "pos": {
+                  "line": 46,
+                  "column": 5,
+                  "offset": 1219
+                }
+              },
+              {
+                "name": "console",
+                "meaning": "an administrator or organization console",
+                "pos": {
+                  "line": 47,
+                  "column": 5,
+                  "offset": 1321
+                }
+              },
+              {
+                "name": "ide",
+                "meaning": "a development workspace",
+                "pos": {
+                  "line": 48,
+                  "column": 5,
+                  "offset": 1387
+                }
+              },
+              {
+                "name": "lab",
+                "meaning": "the sandboxed innovation lab (radical work, not production)",
+                "pos": {
+                  "line": 49,
+                  "column": 5,
+                  "offset": 1432
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Entity",
+            "pos": {
+              "line": 52,
+              "column": 1,
+              "offset": 1512
+            },
+            "name": "Space",
+            "fields": [
+              {
+                "name": "name",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 53,
+                    "column": 11,
+                    "offset": 1537
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 53,
+                  "column": 5,
+                  "offset": 1531
+                }
+              },
+              {
+                "name": "kind",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 54,
+                    "column": 11,
+                    "offset": 1563
+                  }
+                },
+                "required": true,
+                "pos": {
+                  "line": 54,
+                  "column": 5,
+                  "offset": 1557
+                }
+              },
+              {
+                "name": "scope",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 55,
+                    "column": 12,
+                    "offset": 1590
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 55,
+                  "column": 5,
+                  "offset": 1583
+                }
+              },
+              {
+                "name": "governed",
+                "type": {
+                  "primitive": "bool",
+                  "pos": {
+                    "line": 56,
+                    "column": 15,
+                    "offset": 1611
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 56,
+                  "column": 5,
+                  "offset": 1601
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 59,
+              "column": 1,
+              "offset": 1619
+            },
+            "name": "Hosts",
+            "source": {
+              "name": "Space",
+              "resolved": "unboxd.meta.collaboration.Space",
+              "pos": {
+                "line": 59,
+                "column": 16,
+                "offset": 1634
+              }
+            },
+            "target": {
+              "name": "Conversation",
+              "resolved": "unboxd.meta.collaboration.Conversation",
+              "pos": {
+                "line": 59,
+                "column": 25,
+                "offset": 1643
+              }
+            },
+            "fields": [
+              {
+                "name": "primary",
+                "type": {
+                  "primitive": "bool",
+                  "pos": {
+                    "line": 60,
+                    "column": 14,
+                    "offset": 1671
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 60,
+                  "column": 5,
+                  "offset": 1662
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 63,
+              "column": 1,
+              "offset": 1679
+            },
+            "name": "Admits",
+            "source": {
+              "name": "Space",
+              "resolved": "unboxd.meta.collaboration.Space",
+              "pos": {
+                "line": 63,
+                "column": 17,
+                "offset": 1695
+              }
+            },
+            "target": {
+              "name": "Member",
+              "resolved": "unboxd.meta.collaboration.Member",
+              "pos": {
+                "line": 63,
+                "column": 26,
+                "offset": 1704
+              }
+            },
+            "fields": [
+              {
+                "name": "role",
+                "type": {
+                  "primitive": "string",
+                  "pos": {
+                    "line": 64,
+                    "column": 11,
+                    "offset": 1723
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 64,
+                  "column": 5,
+                  "offset": 1717
+                }
+              }
+            ]
+          },
+          {
+            "kind": "Relation",
+            "pos": {
+              "line": 68,
+              "column": 1,
+              "offset": 1812
+            },
+            "name": "Contains",
+            "source": {
+              "name": "Space",
+              "resolved": "unboxd.meta.collaboration.Space",
+              "pos": {
+                "line": 68,
+                "column": 19,
+                "offset": 1830
+              }
+            },
+            "target": {
+              "name": "Space",
+              "resolved": "unboxd.meta.collaboration.Space",
+              "pos": {
+                "line": 68,
+                "column": 28,
+                "offset": 1839
+              }
+            },
+            "fields": [
+              {
+                "name": "order",
+                "type": {
+                  "primitive": "int",
+                  "pos": {
+                    "line": 69,
+                    "column": 12,
+                    "offset": 1858
+                  }
+                },
+                "required": false,
+                "pos": {
+                  "line": 69,
+                  "column": 5,
+                  "offset": 1851
                 }
               }
             ]
