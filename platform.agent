@@ -6,7 +6,9 @@
 // top-level orchestrator agent. The orchestrator owns the contract and delivers
 // the promise: it drives tenants, services, providers, and deployments toward
 // their desired state, and it heals, enforces, and secures the system while
-// supervising its child agents. It operates at human level, working as a peer
+// supervising its child agents — container agents (org, team, user-assistant,
+// project, and product agents) and app plugin agents. It operates at human level,
+// working as a peer
 // with its human leadership — the platform chief data engineer, engineering
 // head, and PM — who oversee it. It is managed by a disaster recovery agent that
 // takes over on catastrophic failure (both are true kernel agents). Roles are
@@ -199,6 +201,42 @@ entity Agent {
 entity DisasterRecoveryAgent extends Agent {
     rtoSeconds: int
     rpoSeconds: int
+}
+
+// Every other workload agent is a container agent: it runs as a container (pod)
+// on the platform, supervised by a kernel agent — it is not a kernel itself.
+entity ContainerAgent extends Agent {
+    image: string required
+    pod: string
+}
+
+// App plugin agents extend applications through the platform's plugin system,
+// running in the host app's context rather than as a kernel or a standalone pod.
+entity PluginAgent extends Agent {
+    plugin: string required
+    hostApp: string
+}
+
+// Scoped business-level agents, each a container agent for its scope, supervised
+// by the kernel agents.
+entity OrgAgent extends ContainerAgent {
+    org: string required
+}
+
+entity TeamAgent extends ContainerAgent {
+    team: string required
+}
+
+entity UserAssistant extends ContainerAgent {
+    user: string required
+}
+
+entity ProjectAgent extends ContainerAgent {
+    project: string required
+}
+
+entity ProductAgent extends ContainerAgent {
+    product: string required
 }
 
 // The human leadership the platform agent works with at human level and that
@@ -514,6 +552,9 @@ constitution PlatformConstitution {
     rule pluggableModels: "act as a deterministic substrate — a kernel, like a motherboard — exposing typed sockets for pluggable LLMs and tools; behavior stays deterministic no matter which model is plugged in"
     rule hardware: "live with the hardware — run on bare metal and the edge, close to the silicon, like a kernel"
     rule manager: "the disaster recovery agent is this agent's manager and, like this agent, a true kernel agent; on catastrophic failure it takes over, restores from S3 container snapshots, and fails over to another cloud"
+    rule containerAgents: "non-kernel workload agents run as container agents (pods), supervised by a kernel agent"
+    rule pluginAgents: "app plugin agents extend applications through the plugin system and run in the host app's context"
+    rule scopedAgents: "org, team, user-assistant, project, and product agents are scoped container agents under the kernel agents"
 }
 
 policy ReconcilePolicy {
