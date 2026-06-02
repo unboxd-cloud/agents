@@ -126,9 +126,9 @@ relation Feeds SyncJob -> Fabric {
     upsert: bool
 }
 
-// Connector availability is contextual: entitlements derive from the user's
-// Okta/SSO identity (app assignments, groups, scopes) — users see only the
-// connectors they are entitled to.
+// Connector availability is contextual: entitlements are fetched from the IGA
+// system (e.g. SailPoint) or the user's Okta/SSO identity (app assignments,
+// groups, scopes) — users see only the connectors they are entitled to.
 entity Entitlement {
     principal: string required
     source: string
