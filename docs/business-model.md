@@ -8,93 +8,9 @@ Unboxd Cloud creates value by packaging open-source, cloud-native, Kubernetes-ma
 
 ---
 
-## Business Model
-
-```text
-Open Source
-+
-Solution Delivery
-+
-Managed Operations
-+
-Enterprise Support
-+
-Governance Services
-```
-
-Unboxd Cloud monetizes open-source agent-native cloud infrastructure through:
-
-- Implementation
-- Integration
-- Managed operations
-- Enterprise support
-- Governance services
-- Security hardening
-- Training
-- Enterprise readiness
-
----
-
-## Delivery Model
-
-**Solutions-as-a-Service**
-
-```text
-Working solution
-+
-Open-source foundation
-+
-Implementation
-+
-Managed operation
-+
-Support
-+
-Continuous improvement
-```
-
-Unboxd Cloud does not sell only software, only consulting, or only raw infrastructure. It delivers working outcomes.
-
----
-
-## Pricing Model
-
-```text
-No upfront credit card
-+
-Usage-based pricing
-+
-Optional managed operations
-+
-Support / governance tiers
-```
-
-Customer promise:
-
-> Start free. No upfront credit card. Scale when ready. Pay only for what you use.
-
-Usage meters may include:
-
-- Compute
-- Storage
-- Bandwidth
-- Apps
-- Environments
-- Users
-- Agent runs
-- Workflow executions
-- Backup storage
-- Observability retention
-- Support hours
-- Governance reports
-
----
-
 ## Revenue Model
 
 ```text
-Setup Revenue
-+
 Usage Revenue
 +
 Managed Operations Revenue
@@ -103,22 +19,12 @@ Support Revenue
 +
 Governance Revenue
 +
+Setup Revenue
++
 Enterprise Revenue
 ```
 
-### Setup Revenue
-
-One-time revenue for getting the customer live.
-
-Examples:
-
-- Assessment
-- Architecture
-- Deployment
-- Migration
-- Integration
-- Configuration
-- Training
+Unboxd Cloud's revenue model is usage-led, operations-backed, support-tiered, governance-expanded, and enterprise-customized.
 
 ### Usage Revenue
 
@@ -177,6 +83,20 @@ Examples:
 - Security reviews
 - Compliance evidence
 
+### Setup Revenue
+
+One-time revenue for getting the customer live.
+
+Examples:
+
+- Assessment
+- Architecture
+- Deployment
+- Migration
+- Integration
+- Configuration
+- Training
+
 ### Enterprise Revenue
 
 High-value custom contracts.
@@ -190,6 +110,99 @@ Examples:
 - Regulated workloads
 - Custom integrations
 - Co-managed operations
+
+---
+
+## Business Model
+
+```text
+Open Source
++
+Solution Delivery
++
+Usage-Based Services
++
+Managed Operations
++
+Enterprise Support
++
+Governance Services
++
+Partner / Marketplace Distribution
+```
+
+Unboxd Cloud monetizes open-source agent-native cloud infrastructure through:
+
+- Usage-based infrastructure and platform consumption
+- Implementation
+- Integration
+- Managed operations
+- Enterprise support
+- Governance services
+- Security hardening
+- Training
+- Enterprise readiness
+- Partner-led delivery
+- Marketplace distribution
+
+Consultancy is not the business identity. It is a conversion mechanism inside setup and enterprise revenue.
+
+Courses are not the business identity. They are an adoption, enablement, and partner-training mechanism.
+
+---
+
+## Delivery Model
+
+**Solutions-as-a-Service**
+
+```text
+Working solution
++
+Open-source foundation
++
+Implementation
++
+Managed operation
++
+Support
++
+Continuous improvement
+```
+
+Unboxd Cloud does not sell only software, only consulting, or only raw infrastructure. It delivers working outcomes.
+
+---
+
+## Pricing Model
+
+```text
+No upfront credit card
++
+Usage-based pricing
++
+Optional managed operations
++
+Support / governance tiers
+```
+
+Customer promise:
+
+> Start free. No upfront credit card. Scale when ready. Pay only for what you use.
+
+Usage meters may include:
+
+- Compute
+- Storage
+- Bandwidth
+- Apps
+- Environments
+- Users
+- Agent runs
+- Workflow executions
+- Backup storage
+- Observability retention
+- Support hours
+- Governance reports
 
 ---
 
@@ -349,6 +362,8 @@ Sector Solution Pages
 Developer Adoption
 +
 Partner Delivery
++
+Marketplace Distribution
 ```
 
 ### Open Source Distribution
@@ -402,6 +417,18 @@ Scales through:
 - System integrators
 - Cloud consultants
 - Local IT providers
+
+### Marketplace Distribution
+
+Scales through:
+
+- Templates
+- Agents
+- Tools
+- Workflows
+- Connectors
+- Industry blueprints
+- Managed solution packages
 
 ---
 
@@ -560,6 +587,235 @@ Clean statement:
 
 ---
 
+## Vendor, Partner & Channel Network
+
+```text
+Vendor Network
++
+Partner Network
++
+Channel Network
++
+Marketplace Network
+```
+
+### Vendor Network
+
+Vendors strengthen the platform stack.
+
+Examples:
+
+- Technology vendors
+- Open-source vendors
+- Cloud providers
+- Model providers
+- Security vendors
+- Data vendors
+- Observability vendors
+
+Business role:
+
+```text
+vendor integrations → solution revenue
+vendor support → enterprise trust
+vendor co-sell → market access
+```
+
+### Partner Network
+
+Partners deliver, support, specialize, and scale the business.
+
+Examples:
+
+- Delivery partners
+- MSPs
+- Agencies
+- System integrators
+- Consultants
+- Governance partners
+- Industry specialists
+
+Business role:
+
+```text
+partner delivery → implementation scale
+partner operations → recurring service revenue
+partner expertise → industry expansion
+```
+
+### Channel Network
+
+Channels bring customers.
+
+Examples:
+
+- GitHub
+- Website
+- Marketplace
+- Partner referrals
+- Sector pages
+- Developer community
+- Local business networks
+- MSP customer base
+
+Business role:
+
+```text
+channels → demand generation
+channels → lower CAC
+channels → customer trust
+```
+
+### Marketplace Network
+
+Marketplace creates ecosystem distribution.
+
+Examples:
+
+- Templates
+- Agents
+- Tools
+- Workflows
+- Connectors
+- Industry blueprints
+- Managed solution packages
+
+Business role:
+
+```text
+marketplace → reusable assets
+marketplace → partner supply
+marketplace → customer demand
+marketplace → usage revenue
+```
+
+Clean statement:
+
+> Unboxd Cloud scales through a vendor, partner, channel, and marketplace network where vendors strengthen the platform, partners deliver solutions, channels create distribution, and the marketplace turns reusable assets into scalable revenue.
+
+---
+
+## MSP Model
+
+```text
+MSP
+=
+Managed Service Provider
+```
+
+For Unboxd Cloud, MSPs are managed delivery partners.
+
+```text
+MSP
+=
+local / regional operator
+that sells, deploys, manages, and supports
+Unboxd Cloud-powered solutions
+for customers.
+```
+
+Where MSP fits:
+
+```text
+Vendor Network      → strengthens stack
+Partner Network     → delivers solutions
+Channel Network     → brings customers
+MSP                 → partner + channel + operator
+```
+
+Unboxd Cloud provides:
+
+- Platform foundation
+- Templates
+- Automation
+- Governance
+- Usage metering
+- Support escalation
+
+MSP provides:
+
+- Customer relationship
+- Local support
+- Implementation
+- Managed operations
+- Industry knowledge
+
+MSP revenue model:
+
+```text
+implementation margin
++ monthly managed operations share
++ support share
++ usage revenue share
++ governance package share
+```
+
+Clean statement:
+
+> MSPs help Unboxd Cloud scale by delivering and operating managed open-source cloud solutions for customers, while Unboxd Cloud provides the platform, automation, governance, usage metering, and escalation backbone.
+
+---
+
+## Marketplace Model
+
+```text
+Marketplace
+=
+templates
++ agents
++ tools
++ workflows
++ connectors
++ industry blueprints
++ managed solution packages
+```
+
+Business role:
+
+```text
+Open source creates adoption.
+Marketplace creates distribution.
+Partners create supply.
+Customers create demand.
+Usage creates revenue.
+```
+
+Marketplace participants:
+
+```text
+Unboxd Cloud
+→ owns platform, governance, billing, certification
+
+Vendors
+→ publish integrations and components
+
+MSPs / partners
+→ publish managed solution packages
+
+Developers
+→ publish templates, tools, workflows, agents
+
+Customers
+→ discover, deploy, subscribe, and pay by usage
+```
+
+Marketplace revenue:
+
+```text
+usage revenue share
++ listing fees
++ certification fees
++ managed package fees
++ partner support share
++ enterprise marketplace contracts
+```
+
+Clean statement:
+
+> The Unboxd Cloud marketplace turns reusable open-source templates, agents, tools, connectors, and industry solutions into a scalable distribution and revenue layer.
+
+---
+
 ## Partner Model
 
 ```text
@@ -570,6 +826,7 @@ Delivery Partners
 + Marketplace Partners
 + Industry Partners
 + Governance Partners
++ MSPs
 ```
 
 ### Delivery Partners
@@ -679,7 +936,7 @@ governance package
 
 Clean statement:
 
-> Unboxd Cloud scales through a partner ecosystem where delivery partners implement, technology partners integrate, marketplace partners publish reusable assets, industry partners bring domain expertise, and governance partners strengthen trust.
+> Unboxd Cloud scales through a partner ecosystem where delivery partners implement, technology partners integrate, marketplace partners publish reusable assets, industry partners bring domain expertise, MSPs operate customer solutions, and governance partners strengthen trust.
 
 ---
 
@@ -702,7 +959,7 @@ Governance
    ↓
 Enterprise Expansion
    ↓
-Partner Ecosystem
+Partner / MSP / Marketplace Ecosystem
    ↓
 More Adoption
 ```
@@ -711,7 +968,7 @@ More Adoption
 
 ## Final Business Model Definition
 
-> Unboxd Cloud is an open-source, usage-based, agent-native cloud infrastructure business that creates value through reusable platform primitives and captures value through solution delivery, managed operations, enterprise support, governance services, partner distribution, and usage-based pricing.
+> Unboxd Cloud is an open-source, usage-based, agent-native cloud infrastructure business that creates value through reusable platform primitives and captures value through usage revenue, solution delivery, managed operations, enterprise support, governance services, partner distribution, MSP-led operations, marketplace revenue, and enterprise contracts.
 
 Compact version:
 
@@ -720,5 +977,7 @@ Open Source for adoption.
 Usage-based pricing for scale.
 Managed operations for recurring revenue.
 Governance for enterprise value.
+MSPs for operational scale.
+Marketplace for ecosystem revenue.
 Partners for market expansion.
 ```
