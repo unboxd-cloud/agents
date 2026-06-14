@@ -72,6 +72,10 @@ reconciles requested VMs onto **Kubernetes pods** — CloudStack is the API,
 Kubernetes is the engine. See [ADR-0007](docs/adr/0007-cloudstack-contract-k8s-reconciler.md)
 (complements [ADR-0004](docs/adr/0004-cloudstack-optional.md)).
 
+One agent core runs multiple operators (VM reconciler + pod reaper) over a
+pluggable store (`CLOUD_STORE=mem|file`); `CLOUD_MODE=all|api|operator` splits
+the API and reconciler planes over one shared store.
+
 ```bash
 ./bin/cloud &   # control plane on :8086 (reconcile loop + HTTP API)
 # deploy a VM (clean REST)

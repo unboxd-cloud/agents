@@ -31,7 +31,21 @@ as the reconciler** that realizes it.
   backed by a pod (template → image, service offering → CPU/memory).
 - `cmd/cloud` — the control-plane service (`:8086`). It serves a clean REST API
   under `/v1` **and** a CloudStack-compatible `/client/api?command=...` endpoint,
-  and runs the reconcile loop in the background.
+  and runs the operators in the background.
+
+## Single core, multi store, multi operator, multi mode
+The control plane keeps no state of its own — desired state lives in a `Store`:
+
+- **single core** — one `agent.Operator` runtime drives the reconcilers.
+- **multi store** — `Store` has `MemStore` (default) and `FileStore` (JSON,
+  persistent) implementations, selected by `CLOUD_STORE` (`mem`|`file`). A
+  persistent store can be the shared source of truth across processes.
+- **multi operator** — the core runs the control-plane reconciler **and** a pod
+  `Reaper` (garbage-collects pods whose VM is gone) over the same store.
+- **multi mode** — `CLOUD_MODE` selects which planes run: `all` (default),
+  `api` (serve the API, write desired state), or `operator` (reconcile only).
+  With `CLOUD_STORE=file`, `api` + `operator` split like apiserver /
+  controller-manager over one store.
 
 ## Relationship to ADR-0004
 This **complements** ADR-0004; it does not reverse it. ADR-0004 rejects the
