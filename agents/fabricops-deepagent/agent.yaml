@@ -1,0 +1,56 @@
+apiVersion: fabric.agennext.io/v1alpha1
+kind: Agent
+metadata:
+  name: fabricops-deepagent
+  namespace: agents
+  labels:
+    app.kubernetes.io/name: fabricops-deepagent
+    app.kubernetes.io/part-of: unboxd-platform
+    fabric.agennext.io/class: infrastructure-operator
+spec:
+  owner: unboxd-cloud
+  runtime: deepagents
+  mode: observe
+  trustPolicy:
+    defaultDecision: deny
+    requireApprovalFor:
+      - delete_namespace
+      - delete_pvc
+      - delete_database
+      - delete_node
+      - rotate_secret
+      - open_firewall_port
+      - disable_security_control
+      - force_push_branch
+      - deploy_unscanned_image
+  memory:
+    provider: surrealdb
+    namespace: agennext
+    database: fabric
+    tables:
+      - agent_memory
+      - agent_decisions
+      - agent_incidents
+      - agent_repairs
+      - agent_costs
+      - agent_trust
+  policy:
+    opaPackage: fabricops.authz
+    openfgaEnabled: true
+  subagents:
+    - name: vps_agent
+      role: host-observer
+    - name: kubernetes_agent
+      role: k3s-observer
+    - name: surrealdb_agent
+      role: fabric-db-observer
+    - name: github_agent
+      role: provenance-observer
+    - name: security_agent
+      role: security-observer
+    - name: cost_agent
+      role: utilization-observer
+    - name: deployment_agent
+      role: release-observer
+    - name: human_approval_agent
+      role: approval-gate
