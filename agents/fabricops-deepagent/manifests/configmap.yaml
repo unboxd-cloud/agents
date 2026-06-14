@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fabricops-deepagent-config
+  namespace: agents
+data:
+  FABRICOPS_MODE: observe
+  SURREAL_URL: ws://surrealdb.fabric.svc.cluster.local:8000
+  SURREAL_NS: agennext
+  SURREAL_DB: fabric
+  OPA_URL: http://opa.open-policy-agent.svc.cluster.local:8181
+  OPENFGA_API_URL: http://openfga.openfga.svc.cluster.local:8080
