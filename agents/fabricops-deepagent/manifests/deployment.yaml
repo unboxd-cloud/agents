@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fabricops-deepagent
+  namespace: agents
+  labels:
+    app.kubernetes.io/name: fabricops-deepagent
+    app.kubernetes.io/part-of: unboxd-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: fabricops-deepagent
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: fabricops-deepagent
+        app.kubernetes.io/part-of: unboxd-platform
+    spec:
+      serviceAccountName: fabricops-deepagent
+      containers:
+        - name: fabricops-deepagent
+          image: ghcr.io/unboxd-cloud/platform/fabricops-deepagent:latest
+          imagePullPolicy: IfNotPresent
+          envFrom:
+            - configMapRef:
+                name: fabricops-deepagent-config
+          env:
+            - name: PYTHONUNBUFFERED
+              value: "1"
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop:
+                - ALL
