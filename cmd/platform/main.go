@@ -1,6 +1,6 @@
 // Command platform is the unified CLI. It composes the local stack and drives
-// the control plane through the same SDK applications use, so the command, the
-// SDK, and agents all share one client surface.
+// the control plane through the same SDK applications use, so the command and
+// the SDK share one client surface.
 package main
 
 import (
@@ -11,6 +11,7 @@ import (
 	"os/exec"
 
 	"github.com/unboxd-cloud/platform/internal/api"
+	"github.com/unboxd-cloud/platform/pkg/cloudstack"
 	"github.com/unboxd-cloud/platform/pkg/sdk"
 )
 
@@ -35,6 +36,8 @@ func run(cmd string, args []string) error {
 	switch cmd {
 	case "compose":
 		return compose(args)
+	case "cloudstack":
+		return cloudstackCmd(args)
 	case "agent", "adl":
 		return agentCmd(args)
 	case "catalog":
@@ -112,6 +115,18 @@ func compose(args []string) error {
 	return c.Run()
 }
 
+func cloudstackCmd(args []string) error {
+	if len(args) == 0 {
+		return printJSON(cloudstack.DefaultMapping())
+	}
+	switch args[0] {
+	case "map", "mapping":
+		return printJSON(cloudstack.DefaultMapping())
+	default:
+		return fmt.Errorf("cloudstack: unknown subcommand %q (use map)", args[0])
+	}
+}
+
 func printJSON(v any) error {
 	enc := json.NewEncoder(os.Stdout)
 	enc.SetIndent("", "  ")
@@ -123,6 +138,7 @@ func usage() {
 
 Usage:
   platform compose up|down        run/stop the local sandbox (CONTAINER=podman|docker)
+  platform cloudstack map         show Apache CloudStack -> Unboxd control-plane mapping
   platform agent check  <file>    parse + validate an agent (.agent) document (exit 1 on errors)
   platform agent show   <file>    print the compiled model + diagnostics as JSON
   platform agent deploy <file>    deploy the agent via the agent-chart Helm chart (AGENT_PLAN=1 to plan)
