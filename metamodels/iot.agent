@@ -1,0 +1,85 @@
+// iot.agent — the Internet of Things metamodel: devices and their types, the
+// sensors and actuators they carry, the gateways they connect through, the
+// telemetry they emit, and the commands sent back to them. Devices speak to the
+// platform's messaging seam (SNS -> NATS / MQTT) over topics; fleets group
+// devices for rollout and policy.
+namespace unboxd.meta.iot
+
+entity DeviceType {
+    id: string required
+    name: string required
+    vendor: string
+}
+
+entity Device {
+    id: string required
+    type: DeviceType required
+    serial: string
+    firmware: string
+    online: bool
+}
+
+entity Fleet {
+    id: string required
+    name: string required
+}
+
+entity Gateway {
+    id: string required
+    protocol: string required
+}
+
+entity Sensor {
+    device: Device required
+    metric: string required
+    unit: string
+}
+
+entity Actuator {
+    device: Device required
+    capability: string required
+}
+
+entity Topic {
+    name: string required
+    qos: int
+}
+
+entity Telemetry {
+    sensor: Sensor required
+    value: float
+    at: datetime
+}
+
+entity Command {
+    device: Device required
+    name: string required
+    issuedAt: datetime
+    delivered: bool
+}
+
+// Device -> Gateway: how a device reaches the platform.
+relation Connects Device -> Gateway {
+    transport: string
+}
+
+// Device -> Fleet: membership for rollout/policy.
+relation BelongsTo Device -> Fleet {
+    role: string
+}
+
+// Sensor -> Topic: telemetry is published to a topic.
+relation Publishes Sensor -> Topic {
+    interval: string
+}
+
+// Command -> Device: control flows back to the device.
+relation Targets Command -> Device {
+    ackTopic: string
+}
+
+vocabulary protocols {
+    term mqtt means "MQTT pub/sub messaging for constrained devices"
+    term coap means "Constrained Application Protocol over UDP"
+    term lwm2m means "OMA LwM2M device management"
+}

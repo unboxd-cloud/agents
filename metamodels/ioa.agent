@@ -1,0 +1,80 @@
+// ioa.agent — the Internet of Agents metamodel: autonomous agents that discover
+// one another, advertise capabilities, and exchange messages to delegate work.
+// An agent publishes an AgentCard (capability advertisement) to a Registry;
+// peers discover each other and exchange A2A messages over the protocol seam,
+// delegating Tasks and holding Conversations.
+namespace unboxd.meta.ioa
+
+entity Agent {
+    id: string required
+    name: string required
+    owner: string
+    autonomy: string
+}
+
+entity Capability {
+    id: string required
+    name: string required
+    description: string
+}
+
+entity Endpoint {
+    agent: Agent required
+    url: string required
+    protocol: string
+}
+
+entity AgentCard {
+    agent: Agent required
+    version: string
+    public: bool
+}
+
+entity Registry {
+    id: string required
+    name: string required
+}
+
+entity Message {
+    from: Agent required
+    to: Agent required
+    kind: string required
+    at: datetime
+}
+
+entity Task {
+    initiator: Agent required
+    objective: string required
+    status: string
+}
+
+entity Conversation {
+    topic: string required
+    open: bool
+}
+
+relation Advertises AgentCard -> Capability {
+    confidence: float
+}
+
+relation Registers Agent -> Registry {
+    at: datetime
+}
+
+relation Discovers Agent -> Agent {
+    via: string
+}
+
+relation Delegates Agent -> Task {
+    deadline: datetime
+}
+
+relation Carries Message -> Conversation {
+    seq: int
+}
+
+vocabulary protocols {
+    term a2a means "Agent-to-Agent protocol for interoperating agents"
+    term mcp means "Model Context Protocol for tools and context"
+    term acp means "Agent Communication Protocol for messaging"
+}

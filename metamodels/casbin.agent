@@ -1,0 +1,79 @@
+// casbin.agent — the authorization metamodel, modeled on Apache Casbin's PERM
+// (Policy, Effect, Request, Matcher) design. An Enforcer evaluates a Request
+// (subject, object, action) against Policy rules under a Model, with role
+// Groupings (g) providing RBAC, and yields a Decision. Complements the identity
+// and governance metamodels: it decides what a principal may do.
+namespace unboxd.meta.casbin
+
+entity Subject {
+    id: string required
+    kind: string
+}
+
+entity Object {
+    id: string required
+    type: string
+}
+
+entity Action {
+    name: string required
+}
+
+entity Role {
+    name: string required
+}
+
+entity Model {
+    id: string required
+    kind: string required
+}
+
+entity Policy {
+    subject: string required
+    object: string required
+    action: string required
+    effect: string
+}
+
+entity Request {
+    subject: Subject required
+    object: Object required
+    action: Action required
+}
+
+entity Decision {
+    request: Request required
+    allowed: bool
+    reason: string
+}
+
+entity Enforcer {
+    model: Model required
+    name: string
+}
+
+// RBAC grouping (g): a subject inherits a role.
+relation HasRole Subject -> Role {
+    domain: string
+}
+
+// A policy grants (or denies) a role on an object.
+relation Grants Role -> Object {
+    action: string
+    effect: string
+}
+
+relation Evaluates Enforcer -> Request {
+    at: datetime
+}
+
+relation Yields Request -> Decision {
+    matched: string
+}
+
+vocabulary models {
+    term acl means "access control list"
+    term rbac means "role-based access control"
+    term abac means "attribute-based access control"
+    term rebac means "relationship-based access control"
+}
