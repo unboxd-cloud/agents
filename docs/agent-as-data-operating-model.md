@@ -8,11 +8,31 @@ GitHub → CI/CD → k3s → Agent CRD → Java Reconciler Pod → SurrealDB →
 
 ## Principles
 
-- **Agent = Data**: an agent is declared, versioned, reviewed, and reconciled as data.
+> **An agent is not a variable.** It is a first-class, persistent entity — owned,
+> identified, governed, and audited — not an ephemeral value bound to a running
+> process. "Agent = Data" means *agent-as-record*, not *agent-as-variable*.
+
+- **Agent = Data**: an agent is declared, versioned, reviewed, and reconciled as data — a governed record with identity and lifecycle, not a transient variable.
 - **Fabric = Runtime**: Fabric executes governed work from trusted runtime state.
 - **Kubernetes = Reconciliation Engine**: Kubernetes stores desired state and continuously drives actual state toward it.
 - **SurrealDB = Source of Runtime Truth**: reconciled agents become queryable runtime records.
 - **Human at Gate**: GitHub PRs, CI checks, and policy gates control what enters the runtime.
+
+## Why "not a variable"
+
+A variable is transient, in-process, and unaccountable. An agent is the opposite —
+and the [runtime contract](#runtime-contract) is what makes the difference real:
+
+| Variable | Agent (first-class entity) |
+|----------|----------------------------|
+| Anonymous slot | Has **identity** and an **owner** |
+| Scoped to a process | Has a **lifecycle state** reconciled continuously |
+| Carries no policy | Carries **policies, constraints, approvals** |
+| Keeps no history | Emits **audit timestamps**; versioned in Git |
+| Dies with the process | Persists as a **SurrealDB runtime record** |
+
+Each row maps to a field already in the runtime contract. That mapping — not the
+slogan — is the line between an agent and a variable.
 
 ## Reconciliation flow
 
