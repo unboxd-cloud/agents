@@ -2,7 +2,7 @@
 GO ?= go
 BIN := bin
 # All commands under ./cmd are built; these get OCI images.
-SERVICES := metering billing catalog compliance admin operator orgconsole community graph
+SERVICES := metering billing catalog compliance admin operator orgconsole community graph cloud
 # Every buildable command (services + CLI + agents). adl-wasm is built for
 # GOOS=js only (see the adl-wasm target), so it is excluded from the native
 # build loop.
