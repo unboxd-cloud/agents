@@ -29,6 +29,7 @@ import (
 	"github.com/unboxd-cloud/platform/internal/controlplane"
 	"github.com/unboxd-cloud/platform/internal/kube"
 	"github.com/unboxd-cloud/platform/internal/server"
+	"github.com/unboxd-cloud/platform/internal/workstation"
 )
 
 func main() {
@@ -67,7 +68,11 @@ func main() {
 		return
 	}
 
+	// Cloud workstations share the same pod substrate as the control plane.
+	wsh := workstation.Handler(workstation.NewManager(pods, envOr("CLOUD_HOST", "localhost")))
 	mux := http.NewServeMux()
+	mux.Handle("/v1/workstations", wsh)
+	mux.Handle("/v1/workstations/", wsh)
 	mux.Handle("/", controlplane.Handler(cp))
 	addr := envOr("CLOUD_ADDR", ":8086")
 	srv := server.New(addr, mux)

@@ -86,6 +86,9 @@ curl -sXPOST 'localhost:8086/v1/vms?wait=true' \
   -d '{"account":"t1","name":"web-2","zoneid":"zone-1","templateid":"tmpl-nginx","serviceofferingid":"so-small"}'
 # ...or via the CloudStack-compatible query API (existing CloudStack clients)
 curl -s 'localhost:8086/client/api?command=listVirtualMachines&account=t1'
+# cloud workstation: one dev environment (single desk), multiple ports
+curl -sXPOST localhost:8086/v1/workstations \
+  -d '{"account":"t1","name":"dev","ports":[8080,3000]}'
 ```
 
 ## Services & binaries (`cmd/`)

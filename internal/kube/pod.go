@@ -35,6 +35,7 @@ type PodSpec struct {
 	Image     string            // container image to run
 	CPUNumber int               // requested vCPUs
 	MemoryMB  int               // requested memory (MB)
+	Ports     []int             // container ports to expose
 	Labels    map[string]string // selector labels
 }
 
@@ -46,6 +47,7 @@ type Pod struct {
 	Image     string            `json:"image"`
 	Phase     Phase             `json:"phase"`
 	Node      string            `json:"node"`
+	Ports     []int             `json:"ports,omitempty"`
 	Labels    map[string]string `json:"labels,omitempty"`
 }
 
@@ -94,6 +96,7 @@ func (m *memManager) Create(_ context.Context, spec PodSpec) (Pod, error) {
 		Image:     spec.Image,
 		Phase:     PodRunning,
 		Node:      fmt.Sprintf("node-%d", (n%3)+1),
+		Ports:     spec.Ports,
 		Labels:    spec.Labels,
 	}
 	m.pods[k] = pod
