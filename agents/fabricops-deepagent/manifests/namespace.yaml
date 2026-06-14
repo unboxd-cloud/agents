@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: agents
+  labels:
+    app.kubernetes.io/part-of: unboxd-platform
+    fabric.agennext.io/runtime: deepagents
