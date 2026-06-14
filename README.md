@@ -12,6 +12,18 @@ metered services that run on any cloud, on-prem, or the edge.
 > stdlib-only, all tests green. See [`docs/tracker.md`](docs/tracker.md) for live
 > status and [`docs/roadmap.md`](docs/roadmap.md) for the plan.
 
+## Operating Model
+
+```text
+GitHub → CI/CD → k3s → Agent CRD → Java Reconciler Pod → SurrealDB → Fabric Runtime
+```
+
+The platform control plane treats agents as governed data. GitHub stores desired
+state, CI/CD validates and publishes artifacts, k3s runs the reconciler, and
+SurrealDB becomes the runtime source of truth for Fabric.
+
+See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md).
+
 ## Principles
 - **Open-source AWS alternative**, wire-compatible where possible (S3, STS, …) —
   migrate by changing an endpoint, not your code. See [`docs/aws-interop.md`](docs/aws-interop.md).
@@ -73,7 +85,7 @@ Full diagrams: [`docs/stack-diagram.md`](docs/stack-diagram.md) ·
 data model: [`docs/data-model.md`](docs/data-model.md).
 
 ## Documentation
-- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md)
+- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md)
 - CNCF & registries: [`cncf-stack.md`](docs/cncf-stack.md), [`registries.md`](docs/registries.md)
 - Billing: [`meters.md`](docs/meters.md), [`unit-economics.md`](docs/unit-economics.md), [`operating-models.md`](docs/operating-models.md)
 - Compliance & standards: [`compliance.md`](docs/compliance.md), [`standards.md`](docs/standards.md)
