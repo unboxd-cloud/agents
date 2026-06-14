@@ -1,0 +1,43 @@
+version: 1
+mode: deny-by-default
+
+read_only:
+  kubernetes:
+    - kubectl get nodes -o wide
+    - kubectl get pods -A
+    - kubectl get events -A --sort-by=.lastTimestamp
+    - kubectl top nodes
+    - kubectl top pods -A
+  vps:
+    - systemctl status k3s
+    - journalctl -u k3s --since "1 hour ago"
+    - df -h
+    - free -h
+    - ss -tulpn
+    - uptime
+  surrealdb:
+    - INFO FOR DB
+  github:
+    - list_pull_requests
+    - list_workflow_runs
+    - list_releases
+    - list_security_alerts
+
+safe_repair_requires_auto_safe_or_approval:
+  kubernetes:
+    - kubectl rollout restart deployment
+    - kubectl rollout status deployment
+  vps:
+    - systemctl restart k3s
+
+always_human_approval:
+  - kubectl delete namespace
+  - kubectl delete pvc
+  - kubectl delete pv
+  - kubectl delete node
+  - surrealdb delete database
+  - ufw allow
+  - ufw disable
+  - rotate_secret
+  - force_push_branch
+  - deploy_unscanned_image
