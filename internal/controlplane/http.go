@@ -23,6 +23,18 @@ func Handler(cp *ControlPlane) http.Handler {
 		if req.Account == "" {
 			req.Account = server.TenantID(r)
 		}
+		// ?wait=true: end-to-end direct delivery — deploy and reconcile inline,
+		// returning the running VM. Otherwise the deploy is async and the
+		// operator converges it.
+		if r.URL.Query().Get("wait") == "true" {
+			vm, err := cp.DeliverVirtualMachine(r.Context(), req)
+			if err != nil {
+				writeErr(w, err)
+				return
+			}
+			server.JSON(w, http.StatusOK, vm)
+			return
+		}
 		vm, err := cp.DeployVirtualMachine(r.Context(), req)
 		if err != nil {
 			writeErr(w, err)

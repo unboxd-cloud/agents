@@ -81,3 +81,25 @@ func TestHandler_NotFoundAndBadCommand(t *testing.T) {
 		t.Fatalf("want 400 for unsupported command, got %d", rec.Code)
 	}
 }
+
+func TestHandler_DirectDelivery(t *testing.T) {
+	cp := New(kube.NewManager())
+	h := Handler(cp)
+
+	body, _ := json.Marshal(cloudstack.DeployVMRequest{
+		Account: "t1", Name: "web-1", ZoneID: "zone-1",
+		TemplateID: "tmpl-nginx", ServiceOfferingID: "so-small",
+	})
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodPost, "/v1/vms?wait=true", bytes.NewReader(body)))
+	if rec.Code != http.StatusOK {
+		t.Fatalf("direct delivery status = %d, body=%s", rec.Code, rec.Body)
+	}
+	var vm cloudstack.VirtualMachine
+	if err := json.Unmarshal(rec.Body.Bytes(), &vm); err != nil {
+		t.Fatal(err)
+	}
+	if vm.State != cloudstack.StateRunning {
+		t.Fatalf("want Running from direct delivery, got %s", vm.State)
+	}
+}

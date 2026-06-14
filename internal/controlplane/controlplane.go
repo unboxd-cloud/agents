@@ -169,6 +169,28 @@ func (c *ControlPlane) DeployVirtualMachine(ctx context.Context, req cloudstack.
 	return vm, nil
 }
 
+// DeliverVirtualMachine deploys a VM and drives it to running inline — end-to-end
+// "direct delivery" in a single call. It is the synchronous counterpart to
+// DeployVirtualMachine plus the async reconcile loop, for clients and scripts
+// that want the workload ready on return.
+func (c *ControlPlane) DeliverVirtualMachine(ctx context.Context, req cloudstack.DeployVMRequest) (cloudstack.VirtualMachine, error) {
+	vm, err := c.DeployVirtualMachine(ctx, req)
+	if err != nil {
+		return cloudstack.VirtualMachine{}, err
+	}
+	rec, ok, err := c.store.Get(ctx, vm.ID)
+	if err != nil {
+		return cloudstack.VirtualMachine{}, err
+	}
+	if !ok {
+		return cloudstack.VirtualMachine{}, fmt.Errorf("%w: vm %q", cloudstack.ErrNotFound, vm.ID)
+	}
+	if err := c.reconcileVM(ctx, rec); err != nil {
+		return cloudstack.VirtualMachine{}, err
+	}
+	return c.GetVirtualMachine(ctx, vm.ID)
+}
+
 // StartVirtualMachine marks the VM desired-Running (Starting until reconciled).
 func (c *ControlPlane) StartVirtualMachine(ctx context.Context, id string) (cloudstack.VirtualMachine, error) {
 	return c.transition(ctx, id, targetRunning, cloudstack.StateStarting)

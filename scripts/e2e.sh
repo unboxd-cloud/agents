@@ -16,11 +16,12 @@ CATALOG_DATASET=$DS/offerings.json ./bin/catalog >/tmp/e2e-catalog.log 2>&1 &
 PRICEBOOK_DATASET=$DS/pricebook.json TAX_DATASET=$DS/tax-rules.json ./bin/billing >/tmp/e2e-billing.log 2>&1 &
 COMPLIANCE_DATASET=$DS/compliance-frameworks.json ./bin/compliance >/tmp/e2e-compliance.log 2>&1 &
 ./bin/metering >/tmp/e2e-metering.log 2>&1 &
+./bin/cloud >/tmp/e2e-cloud.log 2>&1 &
 PIDS=$(jobs -p)
 trap 'kill $PIDS 2>/dev/null || true' EXIT
 
 # wait for readiness
-for p in 8083 8082 8084 8081; do
+for p in 8083 8082 8084 8081 8086; do
   for i in $(seq 1 20); do
     curl -fs "localhost:$p/readyz" >/dev/null 2>&1 && break
     [ "$i" = 20 ] && fail "service on :$p not ready"
@@ -49,6 +50,17 @@ code=$(curl -s -o /tmp/e2e-eval.json -w '%{http_code}' -X POST localhost:8084/v1
   "profile":{"tenantId":"e2e","frameworks":["GDPR"],"dataResidency":["EU-DE"]},
   "placement":{"region":"US-CA","certifications":["GDPR"],"encrypted":true}}')
 [ "$code" = "422" ] || fail "expected 422 for residency violation, got $code"
+
+echo "== cloud: end-to-end direct delivery (deploy -> running in one call) =="
+vm=$(curl -fs -X POST 'localhost:8086/v1/vms?wait=true' -d '{
+  "account":"e2e","name":"web-1","zoneid":"zone-1",
+  "templateid":"tmpl-nginx","serviceofferingid":"so-small"}')
+echo "  $vm" | head -c 200; echo
+echo "$vm" | grep -q '"state":"Running"' || fail "direct delivery did not return a Running VM"
+vmid=$(printf '%s' "$vm" | sed -n 's/.*"id":"\([^"]*\)".*/\1/p')
+curl -fs "localhost:8086/v1/vms?account=e2e" | grep -q '"state":"Running"' || fail "delivered VM not listed running"
+code=$(curl -s -o /dev/null -w '%{http_code}' -X DELETE "localhost:8086/v1/vms/$vmid")
+[ "$code" = "202" ] || fail "destroy expected 202, got $code"
 
 echo "== metrics published =="
 curl -fs localhost:8083/metrics | grep -q '^platform_up 1' || fail "metrics not published"

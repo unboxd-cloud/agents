@@ -78,9 +78,12 @@ the API and reconciler planes over one shared store.
 
 ```bash
 ./bin/cloud &   # control plane on :8086 (reconcile loop + HTTP API)
-# deploy a VM (clean REST)
+# deploy a VM (clean REST; async — the operator converges it)
 curl -sXPOST localhost:8086/v1/vms \
   -d '{"account":"t1","name":"web-1","zoneid":"zone-1","templateid":"tmpl-nginx","serviceofferingid":"so-small"}'
+# ...or deliver end-to-end: deploy and get a Running VM back in one call
+curl -sXPOST 'localhost:8086/v1/vms?wait=true' \
+  -d '{"account":"t1","name":"web-2","zoneid":"zone-1","templateid":"tmpl-nginx","serviceofferingid":"so-small"}'
 # ...or via the CloudStack-compatible query API (existing CloudStack clients)
 curl -s 'localhost:8086/client/api?command=listVirtualMachines&account=t1'
 ```

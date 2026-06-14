@@ -102,6 +102,27 @@ func TestControlPlane_UnknownVM(t *testing.T) {
 	}
 }
 
+func TestControlPlane_DirectDelivery(t *testing.T) {
+	ctx := context.Background()
+	pods := kube.NewManager()
+	cp := NewWithStore(pods, NewMemStore())
+
+	// One call: deploy + reconcile inline -> running VM with its pod.
+	vm, err := cp.DeliverVirtualMachine(ctx, cloudstack.DeployVMRequest{
+		Account: "t1", Name: "web-1", ZoneID: "zone-1",
+		TemplateID: "tmpl-nginx", ServiceOfferingID: "so-small",
+	})
+	if err != nil {
+		t.Fatalf("deliver: %v", err)
+	}
+	if vm.State != cloudstack.StateRunning {
+		t.Fatalf("direct delivery should return Running, got %s", vm.State)
+	}
+	if n := podCount(t, ctx, pods, "tenant-t1"); n != 1 {
+		t.Fatalf("want 1 pod after direct delivery, got %d", n)
+	}
+}
+
 func mustReconcile(t *testing.T, ctx context.Context, cp *ControlPlane) {
 	t.Helper()
 	if err := cp.Reconcile(ctx); err != nil {

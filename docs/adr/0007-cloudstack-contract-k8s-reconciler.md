@@ -31,7 +31,8 @@ as the reconciler** that realizes it.
   backed by a pod (template → image, service offering → CPU/memory).
 - `cmd/cloud` — the control-plane service (`:8086`). It serves a clean REST API
   under `/v1` **and** a CloudStack-compatible `/client/api?command=...` endpoint,
-  and runs the operators in the background.
+  and runs the operators in the background. `POST /v1/vms?wait=true` delivers
+  end-to-end synchronously (deploy + reconcile inline → running).
 
 ## Single core, multi store, multi operator, multi mode
 The control plane keeps no state of its own — desired state lives in a `Store`:
