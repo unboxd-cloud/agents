@@ -16,24 +16,21 @@ Apache CloudStack
   -> Zones / Pods / Clusters / Hosts
   -> Domains / Accounts / Projects / Roles
   -> Kubernetes / k3s runtime layer
-  -> Fabric Runtime / SurrealDB
-  -> Agents / DeepAgents / Operator loops
+  -> Platform services
   -> AWS-compatible product APIs
 ```
 
 CloudStack is the default infrastructure anchor for Unboxd Cloud Platform.
 
-Kubernetes remains the workload orchestration layer. Fabric remains the governed graph and runtime memory. Agents reconcile desired state against reality.
+Kubernetes remains the workload orchestration layer above CloudStack. The Unboxd control plane provides catalog, tenant management, metering, billing, compliance, service APIs, and operational dashboards.
 
 ## Operating Model
 
 ```text
-GitHub -> CI/CD -> Apache CloudStack -> k3s -> Agent CRD -> Reconciler -> SurrealDB -> Fabric Runtime
+GitHub -> CI/CD -> Apache CloudStack -> Kubernetes/k3s -> Platform Services -> Metering/Billing/Compliance
 ```
 
-The platform control plane treats infrastructure, services, agents, tenants, usage, and decisions as governed data. GitHub stores desired state, CI/CD validates and publishes artifacts, CloudStack provides the open IaaS substrate, k3s runs workload reconciliation, and SurrealDB becomes the runtime source of truth for Fabric.
-
-See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md).
+The platform control plane treats infrastructure, services, tenants, usage, pricing, and compliance as governed data. GitHub stores desired state, CI/CD validates and publishes artifacts, CloudStack provides the open IaaS substrate, and Kubernetes/k3s runs the platform services.
 
 ## Principles
 
@@ -55,8 +52,6 @@ See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model
 | sns | SNS | NATS |
 | ses | SES | Postal / Haraka |
 | s3 | S3 | CloudStack primary/secondary storage + S3-compatible object gateway |
-| bedrock | Bedrock | KServe + open-source CPU LLMs (llama.cpp/Ollama) |
-| agentcore | Bedrock AgentCore | DeepAgents / LangGraph / Dapr Agents |
 
 ## Services & binaries (`cmd/`)
 
@@ -68,7 +63,7 @@ See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model
 | `compliance` | frameworks + residency evaluation | 8084 |
 | `admin` | platform admin panel (htmx chat + APM + BI) | 8080 |
 | `orgconsole` | organization admin console | 8085 |
-| `operator` | CloudStack + Kubernetes orchestrator agents | — |
+| `operator` | CloudStack + Kubernetes operations controller | — |
 | `platform` | unified CLI (`compose`, catalog, rate, cloudstack, …) | — |
 
 ## Quick start
@@ -94,16 +89,15 @@ curl localhost:8083/v1/categories # category-wise registry index
 Experience:  admin panel · org console · CLI · SDK · Backstage
 Control plane: tenant · catalog · metering · billing · compliance · operator
 IaaS anchor: Apache CloudStack zones · domains · accounts · projects · offerings
-Runtime layer: Kubernetes/k3s · KubeVirt where needed · Knative/OpenFaaS · KServe
-Governance: Fabric Runtime · SurrealDB · OPA · OpenFGA · audit events
-Agents: FabricOps DeepAgent · reconciler · deployment/cost/security agents
+Runtime layer: Kubernetes/k3s · KubeVirt where needed · Knative/OpenFaaS
+Governance: policy · audit · compliance · usage records
 ```
 
 Full diagrams: [`docs/stack-diagram.md`](docs/stack-diagram.md) · data model: [`docs/data-model.md`](docs/data-model.md).
 
 ## Documentation
 
-- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md), [`cloudstack-anchor.md`](docs/cloudstack-anchor.md)
+- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`cloudstack-anchor.md`](docs/cloudstack-anchor.md)
 - CNCF & registries: [`cncf-stack.md`](docs/cncf-stack.md), [`registries.md`](docs/registries.md)
 - Billing: [`meters.md`](docs/meters.md), [`unit-economics.md`](docs/unit-economics.md), [`operating-models.md`](docs/operating-models.md)
 - Compliance & standards: [`compliance.md`](docs/compliance.md), [`standards.md`](docs/standards.md)
