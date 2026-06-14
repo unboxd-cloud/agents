@@ -1,0 +1,72 @@
+// search.agent — the search metamodel, modeled on OpenSearch/Elasticsearch: an
+// Index holds Documents with typed Fields; an Analyzer tokenizes text; Queries
+// run against an index and return ranked Results. Indices are sharded and
+// replicated. This is the platform's search capability and stays
+// OpenSearch/AWS-compatible so existing clients and tooling interoperate.
+namespace unboxd.meta.search
+
+entity Index {
+    name: string required
+    shards: int
+    replicas: int
+}
+
+entity Field {
+    index: Index required
+    name: string required
+    type: string required
+    analyzer: string
+}
+
+entity Document {
+    index: Index required
+    id: string required
+    source: string
+}
+
+entity Analyzer {
+    name: string required
+    tokenizer: string required
+}
+
+entity Query {
+    index: Index required
+    kind: string required
+    text: string
+}
+
+entity Result {
+    query: Query required
+    document: Document required
+    score: float
+    rank: int
+}
+
+entity Shard {
+    index: Index required
+    number: int
+    primary: bool
+}
+
+relation Contains Index -> Document {
+    routing: string
+}
+
+relation Maps Index -> Field {
+    indexed: bool
+}
+
+relation MatchesDoc Query -> Document {
+    score: float
+}
+
+relation Ranks Query -> Result {
+    order: int
+}
+
+vocabulary queries {
+    term full_text means "full-text match query"
+    term exact means "exact term query"
+    term knn means "k-nearest-neighbor vector search"
+    term boolean means "boolean compound query"
+}
