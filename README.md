@@ -110,6 +110,7 @@ Full diagrams: [`docs/stack-diagram.md`](docs/stack-diagram.md) · data model: [
 
 ## Documentation
 
+- Vision: [`agent-engineering-platform.md`](docs/agent-engineering-platform.md)
 - Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`cloudstack-anchor.md`](docs/cloudstack-anchor.md), [`agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md)
 - CNCF & registries: [`cncf-stack.md`](docs/cncf-stack.md), [`registries.md`](docs/registries.md)
 - Billing: [`meters.md`](docs/meters.md), [`unit-economics.md`](docs/unit-economics.md), [`operating-models.md`](docs/operating-models.md)
