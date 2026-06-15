@@ -32,6 +32,18 @@ GitHub -> CI/CD -> Apache CloudStack -> Kubernetes/k3s -> Platform Services -> M
 
 The platform control plane treats infrastructure, services, tenants, usage, pricing, and compliance as governed data. GitHub stores desired state, CI/CD validates and publishes artifacts, CloudStack provides the open IaaS substrate, and Kubernetes/k3s runs the platform services.
 
+## Agent-as-Data Operating Model
+
+Agents are the governed workloads that run atop the CloudStack/Kubernetes substrate. The control plane governs them exactly as it governs infrastructure — as **governed data**.
+
+```text
+GitHub → CI/CD → k3s → Agent CRD → Java Reconciler Pod → SurrealDB → Fabric Runtime
+```
+
+**An agent is not a variable.** It is a first-class, identified, governed entity — owned, policy-bound, and audited — reconciled from Git into a SurrealDB runtime record, not an ephemeral value bound to a running process. GitHub stores desired state, CI/CD validates and publishes artifacts, k3s runs the reconciler, and SurrealDB becomes the runtime source of truth for Fabric.
+
+See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md).
+
 ## Principles
 
 - **Apache CloudStack anchored**: zones, accounts, projects, templates, service offerings, and events provide the open IaaS base.
@@ -41,6 +53,7 @@ The platform control plane treats infrastructure, services, tenants, usage, pric
 - **Multi-tenant + pay-as-you-go**: one `TenantID` axis; one rating engine for tiers, allowances, taxes, and partner settlement.
 - **Headless / API-first**: every capability is an API; UIs are optional.
 - **Data, not code**: catalog, pricing, taxes, CloudStack inventory, and compliance frameworks load as datasets at deployment time.
+- **Agents are governed data**: an agent is a first-class, identified, governed entity — not an ephemeral variable — reconciled from Git into a SurrealDB runtime record. See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md).
 
 ## AWS-compatible modules (MVP)
 
@@ -97,7 +110,7 @@ Full diagrams: [`docs/stack-diagram.md`](docs/stack-diagram.md) · data model: [
 
 ## Documentation
 
-- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`cloudstack-anchor.md`](docs/cloudstack-anchor.md)
+- Architecture: [`architecture.md`](docs/architecture.md), [`stack-diagram.md`](docs/stack-diagram.md), [`data-model.md`](docs/data-model.md), [`cloudstack-anchor.md`](docs/cloudstack-anchor.md), [`agent-as-data-operating-model.md`](docs/agent-as-data-operating-model.md)
 - CNCF & registries: [`cncf-stack.md`](docs/cncf-stack.md), [`registries.md`](docs/registries.md)
 - Billing: [`meters.md`](docs/meters.md), [`unit-economics.md`](docs/unit-economics.md), [`operating-models.md`](docs/operating-models.md)
 - Compliance & standards: [`compliance.md`](docs/compliance.md), [`standards.md`](docs/standards.md)
