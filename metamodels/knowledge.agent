@@ -1,0 +1,196 @@
+// knowledge.agent — the memory & knowledge metamodel.
+//
+// An agent's episodic memory and its knowledge base of documents and vector
+// embeddings, plus a referenceable knowledge graph: resources are real, stable
+// URIs (e.g. DBpedia — see dbpedia.agent / schemaorg.agent) and facts are
+// time-stamped triples with validity windows, so knowledge is referenceable for
+// both past and present.
+namespace unboxd.meta.knowledge
+
+entity Memory {
+    kind: string required
+    scope: string
+}
+
+entity Episode {
+    memory: Memory required
+    summary: string
+    at: datetime
+}
+
+entity Knowledge {
+    topic: string required
+}
+
+entity Document {
+    knowledge: Knowledge required
+    uri: string
+    title: string
+}
+
+entity Embedding {
+    document: Document required
+    model: string
+    dims: int
+}
+
+entity Artifact {
+    name: string required
+    version: string
+    uri: string
+}
+
+// KnowledgeGraph is an external, real knowledge graph the platform references
+// (e.g. DBpedia, Wikidata). baseUri anchors its resource namespace.
+entity KnowledgeGraph {
+    name: string required
+    baseUri: string required
+}
+
+// Resource is a node in a knowledge graph identified by a stable URI
+// (e.g. https://dbpedia.org/resource/Kubernetes), mapped to schema.org / dbo
+// types via the schemaorg/dbpedia vocabularies.
+entity Resource {
+    graph: KnowledgeGraph required
+    uri: string required
+    label: string
+    type: string
+}
+
+// Fact is a time-stamped triple (subject predicate object|literal) with a
+// validity window, so the graph stays referenceable for past and present:
+// current=false facts are retained as history.
+entity Fact {
+    subject: Resource required
+    predicate: string required
+    object: Resource
+    literal: string
+    asserted: datetime
+    validFrom: datetime
+    validTo: datetime
+    current: bool
+    source: string
+}
+
+// Search resolves a query to a Wikipedia topic (a DBpedia Resource).
+entity Search {
+    query: string required
+    at: datetime
+}
+
+// Workspace is an execution scope: a repo, folder, or workspace path.
+entity Workspace {
+    path: string required
+    repo: string
+    folder: string
+}
+
+// Context is the grounding for a piece of work. Exploration and application
+// contexts are fundamentally different: exploration is read-only discovery
+// (search), grounded by default in a Wikipedia topic; application is acting on
+// the system, scoped by default to the repo/folder/workspace.
+entity Context {
+    isDefault: bool
+    readOnly: bool
+}
+
+// ExplorationContext grounds read-only discovery; default is the Wikipedia topic.
+entity ExplorationContext extends Context {
+    query: string
+}
+
+// ApplicationContext grounds acting/applying; default is the repo/folder/workspace.
+entity ApplicationContext extends Context {
+    scopeKind: string
+}
+
+relation FromSearch ExplorationContext -> Search {
+    rank: int
+}
+
+relation GroundsInTopic ExplorationContext -> Resource {
+    wikipediaTitle: string
+}
+
+relation ScopedTo ApplicationContext -> Workspace {
+    mutates: bool
+}
+
+// Thing is the universal node (schema.org Thing): any entity — a Resource, a
+// Workspace, a Document, an Agent, a Tool, a Fact — participates as a Thing.
+entity Thing {
+    uri: string
+    kind: string
+    label: string
+}
+
+// A context is composable: beyond its default grounding it may compose any
+// combination of any or all things, in any mix and weighting.
+relation Composes Context -> Thing {
+    role: string
+    weight: float
+}
+
+relation Recalls Memory -> Episode {
+    weight: float
+}
+
+relation Indexes Knowledge -> Document {
+    rank: int
+}
+
+relation Vectorizes Document -> Embedding {
+    model: string
+}
+
+relation Mentions Document -> Resource {
+    confidence: float
+}
+
+relation SourcedFrom Resource -> KnowledgeGraph {
+    fetchedAt: datetime
+}
+
+relation Asserts Fact -> Resource {
+    role: string
+}
+
+// Retrieval-augmented generation (RAG). A Corpus is a retrievable knowledge
+// source, tagged by usage: Wikipedia (via DBpedia) is the RAG corpus for SEARCH
+// (quick grounding in the default topic); deeper RESEARCH uses other corpora
+// (e.g. arXiv papers such as TinyLLM, arXiv:2412.15304). Search RAG is not
+// research RAG.
+entity Corpus {
+    name: string required
+    usage: string required
+    baseUri: string
+}
+
+entity Chunk {
+    document: Document required
+    text: string
+    embedding: string
+}
+
+entity Retrieval {
+    query: string required
+    corpus: Corpus required
+    k: int
+}
+
+entity Augmentation {
+    retrieval: Retrieval required
+    prompt: string
+}
+
+relation FromCorpus Retrieval -> Corpus {
+    topK: int
+}
+
+relation Retrieves Retrieval -> Chunk {
+    score: float
+}
+
+relation Augments Augmentation -> Retrieval {
+    grounded: bool
+}

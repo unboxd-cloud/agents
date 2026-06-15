@@ -1,0 +1,60 @@
+// control.agent — the drift detection & reconciliation metamodel, aligned to
+// AGenNext Agent-Control (Flux-style). It answers one operational question: is
+// the running agent still the agent that was approved? It compares an approved
+// desired definition with observed runtime snapshots, classifies and scores
+// drift, explains it, and recommends remediation.
+//
+//   Observe -> Compare -> Classify -> Score -> Explain -> Recommend -> Verify
+namespace unboxd.meta.control
+
+// The categories of agent drift.
+vocabulary driftCategories {
+    term capability means "capability drift"
+    term tool means "tool drift"
+    term prompt means "prompt drift"
+    term memory means "memory drift"
+    term knowledge means "knowledge drift"
+    term workflow means "workflow drift"
+    term policy means "policy drift"
+    term objective means "objective drift"
+    term model means "model drift"
+    term configuration means "configuration drift"
+}
+
+// DesiredAgent is the approved agent definition (the baseline).
+entity DesiredAgent {
+    agentId: string required
+    version: string required
+}
+
+// Snapshot is an observed state of the running agent.
+entity Snapshot {
+    agentId: string required
+    observedAt: datetime
+}
+
+entity Drift {
+    desired: DesiredAgent required
+    observed: Snapshot required
+    category: string required
+    riskScore: float
+    explanation: string
+}
+
+entity Remediation {
+    drift: Drift required
+    action: string required
+    applied: bool
+}
+
+relation ComparedTo Snapshot -> DesiredAgent {
+    at: datetime
+}
+
+relation Detects Snapshot -> Drift {
+    severity: string
+}
+
+relation Recommends Drift -> Remediation {
+    priority: int
+}

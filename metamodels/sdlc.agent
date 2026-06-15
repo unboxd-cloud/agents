@@ -1,0 +1,75 @@
+// sdlc.agent — the development lifecycles the platform takes seriously: software
+// (SDLC), product (PDLC), and test (TDLC). A Lifecycle is an ordered set of
+// Phases separated by Gates with entry/exit criteria; work advances through it
+// under governance, every Transition auditable. Lifecycles are not terminal —
+// retirement feeds the next wave (see lifecycle.agent, and the evolution thread:
+// extinction clears space for the next genesis).
+namespace unboxd.meta.sdlc
+
+vocabulary sdlc {
+    term plan means "plan and requirements"
+    term design means "architecture and design"
+    term build means "implement"
+    term test means "verify and validate"
+    term release means "package and release"
+    term deploy means "deploy to the target runtime"
+    term operate means "run and monitor"
+    term maintain means "patch and modernize"
+    term retire means "deprecate and retire"
+}
+
+// Product lifecycle: new product development -> validation -> operationalization
+// -> scale -> implementation -> retirement (when another industry wave comes).
+vocabulary pdlc {
+    term new_product_development means "develop a new product"
+    term validation means "validate the problem, market, and product"
+    term operationalization means "make it operational and repeatable"
+    term scale means "scale adoption and capacity"
+    term implementation means "implement and roll out to customers"
+    term retirement means "retire when a new industry wave disrupts it"
+}
+
+vocabulary tdlc {
+    term plan means "test planning and strategy"
+    term design means "test design and cases"
+    term author means "author tests and fixtures"
+    term execute means "execute tests"
+    term report means "report and triage"
+    term maintain means "maintain and refactor tests"
+}
+
+entity Lifecycle {
+    name: string required
+    kind: string required
+}
+
+entity Phase {
+    lifecycle: Lifecycle required
+    name: string required
+    order: int
+}
+
+entity Gate {
+    fromPhase: Phase required
+    toPhase: Phase required
+    criteria: string
+}
+
+entity Transition {
+    gate: Gate required
+    by: string
+    at: datetime
+    approved: bool
+}
+
+relation HasPhase Lifecycle -> Phase {
+    order: int
+}
+
+relation NextPhase Phase -> Phase {
+    gated: bool
+}
+
+relation Passes Transition -> Gate {
+    result: string
+}

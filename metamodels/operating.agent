@@ -1,0 +1,103 @@
+// operating.agent — the platform's operating (business) models: how it operates
+// commercially. Pay-as-you-go rating over metered usage, with partner settlement
+// across direct, reseller, agency, marketplace, and managed-service-provider
+// modes (mirrors internal/billing).
+namespace unboxd.meta.operating
+
+// SaaS parity — everything built for SaaS must be done for agents. Agents are
+// productized and operated as first-class offerings: the full operational
+// discipline of SaaS applies to them, reusing the platform's existing machinery.
+vocabulary saas_parity {
+    term principle means "everything we did for SaaS we do for agents: agents are productized and operated as first-class SaaS, not bolted on"
+    term scope means "multi-tenancy, metering, billing, settlement, compliance, identity/SSO, SLAs, observability, marketplace, support, and lifecycle all apply to agents"
+}
+
+// Partnership models — how micro-companies, one-person companies, and agents
+// collaborate. Each is governed and revenue/credit is split by unit of work.
+vocabulary partnerships {
+    term alliance means "independent parties collaborate while each stays autonomous"
+    term joint_venture means "parties form a shared venture for a specific goal"
+    term consortium means "many parties pool resources under shared governance"
+    term revenue_share means "partners split revenue by contribution (unit of work)"
+    term federation means "autonomous parties federate capabilities while keeping ownership"
+    term white_label means "a partner rebrands and resells the offering as their own"
+}
+
+// Go-to-market / billing relationship modes (mirrors internal/billing).
+vocabulary modes {
+    term direct means "sell directly to the customer"
+    term reseller means "a reseller marks up and resells"
+    term agency means "an agency bills on the customer's behalf"
+    term marketplace means "sold through a marketplace"
+    term service_provider means "a managed service provider operates on the customer's behalf"
+}
+
+entity OperatingModel {
+    name: string required
+    mode: string required
+}
+
+entity Partner {
+    id: string required
+    mode: string required
+    rate: float
+}
+
+entity PriceBook {
+    version: string required
+}
+
+entity Meter {
+    name: string required
+    unit: string
+}
+
+entity Rating {
+    meter: Meter required
+    quantity: float
+    amount: float
+}
+
+entity Settlement {
+    partner: Partner required
+    gross: float
+    net: float
+    currency: string
+}
+
+relation Uses OperatingModel -> Partner {
+    primary: bool
+}
+
+relation Prices PriceBook -> Meter {
+    unitPrice: float
+}
+
+relation Rates Rating -> Meter {
+    period: string
+}
+
+relation Settles Settlement -> Partner {
+    period: string
+}
+
+// The agent operating model: how an agent operates — its autonomy level, the
+// governed observe-decide-act loop, and where humans stay in the loop. A kernel
+// agent's model supervises its child agents' models.
+vocabulary autonomy {
+    term supervised means "every action gated by human approval"
+    term semi means "routine actions autonomous, sensitive ones gated"
+    term autonomous means "fully autonomous within policy and governance"
+}
+
+entity AgentOperatingModel {
+    agent: string required
+    autonomy: string required
+    humanInLoop: bool
+    loop: string
+}
+
+relation SupervisedBy AgentOperatingModel -> AgentOperatingModel {
+    tier: string
+}
+

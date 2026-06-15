@@ -1,0 +1,74 @@
+[
+  {
+    "framework": "GDPR", "name": "General Data Protection Regulation",
+    "category": "privacy", "authority": "European Union",
+    "regions": ["EU-DE", "EU-FR", "EU-IE", "EU-NL"],
+    "controls": ["data-residency", "encryption-at-rest", "right-to-erasure", "dpo", "breach-notification"],
+    "requiresEncryption": true,
+    "description": "EU data protection and privacy law (law of the land)."
+  },
+  {
+    "framework": "CCPA", "name": "California Consumer Privacy Act",
+    "category": "privacy", "authority": "State of California",
+    "regions": ["US-CA"],
+    "controls": ["opt-out", "data-access", "data-deletion"],
+    "requiresEncryption": true,
+    "description": "California consumer privacy law."
+  },
+  {
+    "framework": "HIPAA", "name": "Health Insurance Portability and Accountability Act",
+    "category": "healthcare", "authority": "US HHS",
+    "regions": ["US"],
+    "controls": ["phi-encryption", "access-controls", "audit-logging", "baa"],
+    "requiresEncryption": true,
+    "description": "US healthcare data protection (industry-specific)."
+  },
+  {
+    "framework": "PCI-DSS", "name": "Payment Card Industry Data Security Standard",
+    "category": "finance", "authority": "PCI SSC",
+    "regions": ["global"],
+    "controls": ["network-segmentation", "encryption", "key-management", "vuln-management"],
+    "requiresEncryption": true,
+    "description": "Payment card data security (industry-specific)."
+  },
+  {
+    "framework": "SOC2", "name": "SOC 2",
+    "category": "security", "authority": "AICPA",
+    "regions": ["global"],
+    "controls": ["security", "availability", "confidentiality", "processing-integrity", "privacy"],
+    "requiresEncryption": false,
+    "description": "Trust services criteria for service organizations."
+  },
+  {
+    "framework": "ISO-27001", "name": "ISO/IEC 27001",
+    "category": "security", "authority": "ISO/IEC",
+    "regions": ["global"],
+    "controls": ["isms", "risk-assessment", "access-control", "cryptography"],
+    "requiresEncryption": false,
+    "description": "Information security management system standard."
+  },
+  {
+    "framework": "FedRAMP", "name": "Federal Risk and Authorization Management Program",
+    "category": "government", "authority": "US GSA",
+    "regions": ["US-GOV"],
+    "controls": ["continuous-monitoring", "nist-800-53", "boundary-protection"],
+    "requiresEncryption": true,
+    "description": "US government cloud authorization (industry/government-specific)."
+  },
+  {
+    "framework": "DORA", "name": "Digital Operational Resilience Act",
+    "category": "finance", "authority": "European Union",
+    "regions": ["EU-DE", "EU-FR", "EU-IE", "EU-NL"],
+    "controls": ["ict-risk", "incident-reporting", "resilience-testing", "third-party-risk"],
+    "requiresEncryption": true,
+    "description": "EU financial-sector operational resilience (industry-specific)."
+  },
+  {
+    "framework": "NIS2", "name": "Network and Information Security Directive 2",
+    "category": "security", "authority": "European Union",
+    "regions": ["EU-DE", "EU-FR", "EU-IE", "EU-NL"],
+    "controls": ["risk-management", "incident-handling", "supply-chain-security"],
+    "requiresEncryption": true,
+    "description": "EU cybersecurity directive for essential/important entities."
+  }
+]

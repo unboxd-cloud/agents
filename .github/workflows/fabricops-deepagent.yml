@@ -1,0 +1,40 @@
+name: FabricOps DeepAgent
+
+on:
+  push:
+    paths:
+      - 'agents/fabricops-deepagent/**'
+      - '.github/workflows/fabricops-deepagent.yml'
+  pull_request:
+    paths:
+      - 'agents/fabricops-deepagent/**'
+      - '.github/workflows/fabricops-deepagent.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: agents/fabricops-deepagent
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e . pytest
+      - name: Run tests
+        run: pytest -q
+      - name: Validate manifests are present
+        run: |
+          test -f manifests/namespace.yaml
+          test -f manifests/serviceaccount.yaml
+          test -f manifests/configmap.yaml
+          test -f manifests/deployment.yaml
+          test -f policies/fabricops.rego
+          test -f tools/allowlist.yaml

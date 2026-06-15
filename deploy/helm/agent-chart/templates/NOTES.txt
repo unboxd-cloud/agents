@@ -1,0 +1,17 @@
+Deployed {{ .Values.agent.kind }} agent "{{ .Values.agent.name }}" (release {{ .Release.Name }}).
+{{- if not .Values.agent.definition }}
+
+WARNING: no ADL definition was provided. Re-install with the agent definition:
+
+  helm upgrade --install {{ .Release.Name }} ./deploy/helm/agent-chart \
+    --set-file agent.definition=platform.agent
+{{- end }}
+{{- if eq .Values.agent.kind "kernel" }}
+
+This is a kernel agent: a deterministic Kubernetes controller (RBAC granted) that
+reconciles cluster state and snapshots the k3s cluster to S3. At multi-node scale,
+reasoning (container/scoped) agents are introduced via kagent as CRDs.
+{{- else }}
+
+This is a {{ .Values.agent.kind }} agent supervised by a kernel agent (no cluster RBAC).
+{{- end }}

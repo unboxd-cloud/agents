@@ -1,0 +1,66 @@
+// Sample ADL program exercising every top-level construct.
+namespace acme.crm
+
+vocabulary sales {
+    term lead means "a prospective customer"
+    term mql maps to acme.crm.Lead
+    term sql means "sales qualified lead" maps to acme.crm.Opportunity
+}
+
+entity Person {
+    name: string required
+    email: string
+    age: int
+}
+
+entity Lead extends Person {
+    score: float
+    owner: Person
+}
+
+entity Opportunity {
+    title: string required
+    amount: float required
+    stage: string
+}
+
+relation Owns Person -> Lead {
+    since: datetime
+}
+
+brain CrmBrain {
+    owns data
+    owns business_logic
+    owns policy
+    owns live_queries
+    owns beliefs
+    owns decisions
+}
+
+mind LeadMind for Lead {
+    intent: string
+    nextAction: string
+}
+
+belief HotLead {
+    subject Lead
+    claim "lead is likely to convert this quarter"
+    confidence 0.82
+    source "scoring-model-v3"
+}
+
+constitution CrmConstitution {
+    rule privacy: "never expose PII without consent"
+    rule retention: "purge leads after 24 months of inactivity"
+}
+
+policy AccessPolicy {
+    rule readLeads: "sales reps may read leads they own"
+}
+
+api get "/leads" returns surrealdb
+api post "/leads" returns surrealdb
+
+function acme.crm.scoreLead(lead: Lead, weight: float) returns float as surrealml
+
+surrealml LeadScorer for scoring input Lead output Opportunity

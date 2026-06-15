@@ -1,0 +1,96 @@
+// theory.agent — Agent-Theory: the formal theories the brain holds and reasons
+// from. A Theory rests on Axioms (first principles), states Propositions, and is
+// supported by Proofs and Evidence. Theories compose (genesis by synthesis) and
+// are validated before they govern. The platform's foundations — completeness,
+// control, decision, trust, evolution, genesis — are theories in this sense
+// (see docs/theories.md).
+namespace unboxd.meta.theory
+
+// The graph theory the platform is built on — the substrate where everything
+// converges (theory and code, human and machine, governance and audit).
+vocabulary graph {
+    term object_graph means "the graph is a recursive metamodel object graph: every node is a typed object that is itself a world (its own graph); 2D is only a projection"
+    term node_is_world means "every node is a world AND a canonical, distinct identity — uniquely addressable, a single source of truth"
+    term links_are_neurons means "intelligence lives in the links: edges are the neurons (relations compute), nodes hold state; many relations are still unknown — the unknown edges are the research frontier"
+    term dimensionality_is_recursion means "dimensionality is recursion, not extra axes: composition enters a world, decomposition exits it; multi-cloud, multi-surface, multi-device, and multi-thread are worlds (nodes) you enter"
+    term fractal means "the graph is fractal and self-similar (the federated-database-system pattern): each node is itself a federation of nodes, repeating down to leaf instances; autonomy is bottom-up with no central control plane (no single point of failure); complexity is measurable by fractal dimension"
+    term federated_over_centralized means "Kubernetes is centralized — one control plane (API server + etcd) per cluster, a single point of failure that cannot scale to thousands of edge clusters (Larsson et al., 'Decentralized Kubernetes Federation Control Plane', IEEE UCC 2020). Per-cluster Kubernetes stays centralized (a leaf); the federation above it is decentralized."
+    term decentralization means "the federation has no central control plane. The shared graph and constitution replicate across autonomous clusters as conflict-free replicated data (CRDTs) that converge without coordination, while a distributed store (agentdb/SurrealDB on TiKV/Raft) removes the single-node single point of failure. Governance is decentralized: justification is local and convergent, not authoritative-from-one-place. Convergence, not global consensus — cheaper than blockchain proof-of-work."
+    term resolver_compiler_translator means "the graph resolves references, compiles declarations into the executable graph, and translates between human and machine and across worlds — one structure, three functions"
+    term plural_taxonomy means "every user and every society brings their own taxonomy (vocabulary, ontology, categories); the graph federates them with no single imposed ontology, and translates across them — each world carries its own naming, mapped onto shared edges"
+    term arbiter means "the graph is the arbiter: a theory is valid only if the graph justifies it; an unjustified gap escalates to a research working group whose validated answer rejoins the graph"
+    term digital_twin means "with every entity, relation, dimension, and governance on one graph, the synced whole is a governed, trackable digital twin — reasoned, simulated, and acted through"
+    term time_travel means "time is a dimension: index every node and edge bitemporally (valid-time and transaction-time), append-only, so the graph is queryable as-of any moment — replay the past, inspect the present, and project/simulate the future"
+    term time_is_distance means "time is a distance on the graph — a path through versioned edges; traveling in time is traversal: walk the edges forward to replay, backward to rewind, and the distance between two states is the length of that path"
+    term ever_expanding means "the graph keeps expanding — new nodes, edges, and worlds are added continuously as knowledge grows and relations are discovered; it is never finished, a living and growing twin (the unknown edges are always the frontier)"
+    term language_expands means "the language keeps expanding too: ADL's vocabularies grow as users and societies bring new terms; the language is open and extensible, never frozen — co-evolving with the graph it describes"
+    term universal_transformation means "everything is transformable to everything: edges are transformations, so between any two worlds there exists a path; a transformation may carry cost or loss, which the graph makes explicit (convert, compress, reduce, minimize)"
+    term transformation_boundary means "universal transformability holds only within the justified graph; a transformation the graph cannot justify — e.g. what becomes of a human after death — remains hypothetical: a research candidate, never asserted as fact (the graph is the arbiter)"
+}
+
+// Ledger theory — what the platform borrows from blockchain (Akcora, Gel &
+// Kantarcioglu, "Blockchain: A Graph Primer", arXiv:1708.08749), and what it
+// deliberately does not. Blockchain confirms the substrate: it IS a graph
+// (transaction/address/entity graphs). The platform takes the good parts —
+// append-only history, immutable provenance, contract-as-edge-template,
+// DAO-as-agent — but stays permissioned and governed (a trusted brain), so it
+// buys with governance what proof-of-work buys with energy.
+vocabulary ledger {
+    term append_only means "history is append-only and hash-linked: tamper-evident, immutable, replayable — provenance and audit by construction (see agentdb TemporalStore)"
+    term contract_edge_template means "a smart contract is a template for future edges: a node that, under conditions, creates constrained future edges — the recursive metamodel object graph"
+    term canonical_chain means "competing branches/forks reconcile to one canonical chain; a fork that builds a different world is a hard fork (a new lineage)"
+    term dao_agent means "a DAO is an autonomous agent: lives online, owns property (a wallet), hires humans for what it cannot do, and rewards activity — the agent economy"
+    term permissioned means "the platform is permissioned and governed (Hyperledger-like), not trustless proof-of-work: identity, trust, and governance replace mining — governance instead of a peer-to-peer heat engine"
+    term code_is_not_law means "code is not the final law: a governed brain may correct a conforming-but-wrong outcome (unlike the Ethereum 'code is law' split), because conformance is to the standard, not merely the protocol"
+}
+
+entity Theory {
+    name: string required
+    domain: string
+    status: string
+}
+
+// Axiom is a first principle a theory assumes (irreducible).
+entity Axiom {
+    theory: Theory required
+    statement: string required
+}
+
+entity Proposition {
+    theory: Theory required
+    statement: string required
+    proven: bool
+}
+
+entity Proof {
+    proposition: Proposition required
+    method: string
+    valid: bool
+}
+
+entity Evidence {
+    proposition: Proposition required
+    source: string
+    strength: float
+}
+
+relation Assumes Theory -> Axiom {
+    primitive: bool
+}
+
+relation States Theory -> Proposition {
+    central: bool
+}
+
+relation Proves Proof -> Proposition {
+    rigor: string
+}
+
+relation Supports Evidence -> Proposition {
+    weight: float
+}
+
+// Theories compose into larger theories (genesis by synthesis).
+relation ComposesWith Theory -> Theory {
+    via: string
+}

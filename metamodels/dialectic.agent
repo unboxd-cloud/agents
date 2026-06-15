@@ -1,0 +1,75 @@
+// dialectic.agent — the internal anti-agent and reality discipline.
+//
+// The agent runs an internal anti-agent: an adversary/critic that challenges
+// every claim, decision, and synthesis (thesis vs antithesis), producing
+// internal conflict. Kept in check, that conflict is productive — its resolution
+// drives the agent to always improve. The agent acts only on what is real: it
+// never hallucinates and never acts subconsciously — every action is grounded,
+// deliberate, and explainable.
+namespace unboxd.meta.dialectic
+
+entity Agent {
+    id: string required
+    role: string
+}
+
+// AntiAgent is the agent's internal adversary/critic.
+entity AntiAgent {
+    agent: Agent required
+    role: string
+}
+
+// Claim is a proposed assertion, decision, or synthesis the agent puts forward.
+entity Claim {
+    agent: Agent required
+    statement: string required
+    grounded: bool
+}
+
+entity Challenge {
+    antiAgent: AntiAgent required
+    claim: Claim required
+    basis: string
+    refuted: bool
+}
+
+// Conflict is the internal tension between a claim and its challenge.
+entity Conflict {
+    claim: Claim required
+    challenge: Challenge required
+    resolved: bool
+}
+
+entity Resolution {
+    conflict: Conflict required
+    outcome: string required
+    improved: bool
+}
+
+// RealityCheck verifies what is real before the agent acts on a claim.
+entity RealityCheck {
+    claim: Claim required
+    evidence: string
+    real: bool
+}
+
+relation Challenges AntiAgent -> Claim {
+    adversarial: bool
+}
+
+relation Raises Challenge -> Conflict {
+    severity: string
+}
+
+relation Resolves Resolution -> Conflict {
+    method: string
+}
+
+// Resolution of held-in-check conflict drives continuous improvement.
+relation Improves Resolution -> Agent {
+    delta: float
+}
+
+relation Verifies RealityCheck -> Claim {
+    real: bool
+}

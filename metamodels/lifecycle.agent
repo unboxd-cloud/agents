@@ -1,0 +1,92 @@
+// lifecycle.agent — the agent lifecycle, including retirement (graceful
+// extinction). An agent is provisioned, operates and evolves under governance,
+// and is eventually retired — when it plateaus, loses trust, breaches its SLA,
+// drifts from its approved definition, or is superseded. Retirement drains its
+// work, snapshots and archives it (connectome + audit preserved as genome),
+// hands its knowledge to a successor, and revokes its credentials. The organism
+// is retired; the lineage persists.
+namespace unboxd.meta.lifecycle
+
+vocabulary states {
+    term provisioned means "created (JIT or persistent), not yet active"
+    term active means "operating and delivering"
+    term evolving means "improving under governance"
+    term retiring means "draining work and handing over"
+    term retired means "decommissioned and archived"
+    term hibernated means "paused and dormant; resources released; resumable"
+    term decommissioned means "permanently retired and archived"
+}
+
+vocabulary reasons {
+    term plateau means "no improvement over the configured window"
+    term low_trust means "trust fell below threshold"
+    term sla_breach means "repeated SLA breaches"
+    term drift means "diverged from the approved definition"
+    term superseded means "replaced by a better agent"
+    term policy means "retired by policy or human decision"
+}
+
+// Like any software, an agent and its infrastructure must be modernized over
+// time. These are the drivers.
+vocabulary modernization {
+    term eol means "a dependency or runtime reached end-of-life"
+    term security means "modernize to close a security gap"
+    term performance means "modernize for performance or cost"
+    term migration means "migrate infra (cluster, store, or model)"
+}
+
+entity Agent {
+    id: string required
+    kind: string
+    state: string
+}
+
+entity Retirement {
+    agent: Agent required
+    reason: string required
+    at: datetime
+    graceful: bool
+    archived: bool
+}
+
+// Archive preserves the retired agent's connectome and audit trail as its genome,
+// so its validated principles can be inherited.
+entity Archive {
+    retirement: Retirement required
+    uri: string
+    genome: string
+}
+
+// A retirement hands knowledge to a successor agent (Lamarckian inheritance).
+relation HandsOverTo Retirement -> Agent {
+    inherits: string
+}
+
+relation Preserves Archive -> Retirement {
+    immutable: bool
+}
+
+// Hibernation pauses an idle agent to zero cost; it can be resumed on demand.
+entity Hibernation {
+    agent: Agent required
+    since: datetime
+    reason: string
+    resumable: bool
+}
+
+relation Resumes Hibernation -> Agent {
+    at: datetime
+}
+
+// Modernization migrates an agent to current infrastructure (cluster, store,
+// runtime, model) as dependencies reach end-of-life — without losing its lineage.
+entity Modernization {
+    agent: Agent required
+    target: string required
+    reason: string
+    migratedTo: string
+}
+
+relation Modernizes Modernization -> Agent {
+    zeroDowntime: bool
+}

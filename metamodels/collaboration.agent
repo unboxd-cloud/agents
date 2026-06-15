@@ -1,0 +1,70 @@
+// collaboration.agent — the collaboration metamodel: teams of members working
+// together through conversations and messages (humans and agents alike).
+namespace unboxd.meta.collaboration
+
+entity Team {
+    name: string required
+}
+
+entity Member {
+    team: Team required
+    subject: string required
+    role: string
+}
+
+entity Conversation {
+    team: Team required
+    topic: string
+}
+
+entity Message {
+    conversation: Conversation required
+    author: string required
+    body: string
+}
+
+relation BelongsTo Member -> Team {
+    since: datetime
+}
+
+relation Posts Member -> Message {
+    at: datetime
+}
+
+relation InConversation Message -> Conversation {
+    seq: int
+}
+
+// A Space is a governed workspace — a surface onto the graph where members
+// (humans and agents) work together: chat, canvas, community, console, IDE, or
+// the sandboxed innovation lab. A space scopes membership, tools, and context,
+// and hosts the conversations that happen within it. Like a library's rooms,
+// spaces are where the work is done — each governed, each a view of the graph.
+vocabulary spaces {
+    term chat means "the assistant chat workspace (the default home)"
+    term canvas means "a scratch and build canvas"
+    term community means "the community-development space — the innovation funnel and gesture feed"
+    term console means "an administrator or organization console"
+    term ide means "a development workspace"
+    term lab means "the sandboxed innovation lab (radical work, not production)"
+}
+
+entity Space {
+    name: string required
+    kind: string required
+    scope: string
+    governed: bool
+}
+
+relation Hosts Space -> Conversation {
+    primary: bool
+}
+
+relation Admits Space -> Member {
+    role: string
+}
+
+// Spaces nest: a space may contain sub-spaces, mirroring the recursive graph.
+relation Contains Space -> Space {
+    order: int
+}

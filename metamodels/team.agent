@@ -1,0 +1,68 @@
+// team.agent — the agent-team metamodel, aligned to AGenNext Agent-Team:
+// reusable, goal-oriented agent teams built from an Agent-Blueprint (e.g.
+// team/ideation-to-launch-bootstrapped/0.1.0).
+//
+// Core rule: every agent-to-agent handoff must go through A2A — if it is not
+// passed through A2A, it is not an official handoff.
+//
+// LLM provider rule: prefer local open-source LLMs / open-source runtimes /
+// free-tier APIs, evaluated for license safety, trust, and cost.
+namespace unboxd.meta.team
+
+entity Blueprint {
+    name: string required
+    version: string required
+}
+
+entity Team {
+    blueprint: Blueprint required
+    goal: string required
+}
+
+entity Role {
+    team: Team required
+    name: string required
+}
+
+entity Member {
+    team: Team required
+    agent: string required
+    role: Role
+}
+
+// Handoff is an official transfer of work between members; viaA2A must be true.
+entity Handoff {
+    fromMember: Member required
+    toMember: Member required
+    viaA2A: bool
+    artifact: string
+}
+
+// Provider is an LLM provider the team may use; prefer local/open-source/free-tier.
+entity Provider {
+    name: string required
+    kind: string required
+    license: string
+    local: bool
+    freeTier: bool
+}
+
+relation BuiltFrom Team -> Blueprint {
+    pinned: bool
+}
+
+relation HasRole Team -> Role {
+    required: bool
+}
+
+relation Plays Member -> Role {
+    since: datetime
+}
+
+relation HandsOff Member -> Member {
+    viaA2A: bool
+}
+
+relation UsesProvider Team -> Provider {
+    preferred: bool
+}

@@ -1,0 +1,60 @@
+// metrics.agent — the operational metrics metamodel for AGenNext Agent-Metrics.
+// (Upstream repo is currently a placeholder; this defines the model.) Metrics are
+// time-series telemetry about agents and the platform — distinct from CLEAR
+// evaluation scores (eval.agent) and business KPIs (kpi.agent). They feed
+// Prometheus/Cortex and the APM store (ClickHouse).
+namespace unboxd.meta.metrics
+
+vocabulary kinds {
+    term throughput means "requests or tasks per unit time"
+    term latency means "end-to-end response time"
+    term error_rate means "fraction of failed operations"
+    term cost means "USD per task or per period"
+    term tokens means "LLM tokens consumed"
+    term utilization means "resource utilization (cpu/mem/gpu)"
+    term saturation means "queue depth / backpressure"
+}
+
+entity Metric {
+    name: string required
+    kind: string required
+    unit: string
+}
+
+entity Sample {
+    metric: Metric required
+    value: float
+    at: datetime
+    labels: string
+}
+
+entity Series {
+    metric: Metric required
+    window: string
+    agg: string
+}
+
+entity Threshold {
+    metric: Metric required
+    warn: float
+    critical: float
+}
+
+entity Alert {
+    metric: Metric required
+    level: string required
+    firedAt: datetime
+    message: string
+}
+
+relation Records Series -> Sample {
+    rollup: string
+}
+
+relation Bounds Threshold -> Metric {
+    direction: string
+}
+
+relation Fires Alert -> Threshold {
+    breach: float
+}

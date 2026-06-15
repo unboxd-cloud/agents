@@ -1,0 +1,45 @@
+# Local sandbox: the whole control plane as one Pod, runnable with
+#   podman play kube deploy/sandbox/pod.yaml
+# (also valid Kubernetes, so it doubles as a smoke manifest). Containers share
+# the Pod network namespace, so each service is reachable on localhost:<port>.
+# Datasets use each service's built-in dev defaults here; the dataset-loading
+# path is exercised in the Helm/kind phase (see docs/sandbox.md).
+apiVersion: v1
+kind: Pod
+metadata:
+  name: unboxd-platform
+  labels:
+    app.kubernetes.io/part-of: unboxd-platform
+spec:
+  restartPolicy: Never
+  containers:
+    - name: catalog
+      image: localhost/unboxd-cloud/catalog:dev
+      env:
+        - {name: CATALOG_ADDR, value: ":8083"}
+      ports:
+        - {containerPort: 8083, hostPort: 8083}
+    - name: metering
+      image: localhost/unboxd-cloud/metering:dev
+      env:
+        - {name: METERING_ADDR, value: ":8081"}
+      ports:
+        - {containerPort: 8081, hostPort: 8081}
+    - name: billing
+      image: localhost/unboxd-cloud/billing:dev
+      env:
+        - {name: BILLING_ADDR, value: ":8082"}
+      ports:
+        - {containerPort: 8082, hostPort: 8082}
+    - name: compliance
+      image: localhost/unboxd-cloud/compliance:dev
+      env:
+        - {name: COMPLIANCE_ADDR, value: ":8084"}
+      ports:
+        - {containerPort: 8084, hostPort: 8084}
+    - name: graph
+      image: localhost/unboxd-cloud/graph:dev
+      env:
+        - {name: GRAPH_ADDR, value: ":8087"}
+      ports:
+        - {containerPort: 8087, hostPort: 8087}

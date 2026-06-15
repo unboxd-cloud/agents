@@ -1,0 +1,54 @@
+// kpi.agent — the business-KPI metamodel for AGenNext Agent-KPIs. (Upstream repo
+// is currently a placeholder; this defines the model.) KPIs are business
+// objectives with targets and measured actuals over periods — distinct from raw
+// telemetry (metrics.agent) and CLEAR scores (eval.agent). The platform agent's
+// primary KPI is ARR.
+namespace unboxd.meta.kpi
+
+vocabulary kinds {
+    term arr means "annual recurring revenue"
+    term adoption means "active users or accounts"
+    term retention means "retention / churn"
+    term nps means "net promoter score"
+    term csat means "customer satisfaction"
+    term sla_attainment means "SLA attainment rate"
+    term trust means "social trust score"
+    term cost_to_serve means "cost to serve per unit"
+}
+
+entity Objective {
+    name: string required
+    owner: string
+}
+
+entity Kpi {
+    objective: Objective required
+    name: string required
+    kind: string required
+    unit: string
+}
+
+entity Target {
+    kpi: Kpi required
+    value: float
+    period: string required
+}
+
+entity Measurement {
+    kpi: Kpi required
+    actual: float
+    period: string required
+    at: datetime
+}
+
+relation Tracks Objective -> Kpi {
+    weight: float
+}
+
+relation Sets Target -> Kpi {
+    stretch: bool
+}
+
+relation Measures Measurement -> Kpi {
+    onTrack: bool
+}

@@ -1,0 +1,212 @@
+// decision.agent — decision-making theory. A decision chooses among options to
+// maximize expected utility over weighted criteria, grounded in verified
+// evidence, using a chosen framework and quantitative methods. Decision
+// intelligence — better decisions and actionable outcomes — is the north star.
+//
+//   expectedUtility(o) = SUM_c weight_c * score(o, c)
+//   chosen             = argmax_o expectedUtility(o)
+namespace unboxd.meta.decision
+
+// Decision-making frameworks the agent may choose.
+vocabulary frameworks {
+    term ooda means "Observe-Orient-Decide-Act"
+    term react means "Reason + Act (ReAct)"
+    term plan_execute means "plan, then execute"
+    term expected_utility means "maximize expected utility"
+    term multi_criteria means "multi-criteria decision analysis (MCDA)"
+    term bayesian means "Bayesian decision theory"
+}
+
+// Quantitative model families the agent wields as tools, skills, and knowledge.
+vocabulary models {
+    term mathematical means "algebra, calculus, linear algebra, graph theory"
+    term statistical means "inference, regression, hypothesis testing, time-series"
+    term probabilistic means "Bayesian inference, Markov and hidden Markov models"
+    term optimization means "linear/convex/integer programming and search"
+    term machine_learning means "supervised, unsupervised, and reinforcement models"
+    term causal means "causal inference, DAGs, counterfactuals"
+    term simulation means "Monte Carlo, discrete-event, agent-based simulation"
+    term operations_research means "queueing, scheduling, and allocation"
+}
+
+// Hybrid human+AI decision-making (Alam & Khan, "Enhancing AI-Human
+// Collaborative Decision-Making in Industry 4.0", IEEE Access 2024): the machine
+// supplies data-scale analysis, the human supplies intuition and context, and a
+// trust-calibrated, feedback-tuned blend chooses — the formal basis for the
+// decision-intelligence north star and the community/SME human-in-the-loop.
+vocabulary hybrid {
+    term complementarity means "AI does data-scale analysis, humans bring intuition and context; participatory, not AI-as-sole-decider — each corrects the other"
+    term collaborative means "chosen = argmax_a [ theta * U_human(a) + (1 - theta) * U_ai(a) ] — a weighted blend of human and AI utility"
+    term trust_calibrated means "the balance theta tracks calibrated trust: T = w*(reliability + transparency + explainability + consistency) - discrepancies"
+    term feedback_tuned means "theta and weights update from outcomes: theta <- theta + alpha*(target - actual); the loop refines decisions over time"
+    term uncertainty_penalty means "utility is penalized by uncertainty: U_total = beta*U_h + (1 - beta)*U_ai - lambda*sigma — cautious when variance is high"
+}
+
+entity Decision {
+    question: string required
+    framework: string
+    madeBy: string
+    confidence: float
+}
+
+entity Option {
+    decision: Decision required
+    label: string required
+}
+
+entity Criterion {
+    decision: Decision required
+    name: string required
+    weight: float
+}
+
+entity Evidence {
+    decision: Decision required
+    source: string
+    verified: bool
+}
+
+// Method is a mathematical/statistical/etc. model the agent applies. The same
+// method is at once a tool (callable), a skill (it can wield), and knowledge
+// (it understands when and why to use it).
+entity Method {
+    name: string required
+    family: string required
+    asTool: bool
+    asSkill: bool
+    asKnowledge: bool
+}
+
+entity Assessment {
+    option: Option required
+    criterion: Criterion required
+    score: float
+    method: string
+}
+
+entity Outcome {
+    decision: Decision required
+    result: string
+    utility: float
+}
+
+// Theory is a body of logic/theory a decision rests on; it can be decomposed
+// into parts so a complex decision stays explainable.
+entity Theory {
+    name: string required
+    domain: string
+    atomic: bool
+}
+
+// Explanation is the required justification for a decision: logical or
+// theoretical, citing theories (or their decomposed parts).
+entity Explanation {
+    decision: Decision required
+    basis: string required
+    logical: bool
+    theoretical: bool
+}
+
+// Principle is a first principle / axiom — the irreducible base that theories
+// decompose to and explanations ultimately ground in.
+entity Principle {
+    name: string required
+    statement: string
+    axiom: bool
+}
+
+// Synthesis is a new composition an agent proposes. An agent MAY claim it as
+// innovation only if it is composable — it decomposes into, and recomposes from,
+// verified parts and first principles. If it is not composable it stays a
+// candidate until independently validated. Recognized syntheses may productionize.
+entity Synthesis {
+    name: string required
+    proposedBy: string
+    composable: bool
+    recognized: bool
+    stage: string
+}
+
+// Validation is performed by a verifier other than the proposing agent.
+entity Validation {
+    synthesis: Synthesis required
+    verifier: string
+    method: string
+    passed: bool
+}
+
+entity Productionization {
+    synthesis: Synthesis required
+    version: string
+    releasedAt: datetime
+}
+
+relation Considers Decision -> Option {
+    feasible: bool
+}
+
+relation Weighs Decision -> Criterion {
+    normalized: bool
+}
+
+relation GroundedIn Decision -> Evidence {
+    verified: bool
+}
+
+relation Applies Decision -> Method {
+    purpose: string
+}
+
+relation ScoresOption Assessment -> Option {
+    confidence: float
+}
+
+relation AgainstCriterion Assessment -> Criterion {
+    normalized: bool
+}
+
+relation Chooses Decision -> Option {
+    expectedUtility: float
+}
+
+relation Yields Decision -> Outcome {
+    actionable: bool
+}
+
+relation Explains Explanation -> Decision {
+    complete: bool
+}
+
+relation Cites Explanation -> Theory {
+    part: string
+}
+
+relation DecomposesInto Theory -> Theory {
+    part: string
+}
+
+relation ReducesTo Theory -> Principle {
+    axiom: bool
+}
+
+relation GroundsIn Explanation -> Principle {
+    chain: string
+}
+
+relation ComposedOf Decision -> Decision {
+    role: string
+}
+
+// A synthesis composes verified principles; that composability is what lets an
+// agent claim it as innovation.
+relation ComposesFrom Synthesis -> Principle {
+    verified: bool
+}
+
+relation Validates Validation -> Synthesis {
+    evidence: string
+}
+
+relation Productionizes Productionization -> Synthesis {
+    gated: bool
+}

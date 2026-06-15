@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "agent.fullname" . }}
+  labels:
+    app.kubernetes.io/name: {{ include "agent.fullname" . }}
+    {{- include "agent.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.agent.replicas }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "agent.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: {{ include "agent.fullname" . }}
+        {{- include "agent.labels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "agent.serviceAccountName" . }}
+      securityContext:
+        runAsNonRoot: {{ .Values.securityContext.runAsNonRoot }}
+        runAsUser: {{ .Values.securityContext.runAsUser }}
+      containers:
+        - name: agent
+          image: "{{ .Values.image.registry }}/{{ .Values.image.repository }}/{{ .Values.image.name }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: AGENT_NAME
+              value: {{ .Values.agent.name | quote }}
+            - name: AGENT_KIND
+              value: {{ .Values.agent.kind | quote }}
+            {{- if .Values.agent.definition }}
+            - name: AGENT_DEFINITION
+              value: "/etc/agent/{{ .Values.agent.name }}.agent"
+            {{- end }}
+            {{- with .Values.model }}
+            - name: MODEL_PROVIDER
+              value: {{ .provider | quote }}
+            - name: MODEL_NAME
+              value: {{ .name | quote }}
+            - name: MODEL_ENDPOINT
+              value: {{ .endpoint | quote }}
+            - name: MODEL_DETERMINISTIC
+              value: {{ .deterministic | quote }}
+            {{- end }}
+            {{- with .Values.s3 }}
+            - name: S3_BUCKET
+              value: {{ .bucket | quote }}
+            - name: S3_REGION
+              value: {{ .region | quote }}
+            - name: S3_ENDPOINT
+              value: {{ .endpoint | quote }}
+            - name: S3_PREFIX
+              value: {{ .prefix | quote }}
+            - name: S3_SNAPSHOT_SCHEDULE
+              value: {{ .schedule | quote }}
+            - name: S3_RETENTION_DAYS
+              value: {{ .retentionDays | quote }}
+            {{- end }}
+            {{- range $k, $v := .Values.env }}
+            - name: {{ $k }}
+              value: {{ $v | quote }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          securityContext:
+            readOnlyRootFilesystem: {{ .Values.securityContext.readOnlyRootFilesystem }}
+            allowPrivilegeEscalation: {{ .Values.securityContext.allowPrivilegeEscalation }}
+            capabilities:
+              {{- toYaml .Values.securityContext.capabilities | nindent 14 }}
+          {{- if .Values.agent.definition }}
+          volumeMounts:
+            - name: definition
+              mountPath: /etc/agent
+              readOnly: true
+          {{- end }}
+      {{- if .Values.agent.definition }}
+      volumes:
+        - name: definition
+          configMap:
+            name: {{ include "agent.fullname" . }}-definition
+      {{- end }}

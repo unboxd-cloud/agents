@@ -1,0 +1,39 @@
+// commerce.agent — the commerce metamodel: contracts the platform owns, the
+// promises delivered under them, and the invoices and settlements that follow.
+namespace unboxd.meta.commerce
+
+entity Contract {
+    party: string required
+    sla: string
+    active: bool
+}
+
+entity Promise {
+    contract: Contract required
+    guarantee: string required
+    kept: bool
+}
+
+entity Invoice {
+    contract: Contract required
+    total: float
+    currency: string
+}
+
+entity Settlement {
+    invoice: Invoice required
+    mode: string
+    amount: float
+}
+
+relation Delivers Contract -> Promise {
+    dueBy: datetime
+}
+
+relation Bills Contract -> Invoice {
+    period: string
+}
+
+relation Settles Invoice -> Settlement {
+    at: datetime
+}

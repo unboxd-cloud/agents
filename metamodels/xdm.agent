@@ -1,0 +1,140 @@
+// xdm.agent — Adobe Experience Platform XDM (Experience Data Model) alignment.
+// XDM is an open, standardized model for experience data: a Schema is built from
+// a Class plus Field Groups, with Data Types, Identities, and time-series
+// Experience Events. The platform conforms to XDM and can export schemas and
+// profiles in it (https://experienceleague.adobe.com/en/docs/experience-platform/xdm).
+namespace unboxd.meta.xdm
+
+vocabulary classes {
+    term individual_profile means "XDM Individual Profile (record behavior)"
+    term experience_event means "XDM ExperienceEvent (time-series behavior)"
+}
+
+// Class is the base behavior of a schema: record or time-series.
+entity Class {
+    name: string required
+    behavior: string required
+}
+
+entity Schema {
+    name: string required
+    class: Class required
+}
+
+entity FieldGroup {
+    name: string required
+}
+
+entity DataType {
+    name: string required
+}
+
+entity Field {
+    fieldGroup: FieldGroup required
+    name: string required
+    type: string
+}
+
+// Identity is an identity field within a schema, namespaced (e.g. email, ECID).
+entity Identity {
+    schema: Schema required
+    namespace: string required
+    primary: bool
+}
+
+entity ExperienceEvent {
+    schema: Schema required
+    timestamp: datetime
+}
+
+// Export is an XDM export of a schema/profile to a destination.
+entity Export {
+    schema: Schema required
+    format: string
+    destination: string
+}
+
+relation BasedOn Schema -> Class {
+    behavior: string
+}
+
+relation BuiltFrom Schema -> FieldGroup {
+    order: int
+}
+
+relation Contains FieldGroup -> Field {
+    required: bool
+}
+
+relation Identifies Identity -> Schema {
+    primary: bool
+}
+
+relation Exports Export -> Schema {
+    inXDM: bool
+}
+
+// Data processing is pluggable map-reduce: pluggable Map and Reduce stages over
+// records/events, composed into a pipeline and applied on export or ingestion.
+entity Transform {
+    name: string required
+    stage: string required
+    pluggable: bool
+}
+
+relation Pipeline Export -> Transform {
+    order: int
+}
+
+// The platform maintains a unified data fabric with no duplicates: identities
+// are resolved and records deduplicated to a single source of truth.
+entity Fabric {
+    name: string required
+    deduplicated: bool
+}
+
+relation Unifies Fabric -> Schema {
+    source: string
+}
+
+relation ResolvesIdentity Fabric -> Identity {
+    merged: bool
+}
+
+// Apache SeaTunnel is the data integration layer: connectors sync many sources
+// and sinks (batch, streaming, CDC) into the unified fabric.
+entity Connector {
+    name: string required
+    kind: string required
+    engine: string
+}
+
+entity SyncJob {
+    name: string required
+    mode: string
+}
+
+relation Reads SyncJob -> Connector {
+    source: bool
+}
+
+relation Writes SyncJob -> Connector {
+    sink: bool
+}
+
+relation Feeds SyncJob -> Fabric {
+    upsert: bool
+}
+
+// Connector availability is contextual: entitlements are fetched from the IGA
+// system (e.g. SailPoint) or the user's Okta/SSO identity (app assignments,
+// groups, scopes) — users see only the connectors they are entitled to.
+entity Entitlement {
+    principal: string required
+    source: string
+    scope: string
+}
+
+relation Grants Entitlement -> Connector {
+    via: string
+}

@@ -1,0 +1,42 @@
+name: ci
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+# Cancel superseded runs on the same ref (avoids duplicate/cancelled noise).
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "stable" # latest patched Go (security fixes); go.mod stays at 1.24
+      - name: Vet
+        run: go vet ./...
+      - name: Test
+        run: go test ./... -count=1
+      - name: Build
+        run: make build
+      - name: End-to-end
+        run: make e2e
+
+  image:
+    runs-on: ubuntu-latest
+    needs: build-test
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build OCI image with podman (${{ matrix.service }})
+        run: |
+          podman build --build-arg SERVICE=${{ matrix.service }} \
+            -t ghcr.io/unboxd-cloud/${{ matrix.service }}:${{ github.sha }} .

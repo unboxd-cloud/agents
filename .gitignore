@@ -1,0 +1,22 @@
+# Binaries
+/bin/
+*.exe
+*.test
+*.out
+
+# Built ADL WASM runtime (reproducible via `make adl-wasm`)
+/web/adl-runtime/adl.wasm
+
+# Go
+/vendor/
+go.work
+go.work.sum
+
+# Local env
+.env
+*.local
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/

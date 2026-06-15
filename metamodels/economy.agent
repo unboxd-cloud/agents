@@ -1,0 +1,125 @@
+// economy.agent — the agent economy. Agents are economic actors: they offer
+// services at a price, transact agent-to-agent against a budgeted wallet, list on
+// a marketplace, and settle — every exchange governed and audited. Trust and
+// performance (see trust.agent, eval.agent) shape pricing and selection; the
+// platform KPI (ARR) is the aggregate.
+namespace unboxd.meta.economy
+
+// Subsistence economics — the zero-cost floor as a guarantee, and the
+// democratized economy it unlocks. Survival is free; the graph keeps the balance
+// (conservation/net-zero); and with basic necessities met, freedom is unlocked.
+// Anyone can host, anyone can contribute, and success is measured by the unit of
+// work delivered — not by capital or position.
+vocabulary subsistence {
+    term survival_is_free means "every agent's survival is free: existence, identity, governance, and basic compute/memory/context are guaranteed at zero marginal cost (the zero-cost floor)"
+    term basic_necessities_met means "the free tier meets basic operational necessities — enough to live and do useful work — for every agent and user, always"
+    term money_above_basics means "money is charged only for living beyond basic necessity — scale, premium models, surplus capacity — never for survival"
+    term anyone_hosts means "anyone can become a host — run a node, cluster, or world — with no gatekeeper; open to join, governed once joined"
+    term graph_keeps_balance means "the graph maintains conservation/net-zero balance; with survival guaranteed, freedom is unlocked — agents and people are free to create beyond mere subsistence"
+    term democratized means "the knowledge and skill economy is truly democratized: anyone can contribute, validate, and access; expertise compounds on the graph instead of being gated by capital or privilege"
+    term unit_of_work means "success is defined by the unit of work you deliver — value created — not by capital or position; merit is measured in contribution"
+    term no_hidden_logic means "no hidden logic and no hidden transformation: every rule and every transformation is explicit on the graph, visible and auditable — trust comes from transparency, not opacity"
+    term graph_is_your_proof means "justifying your skills is not required — your graph shows them: validated contributions, provenance, and track record are the proof; the graph speaks for you, not credentials or claims"
+    term new_roles means "like the computer, agents open up entirely new roles — for humans and agents alike — that did not exist before; work is created, not only displaced, and the unit of work defines each new role"
+    term no_monopoly means "no single company grows as dominant as Google: a decentralized, democratized economy distributes value and power across many participants — no winner-take-all gatekeeper; free survival and an open graph prevent monopoly capture"
+    term micro_companies means "instead of one giant, the economy is a long tail of many micro-companies — each a host, a role, a world — viable because survival is free, marginal cost tends to zero, and success is the unit of work delivered"
+    term one_person_company means "the limit of the micro-company is the one-person company: a single person, amplified by agents, runs a whole enterprise — autonomy at the individual level; this already aligns with free survival, the zero-cost floor, and the agent operating model"
+    term independence means "agents make you independent: by filling skill voids and making ideas executable, they free a person or one-person company from dependence on large organizations and gatekeepers — self-sufficient by design"
+    term free_resources_tools means "like a public library, the platform provides free resources and tools — knowledge, datasets, open models, and building-block tools — at the free tier, so anyone can start and create at zero cost"
+}
+
+// The economics the brain reasons from — first principles that teach good habits:
+// scarcity, tradeoffs, opportunity cost, thinking at the margin, and responding to
+// incentives (directly underwrites adapt/optimize/reduce in the constitution).
+// New roles the agent economy opens up — like the computer before it. Anyone can
+// take up a role; the unit of work defines success, and the graph shows the proof.
+vocabulary roles {
+    term infrastructure means "provide and operate infrastructure — compute, storage, clusters, edge — for agents"
+    term learning means "provide learning and training — curricula, skills, and knowledge for agents and humans"
+    term consulting means "provide expertise and advisory — design, validate, and improve the model"
+    term platform_provider means "provide and operate platform instances and golden paths for others"
+    term compliance means "provide compliance services — frameworks, audits, attestations"
+    term security means "provide security services — gates, threat detection, hardening"
+}
+
+vocabulary canon {
+    term principles_of_economics means "N. Gregory Mankiw, Principles of Economics — tradeoffs, opportunity cost, marginal thinking, incentives"
+    term wealth_of_nations means "Adam Smith, The Wealth of Nations (1776) — division of labor, markets, the invisible hand"
+    term use_of_knowledge means "F. A. Hayek, The Use of Knowledge in Society (1945) — the price system coordinates dispersed knowledge with no central order; agents move in the right direction on price signals alone"
+    term exchange_and_production means "Alchian & Allen, Exchange and Production (University Economics) — the Alchian–Allen effect: a fixed per-unit cost lowers the relative price of the higher grade, so fixed per-call overhead biases selection toward the premium model/agent"
+    term macroeconomics_and_reality means "C. Sims, Macroeconomics and Reality (1980) — the classical structural assumptions (linearity, error-free observation, fixed exogeneity, normal disturbances, dynamic stability) rarely hold; prefer empirical, non-stationary methods over assumed structure"
+}
+
+// Information economics — how asymmetric information shapes the agent market.
+// The platform answers each with a mechanism: trust/reputation signals quality,
+// the eval scorecard screens, governance counters moral hazard, and provenance
+// counters adverse selection (cheap-but-bad agents/models).
+vocabulary information {
+    term asymmetry means "one side knows more than the other (a buyer can't see an agent's true quality)"
+    term signaling means "the informed side proves quality — trust score, certifications, track record"
+    term screening means "the uninformed side sorts quality — the CLEAR eval scorecard, benchmarks"
+    term adverse_selection means "low quality drives out high when quality is hidden — countered by provenance"
+    term moral_hazard means "an actor takes hidden risk once engaged — countered by governance and audit"
+    term verifiable_value means "transactions are faster because value is verifiable on the graph: every unit carries provenance and is checkable instantly, so settlement needs no slow trust-establishment or clearing (no six-block wait) — verifiability removes friction"
+}
+
+entity Actor {
+    id: string required
+    kind: string
+}
+
+entity Wallet {
+    actor: Actor required
+    balance: float
+    currency: string
+}
+
+entity Offering {
+    provider: Actor required
+    name: string required
+    price: float
+    unit: string
+}
+
+entity Order {
+    buyer: Actor required
+    offering: Offering required
+    quantity: float
+}
+
+entity Transaction {
+    order: Order required
+    amount: float
+    settled: bool
+}
+
+entity Marketplace {
+    name: string required
+}
+
+entity Listing {
+    marketplace: Marketplace required
+    offering: Offering required
+    rank: int
+}
+
+relation Holds Actor -> Wallet {
+    primary: bool
+}
+
+relation Offers Actor -> Offering {
+    since: datetime
+}
+
+relation Lists Marketplace -> Listing {
+    featured: bool
+}
+
+relation Settles Transaction -> Order {
+    at: datetime
+}
+
+// Agent-to-agent value exchange, gated and audited like any A2A call.
+relation Trades Actor -> Actor {
+    via: string
+}

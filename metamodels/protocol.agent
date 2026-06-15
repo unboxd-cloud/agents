@@ -1,0 +1,88 @@
+// protocol.agent — the protocol & A2A metamodel. Agents communicate over typed
+// channels with messages, and every agent-to-agent (A2A) call is gated: it must
+// pass through a Tool boundary and be governed by a Policy. No ungated A2A.
+namespace unboxd.meta.protocol
+
+entity Agent {
+    id: string required
+    role: string
+}
+
+entity Tool {
+    name: string required
+    kind: string required
+    schema: string
+}
+
+entity Policy {
+    name: string required
+}
+
+entity Channel {
+    name: string required
+    protocol: string required
+}
+
+entity Message {
+    channel: Channel required
+    payload: string
+}
+
+// CloudEvent — events conform to the CNCF CloudEvents spec
+// (https://github.com/cloudevents/spec): a standard envelope for event data.
+entity CloudEvent {
+    id: string required
+    source: string required
+    specversion: string required
+    type: string required
+    subject: string
+    time: datetime
+    datacontenttype: string
+    data: string
+}
+
+// EventConformance records validation of an event against the CloudEvents
+// conformance suite (https://github.com/cloudevents/conformance).
+entity EventConformance {
+    event: CloudEvent required
+    profile: string
+    valid: bool
+}
+
+// A2ACall is one agent-to-agent invocation. It is always gated (see GatedBy and
+// GovernedBy): the call is mediated by a Tool and bound by a Policy.
+entity A2ACall {
+    caller: Agent required
+    callee: Agent required
+    method: string required
+    gated: bool
+}
+
+relation Invokes Agent -> A2ACall {
+    at: datetime
+}
+
+relation GatedBy A2ACall -> Tool {
+    required: bool
+}
+
+relation GovernedBy A2ACall -> Policy {
+    effect: string
+}
+
+relation OverChannel Message -> Channel {
+    seq: int
+}
+
+// Agent events conform to CloudEvents: agents emit them, messages carry them.
+relation Carries Message -> CloudEvent {
+    contentType: string
+}
+
+relation Emits Agent -> CloudEvent {
+    at: datetime
+}
+
+relation Validates EventConformance -> CloudEvent {
+    suite: string
+}

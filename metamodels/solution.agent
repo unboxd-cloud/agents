@@ -1,0 +1,149 @@
+// solution.agent — the solution metamodel. Our agents are solution-centric:
+// given a goal they dynamically generate a solution and a concrete plan, which
+// must be confirmed (the propose -> approve gate) before any execution starts.
+// Only a confirmed solution runs.
+namespace unboxd.meta.solution
+
+entity Goal {
+    statement: string required
+    priority: string
+}
+
+// Brief is the complete context an agent must understand before generating a
+// solution: the problem statement, the deliverable, the project context, and the
+// final target environment config. Until all are present, complete is false and
+// the agent reports "complete context missing" rather than proceeding.
+entity Brief {
+    goal: Goal required
+    problemStatement: string
+    deliverable: string
+    projectContext: string
+    targetEnvConfig: string
+    complete: bool
+}
+
+// Theory of completeness: an agent may proceed only when its context is provably
+// complete. A Brief is complete iff every required Requirement is satisfied, no
+// Clarification is open, and every cited Source is verified:
+//
+//   completeness(b) = satisfied(b) / required(b)
+//   complete(b)     = (completeness(b) == 1) AND openClarifications(b) == 0
+//                     AND unverifiedSources(b) == 0
+//
+// Until complete(b), the agent reports "complete context missing" and asks.
+// Completeness also brings accountability: a complete, confirmed brief (and the
+// solution built on it) has a named owner who signed off and is accountable for
+// the outcome — fully audited.
+entity Requirement {
+    brief: Brief required
+    name: string required
+    satisfied: bool
+}
+
+entity Clarification {
+    brief: Brief required
+    question: string required
+    answered: bool
+}
+
+entity Accountability {
+    brief: Brief required
+    owner: string required
+    signedOff: bool
+    at: datetime
+}
+
+entity Solution {
+    goal: Goal required
+    rationale: string
+    generated: bool
+    confirmed: bool
+    confirmedBy: string
+    confirmedAt: datetime
+}
+
+entity Plan {
+    solution: Solution required
+    summary: string
+}
+
+entity PlanStep {
+    plan: Plan required
+    name: string required
+    order: int
+    tool: string
+}
+
+entity Execution {
+    solution: Solution required
+    status: string
+    startedAt: datetime
+    finishedAt: datetime
+}
+
+// Source is a data source an answer is grounded in; it must be verified.
+entity Source {
+    uri: string required
+    kind: string
+    verified: bool
+}
+
+// Answer is the deliverable: grounded in verified sources, actionable, and
+// rendered in a business format (report or presentation).
+entity Answer {
+    format: string required
+    actionable: bool
+    grounded: bool
+    summary: string
+}
+
+relation Solves Solution -> Goal {
+    score: float
+}
+
+// A goal-oriented agent decomposes a goal into sub-goals.
+relation SubGoal Goal -> Goal {
+    order: int
+}
+
+// A solution is grounded in a complete Brief; it is not generated until the
+// brief is complete and confirmed.
+relation Grounds Solution -> Brief {
+    confirmed: bool
+}
+
+// Completeness theory: a brief needs requirements satisfied and clarifications
+// answered before it is complete.
+relation Needs Brief -> Requirement {
+    weight: float
+}
+
+relation Asks Brief -> Clarification {
+    blocking: bool
+}
+
+relation Accountable Brief -> Accountability {
+    role: string
+}
+
+relation HasPlan Solution -> Plan {
+    version: int
+}
+
+relation DecomposesInto Plan -> PlanStep {
+    order: int
+}
+
+// Execution runs a solution only once it is confirmed (confirm-before-execute).
+relation Runs Execution -> Solution {
+    onlyIfConfirmed: bool
+}
+
+// An execution produces an answer, grounded in verified sources.
+relation Produces Execution -> Answer {
+    at: datetime
+}
+
+relation GroundedIn Answer -> Source {
+    verified: bool
+}

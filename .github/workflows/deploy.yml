@@ -1,0 +1,79 @@
+name: deploy
+
+# Build + publish OCI images and deploy the Helm chart. Triggered on version
+# tags, or manually. Registry/cluster creds come from repo secrets.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: target environment
+        default: staging
+
+env:
+  REGISTRY: ${{ vars.REGISTRY || 'ghcr.io' }}
+  NAMESPACE: ${{ vars.IMAGE_NAMESPACE || github.repository_owner }}
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    strategy:
+      matrix:
+        service: [catalog, metering, billing, compliance, admin, operator, orgconsole]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Log in to registry (podman)
+        run: |
+          echo "${{ secrets.REGISTRY_PASSWORD || secrets.GITHUB_TOKEN }}" | \
+            podman login "${{ env.REGISTRY }}" -u "${{ secrets.REGISTRY_USERNAME || github.actor }}" --password-stdin
+      - name: Build ${{ matrix.service }} (podman)
+        run: |
+          echo "IMG=${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}" >> "$GITHUB_ENV"
+          podman build --build-arg SERVICE=${{ matrix.service }} \
+            -t "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}" .
+      - name: Scan image at deploy time (Trivy, HIGH/CRITICAL)
+        # We test (vuln-scan) while deploying: each image is scanned before it is
+        # published. A finding blocks the deploy. This is the authoritative image
+        # security gate (PRs are gated by govulncheck; see security.yml).
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin v0.58.1
+          podman save --format docker-archive -o /tmp/img.tar "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}"
+          trivy image --input /tmp/img.tar --severity HIGH,CRITICAL --ignore-unfixed --exit-code 1 --no-progress
+      - name: Push ${{ matrix.service }}
+        run: podman push "${{ env.REGISTRY }}/${{ env.NAMESPACE }}/${{ matrix.service }}:${{ github.ref_name }}"
+
+  deploy:
+    needs: publish
+    runs-on: ubuntu-latest
+    if: ${{ secrets.KUBECONFIG != '' }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure kubeconfig
+        run: |
+          mkdir -p ~/.kube
+          echo "${{ secrets.KUBECONFIG }}" > ~/.kube/config
+      - name: Helm upgrade
+        run: |
+          helm upgrade --install platform deploy/helm/platform \
+            --set image.registry=${{ env.REGISTRY }} \
+            --set image.repository=${{ env.NAMESPACE }} \
+            --set image.tag=${{ github.ref_name }} \
+            --set-file datasets.files.offerings\.json=deploy/datasets/offerings.json \
+            --set-file datasets.files.pricebook\.json=deploy/datasets/pricebook.json \
+            --set-file datasets.files.tax-rules\.json=deploy/datasets/tax-rules.json \
+            --set-file datasets.files.compliance-frameworks\.json=deploy/datasets/compliance-frameworks.json
+      - name: Post-deploy sanity
+        # Port-forward services and run read-only sanity checks against the live
+        # deployment. Rolls back the release if sanity fails.
+        run: |
+          kubectl rollout status deploy/catalog --timeout=120s
+          kubectl port-forward svc/catalog 8083:8083 &
+          kubectl port-forward svc/billing 8082:8082 &
+          kubectl port-forward svc/compliance 8084:8084 &
+          kubectl port-forward svc/metering 8081:8081 &
+          sleep 5
+          ./scripts/post-deploy-sanity.sh || { helm rollback platform; exit 1; }

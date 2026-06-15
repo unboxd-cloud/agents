@@ -1,0 +1,81 @@
+{
+  "version": "2026-06-01",
+  "prices": {
+    "compute.vcpu.hour": {
+      "meter": "compute.vcpu.hour", "allowance": 100, "currency": "USD",
+      "tiers": [{"upTo": 1000, "unitPrice": 0.040}, {"upTo": 0, "unitPrice": 0.030}]
+    },
+    "compute.mem.gb.hour": {
+      "meter": "compute.mem.gb.hour", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.005}]
+    },
+    "storage.gb.month": {
+      "meter": "storage.gb.month", "allowance": 50, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.020}]
+    },
+    "network.egress.gb": {
+      "meter": "network.egress.gb", "allowance": 100, "currency": "USD",
+      "tiers": [{"upTo": 10000, "unitPrice": 0.090}, {"upTo": 0, "unitPrice": 0.050}]
+    },
+    "metrics.series.hour": {
+      "meter": "metrics.series.hour", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.0001}]
+    },
+    "messaging.msg.million": {
+      "meter": "messaging.msg.million", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.50}]
+    },
+    "function.invocation.million": {
+      "meter": "function.invocation.million", "allowance": 1, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.20}]
+    },
+    "function.gb.second": {
+      "meter": "function.gb.second", "allowance": 400000, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.0000166667}]
+    },
+    "token.issued.million": {
+      "meter": "token.issued.million", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.10}]
+    },
+    "s3.request.million": {
+      "meter": "s3.request.million", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.40}]
+    },
+    "agent.run.hour": {
+      "meter": "agent.run.hour", "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.12}]
+    },
+    "email.sent.thousand": {
+      "meter": "email.sent.thousand", "allowance": 3, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.10}]
+    },
+    "ai.cpu.hour": {
+      "meter": "ai.cpu.hour", "allowance": 10, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.08}]
+    },
+    "ai.gpu.hour": {
+      "meter": "ai.gpu.hour", "currency": "USD",
+      "tiers": [{"upTo": 100, "unitPrice": 2.50}, {"upTo": 0, "unitPrice": 1.90}]
+    },
+    "ai.tokens.million": {
+      "meter": "ai.tokens.million", "allowance": 1, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.60}]
+    },
+    "build.minute": {
+      "meter": "build.minute", "allowance": 500, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.008}]
+    },
+    "notebook.hour": {
+      "meter": "notebook.hour", "allowance": 25, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.06}]
+    },
+    "assistant.hour": {
+      "meter": "assistant.hour", "allowance": 40, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.05}]
+    },
+    "codespace.hour": {
+      "meter": "codespace.hour", "allowance": 60, "currency": "USD",
+      "tiers": [{"upTo": 0, "unitPrice": 0.07}]
+    }
+  }
+}

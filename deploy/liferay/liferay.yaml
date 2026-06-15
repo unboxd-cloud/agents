@@ -1,0 +1,121 @@
+# Liferay (Digital Experience Platform) on k3s.
+#
+# Liferay is the composable-experience / portal layer. This manifest is a
+# single-node, dev-grade deployment (embedded HSQL database, persisted to a PVC)
+# suitable for k3s. For production: use an external database (Postgres/MySQL),
+# pin a specific Liferay GA image tag, and raise memory/replicas.
+#
+#   kubectl apply -f deploy/liferay/liferay.yaml
+#   kubectl -n liferay rollout status deploy/liferay --timeout=600s
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: liferay
+  labels:
+    app.kubernetes.io/part-of: unboxd-platform
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: liferay-data
+  namespace: liferay
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  # k3s ships the local-path provisioner as the default StorageClass.
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: liferay
+  namespace: liferay
+  labels:
+    app.kubernetes.io/name: liferay
+    app.kubernetes.io/part-of: unboxd-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: liferay
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: liferay
+    spec:
+      containers:
+        - name: liferay
+          # Pin a specific GA tag in production, e.g. liferay/portal:7.4.3.132-ga132
+          image: liferay/portal:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+              name: http
+          env:
+            - name: LIFERAY_JVM_OPTS
+              value: "-Xms1g -Xmx2g"
+          resources:
+            requests:
+              cpu: "500m"
+              memory: 2Gi
+            limits:
+              cpu: "2"
+              memory: 3Gi
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 120
+            periodSeconds: 15
+            failureThreshold: 30
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 240
+            periodSeconds: 30
+            failureThreshold: 6
+          volumeMounts:
+            - name: data
+              mountPath: /opt/liferay/data
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: liferay-data
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: liferay
+  namespace: liferay
+  labels:
+    app.kubernetes.io/name: liferay
+spec:
+  selector:
+    app.kubernetes.io/name: liferay
+  ports:
+    - name: http
+      port: 8080
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: liferay
+  namespace: liferay
+spec:
+  rules:
+    - host: liferay.local
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: liferay
+                port:
+                  number: 8080

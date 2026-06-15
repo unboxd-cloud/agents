@@ -1,0 +1,166 @@
+// benchmark.agent — the benchmarking metamodel, aligned to AGenNext Agent-Bench
+// (the SWE-bench-style benchmarking layer). Agent-Bench owns reproducible task
+// suites, evaluation runs, result schemas/packages, and publishing; Agent-Eval
+// owns the scoring rubrics (e.g. CLEAR). Our platform agent runs a suite by
+// instantiating participants from the SAME certified blueprint (the .agent
+// definition) and publishes a JSON-LD (schema.org) report with a reproducibility
+// manifest.
+//
+//   Benchmarks provide reproducible tasks. Evaluations score the outcomes.
+//   Bench publishes comparable results. Analytics tracks performance over time.
+namespace unboxd.meta.benchmark
+
+// The domains Agent-Bench covers.
+vocabulary domains {
+    term enterprise_search means "enterprise search"
+    term source_to_artifact means "source-to-artifact generation"
+    term rfp_filling means "RFP filling"
+    term vendor_comparison means "vendor comparison"
+    term candidate_screening means "candidate screening"
+    term product_documentation means "product documentation"
+    term sales_deck means "sales deck generation"
+    term pitch_deck means "pitch deck generation"
+    term multi_agent_handoff means "multi-agent handoff reliability"
+    term tool_model_routing means "tool/model routing"
+    term security_policy_compliance means "security and policy compliance"
+    term cloud_architect_deployment means "cloud architect deployment workflows"
+}
+
+// Aspects of agent performance the benchmark measures, beyond task domains.
+vocabulary aspects {
+    term tool_selection means "choosing the right tool for the task"
+    term llm_selection means "choosing the right model, preferring local/open-source/free-tier"
+    term operational_excellence means "reliability, efficiency, and stability in production"
+    term decision_framework means "the decision-making framework the agent chose for the task"
+}
+
+// Decision-making frameworks an agent may choose (and be scored on).
+vocabulary decisionFrameworks {
+    term ooda means "Observe-Orient-Decide-Act"
+    term react means "Reason + Act (ReAct)"
+    term plan_execute means "plan, then execute"
+    term reflexion means "Reflexion: self-critique loop"
+    term tree_of_thoughts means "Tree of Thoughts"
+}
+
+// Blueprint is an .agent definition. Only a certified blueprint serves as the
+// reference (first) participant; both participants share the same blueprint.
+entity Blueprint {
+    name: string required
+    uri: string
+    certified: bool
+}
+
+// Suite is a versioned, reproducible benchmark task suite.
+entity Suite {
+    name: string required
+    version: string required
+    source: string
+}
+
+entity Task {
+    suite: Suite required
+    taskId: string required
+    domain: string required
+    expectedOutput: string
+    fixture: string
+}
+
+// Participant is one agent/team under benchmark — ours or another platform's.
+entity Participant {
+    blueprint: Blueprint required
+    label: string required
+    platform: string
+    agentVersion: string
+    teamVersion: string
+}
+
+// Run records the full provenance needed for reproducibility.
+entity Run {
+    suite: Suite required
+    participant: Participant required
+    runtimeVersion: string
+    datasetVersion: string
+    scoringVersion: string
+    repeatable: bool
+}
+
+entity Result {
+    run: Run required
+    task: Task required
+    score: float
+    passed: bool
+    latencyMs: float
+    artifactUri: string
+    traceUri: string
+}
+
+// Rubric is an Agent-Eval scoring component (e.g. CLEAR).
+entity Rubric {
+    name: string required
+    source: string
+}
+
+// ResultPackage is the publishable bundle: pass/fail summary, reproducibility
+// manifest, leaderboard fields, and the JSON-LD payload.
+entity ResultPackage {
+    run: Run required
+    passSummary: string
+    reproManifest: string
+    leaderboardFields: string
+    jsonld: string
+}
+
+entity Report {
+    package: ResultPackage required
+    format: string
+    uri: string
+}
+
+// A published report carries metrics on ALL dimensions — CLEAR (cost, latency,
+// efficacy, assurance, reliability), operational metrics, KPIs, compliance,
+// trust, and drift — not just a pass/fail summary.
+entity DimensionScore {
+    package: ResultPackage required
+    dimension: string required
+    value: float
+    unit: string
+}
+
+relation InstantiatedFrom Participant -> Blueprint {
+    instance: string
+}
+
+// agent-bench runs our agent against another platform-agent from the same blueprint.
+relation RunsAgainst Participant -> Participant {
+    suite: string
+}
+
+relation Includes Suite -> Task {
+    order: int
+}
+
+relation Produces Run -> Result {
+    at: datetime
+}
+
+relation ScoredBy Result -> Rubric {
+    weight: float
+}
+
+relation Packages ResultPackage -> Result {
+    included: bool
+}
+
+relation Publishes Report -> ResultPackage {
+    visibility: string
+}
+
+relation Compares Report -> Participant {
+    rank: int
+}
+
+// The result package covers all aspects of agent performance.
+relation Covers ResultPackage -> DimensionScore {
+    weight: float
+}

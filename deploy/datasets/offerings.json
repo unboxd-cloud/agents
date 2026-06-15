@@ -1,0 +1,112 @@
+[
+  {
+    "id": "compute",
+    "name": "Compute (EC2-compatible)",
+    "project": "Kubernetes + KubeVirt",
+    "category": "compute",
+    "composition": "xcompute.platform.unboxd/v1",
+    "meters": ["compute.vcpu.hour", "compute.mem.gb.hour"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2", "ISO-27001"]
+  },
+  {
+    "id": "lambda",
+    "name": "Functions (Lambda-compatible)",
+    "project": "Knative / OpenFaaS",
+    "category": "serverless",
+    "composition": "xfunctions.platform.unboxd/v1",
+    "meters": ["function.invocation.million", "function.gb.second"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "sts",
+    "name": "Security Token Service (STS-compatible)",
+    "project": "Dex + SPIFFE/SPIRE",
+    "category": "security",
+    "composition": "xsts.platform.unboxd/v1",
+    "meters": ["token.issued.million"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2", "ISO-27001"]
+  },
+  {
+    "id": "sns",
+    "name": "Notifications (SNS-compatible)",
+    "project": "NATS",
+    "category": "messaging",
+    "composition": "xsns.platform.unboxd/v1",
+    "meters": ["messaging.msg.million"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "ses",
+    "name": "Email (SES-compatible)",
+    "project": "Postal / Haraka SMTP",
+    "category": "messaging",
+    "composition": "xses.platform.unboxd/v1",
+    "meters": ["email.sent.thousand"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2", "GDPR"]
+  },
+  {
+    "id": "s3",
+    "name": "Object Storage (S3-compatible)",
+    "project": "Rook/Ceph RGW",
+    "category": "storage",
+    "composition": "xs3.platform.unboxd/v1",
+    "meters": ["storage.gb.month", "network.egress.gb", "s3.request.million"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2", "ISO-27001", "GDPR"]
+  },
+  {
+    "id": "bedrock",
+    "name": "Model Inference (Bedrock-compatible)",
+    "project": "KServe + llama.cpp/Ollama",
+    "category": "ai",
+    "composition": "xbedrock.platform.unboxd/v1",
+    "meters": ["ai.tokens.million", "ai.cpu.hour", "ai.gpu.hour"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "agentcore",
+    "name": "Agent Runtime (AgentCore-compatible)",
+    "project": "Dapr Agents (open-source)",
+    "category": "ai",
+    "composition": "xagentcore.platform.unboxd/v1",
+    "meters": ["agent.run.hour", "ai.tokens.million", "compute.vcpu.hour"],
+    "profiles": ["developer", "sre"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "notebooks",
+    "name": "Notebooks",
+    "project": "JupyterHub",
+    "category": "dev",
+    "composition": "xnotebooks.platform.unboxd/v1",
+    "meters": ["notebook.hour", "compute.vcpu.hour", "storage.gb.month"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "coding-assistant",
+    "name": "Coding Assistant (per user)",
+    "project": "Continue / Tabby / OpenHands (open-source)",
+    "category": "ai",
+    "composition": "xassistant.platform.unboxd/v1",
+    "meters": ["assistant.hour", "ai.tokens.million", "ai.cpu.hour"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
+  },
+  {
+    "id": "codespace",
+    "name": "Codespace (cloud dev workspace)",
+    "project": "DevContainers + code-server (open-source)",
+    "category": "dev",
+    "composition": "xcodespace.platform.unboxd/v1",
+    "meters": ["codespace.hour", "compute.vcpu.hour", "storage.gb.month"],
+    "profiles": ["developer", "product_manager", "sre", "billing_admin"],
+    "certifications": ["SOC2"]
+  }
+]

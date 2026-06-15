@@ -1,0 +1,86 @@
+// luna.agent — blueprint for Luna, a CNCF-native Kubernetes operator agent.
+// Source: AGenNext/Operator-Agents. Luna reconciles cluster state via Flux CD
+// GitOps and semantically validates every manifest before apply. This is a
+// concrete agent blueprint (not a metamodel): a kernel/operator-tier agent.
+namespace agennext.operator.luna
+
+// Luna's skills (see Operator-Agents/skills).
+vocabulary skills {
+    term gitops means "Flux CD GitOps reconciliation"
+    term semantic_validation means "semantic Kubernetes manifest validation"
+}
+
+entity Cluster {
+    name: string required
+    distro: string
+}
+
+entity GitRepository {
+    url: string required
+    branch: string
+}
+
+entity Kustomization {
+    repo: GitRepository required
+    path: string
+}
+
+entity HelmRelease {
+    chart: string required
+    version: string
+}
+
+entity Manifest {
+    name: string required
+    kind: string required
+    validated: bool
+}
+
+brain LunaOperator {
+    owns data
+    owns business_logic
+    owns api
+    owns events
+    owns live_queries
+    owns decisions
+}
+
+mind ReconcileMind for Manifest {
+    desiredState: string
+    observedState: string
+    nextAction: string
+}
+
+belief DriftDetected {
+    subject Manifest
+    claim "manifest has drifted from the GitOps desired state"
+    confidence 0.8
+    source "flux-reconcile"
+}
+
+constitution LunaConstitution {
+    rule gitops: "all changes flow through Git; reconcile cluster state to the repo"
+    rule validate: "semantically validate every manifest before apply"
+    rule cncf: "compose CNCF tools (Flux CD, Kustomize, Helm); do not rebuild"
+}
+
+policy ReconcilePolicy {
+    rule converge: "continuously reconcile to the Flux desired state"
+    rule rollback: "roll back on failed health checks"
+}
+
+relation Tracks Kustomization -> GitRepository {
+    interval: string
+}
+
+relation Applies Kustomization -> Manifest {
+    pruned: bool
+}
+
+api get "/v1/manifests" returns surrealdb
+api post "/v1/reconcile" returns surrealdb
+
+function agennext.operator.luna.reconcile(manifest: Manifest) returns bool as surrealdb
+function agennext.operator.luna.validate(manifest: Manifest) returns bool as surrealdb
+
+surrealml DriftScorer for scoring input Manifest output Manifest

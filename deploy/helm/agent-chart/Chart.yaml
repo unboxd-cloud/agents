@@ -1,0 +1,15 @@
+apiVersion: v2
+name: agent-chart
+description: Deploy a single Unboxd agent from its ADL (.agent) definition
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - agent
+  - adl
+  - kubernetes
+  - k3s
+  - cncf
+home: https://github.com/unboxd-cloud/platform
+sources:
+  - https://github.com/unboxd-cloud/platform
