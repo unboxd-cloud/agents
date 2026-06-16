@@ -162,6 +162,11 @@ func Seeded() *MemStore {
 		// ses (email)
 		{ID: "ses", Name: "Email (SES-compatible)", Project: "Postal / Haraka SMTP", Category: "messaging",
 			Composition: "xses.platform.unboxd/v1", Meters: []string{"email.sent.thousand"}, Profiles: tech, Certifications: []string{"SOC2", "GDPR"}},
+		// rds (managed databases, RDS-compatible) — KubeDB by AppsCode runs
+		// Postgres/MySQL/MariaDB/MongoDB/Redis/Elasticsearch as CRDs; the
+		// integration lives in internal/kubedb.
+		{ID: "rds", Name: "Managed Databases (RDS-compatible)", Project: "KubeDB by AppsCode", Category: "data",
+			Composition: "xdatabase.platform.unboxd/v1", Meters: []string{"db.instance.hour", "storage.gb.month", "network.egress.gb"}, Profiles: all, Certifications: []string{"SOC2", "ISO-27001", "GDPR"}},
 		// s3 (S3-compatible object storage)
 		{ID: "s3", Name: "Object Storage (S3-compatible)", Project: "Rook/Ceph RGW", Category: "storage",
 			Composition: "xs3.platform.unboxd/v1", Meters: []string{"storage.gb.month", "network.egress.gb", "s3.request.million"}, Profiles: all, Certifications: []string{"SOC2", "ISO-27001", "GDPR"}},
