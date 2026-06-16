@@ -1,0 +1,87 @@
+// did.agent — the decentralized identity metamodel (W3C DID + Verifiable
+// Credentials). A Controller controls a DID that resolves to a DIDDocument with
+// verification methods and services. Issuers issue VerifiableCredentials to
+// holders, who present VerifiablePresentations that verifiers check. Complements
+// the identity metamodel with self-sovereign, portable identity.
+namespace unboxd.meta.did
+
+entity DID {
+    id: string required
+    method: string required
+}
+
+entity Controller {
+    id: string required
+    kind: string
+}
+
+entity VerificationMethod {
+    id: string required
+    did: DID required
+    type: string required
+    publicKey: string
+}
+
+entity Service {
+    did: DID required
+    type: string required
+    endpoint: string required
+}
+
+entity DIDDocument {
+    did: DID required
+    created: datetime
+    updated: datetime
+}
+
+entity CredentialSchema {
+    id: string required
+    name: string required
+}
+
+entity VerifiableCredential {
+    id: string required
+    issuer: DID required
+    subject: DID required
+    schema: CredentialSchema
+    issuedAt: datetime
+    expiresAt: datetime
+}
+
+entity VerifiablePresentation {
+    id: string required
+    holder: DID required
+    createdAt: datetime
+}
+
+entity Proof {
+    type: string required
+    created: datetime
+    value: string
+}
+
+relation Controls Controller -> DID {
+    since: datetime
+}
+
+relation Describes DIDDocument -> VerificationMethod {
+    purpose: string
+}
+
+relation Issues DID -> VerifiableCredential {
+    at: datetime
+}
+
+relation Presents VerifiablePresentation -> VerifiableCredential {
+    disclosed: string
+}
+
+relation Verifies DID -> VerifiablePresentation {
+    result: string
+}
+
+vocabulary methods {
+    term did_web means "did:web method anchored in DNS/HTTPS"
+    term did_key means "did:key method derived from a public key"
+    term did_ion means "did:ion method on the ION/Sidetree network"
+}

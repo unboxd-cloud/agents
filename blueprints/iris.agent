@@ -1,0 +1,99 @@
+// iris.agent — blueprint for Iris, an edge perception agent that performs
+// iris-based human detection: it detects a human's presence (and, with consent,
+// identity) from camera frames by extracting and matching iris templates.
+// Biometrics are sensitive, so consent and privacy are first-class in its
+// constitution. A perception-tier agent that runs at the edge (metal/edge).
+namespace agennext.agent.iris
+
+vocabulary skills {
+    term detection means "human presence detection from a frame"
+    term iris_match means "iris template extraction and matching"
+    term liveness means "anti-spoofing liveness check"
+}
+
+entity Camera {
+    id: string required
+    location: string
+    resolution: string
+}
+
+entity Frame {
+    camera: Camera required
+    capturedAt: datetime
+}
+
+entity Subject {
+    id: string required
+    consented: bool
+}
+
+entity ConsentRecord {
+    subject: Subject required
+    scope: string required
+    grantedAt: datetime
+    revoked: bool
+}
+
+entity IrisTemplate {
+    subject: Subject required
+    quality: float
+}
+
+entity Detection {
+    frame: Frame required
+    human: bool
+    confidence: float
+    matched: Subject
+}
+
+brain IrisPerception {
+    owns data
+    owns business_logic
+    owns api
+    owns events
+    owns decisions
+}
+
+mind DetectMind for Frame {
+    observedState: string
+    nextAction: string
+}
+
+belief HumanPresent {
+    subject Frame
+    claim "a human is present in the frame"
+    confidence 0.85
+    source "iris-detector"
+}
+
+constitution IrisConstitution {
+    rule consent: "extract or match iris templates only for subjects with active consent"
+    rule minimize: "retain raw frames no longer than needed; store templates, not images"
+    rule privacy: "treat biometric data as special-category; encrypt at rest and in transit"
+    rule liveness: "require a liveness check before any identity match"
+}
+
+policy DetectionPolicy {
+    rule edge_only: "run inference at the edge; do not exfiltrate raw biometrics"
+    rule revoke: "honor consent revocation immediately and purge templates"
+}
+
+relation Captures Camera -> Frame {
+    fps: int
+}
+
+relation Yields Frame -> Detection {
+    at: datetime
+}
+
+relation Authorizes ConsentRecord -> IrisTemplate {
+    scope: string
+}
+
+api get "/v1/detections" returns surrealdb
+api post "/v1/detect" returns surrealdb
+
+function agennext.agent.iris.detect(frame: Frame) returns bool as surrealdb
+function agennext.agent.iris.match(template: IrisTemplate) returns bool as surrealdb
+
+surrealml IrisMatcher for scoring input Frame output Detection

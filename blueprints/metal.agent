@@ -1,0 +1,90 @@
+// metal.agent — blueprint for Metal, a bare-metal-native node agent. Metal runs
+// directly on hardware (no hypervisor): it discovers machines, drives BMC/IPMI
+// power and PXE boot, images them, and enrolls them as nodes in a cluster. A
+// kernel/operator-tier agent that turns raw metal into platform capacity.
+namespace agennext.agent.metal
+
+vocabulary skills {
+    term bmc means "baseboard management controller (IPMI/Redfish) control"
+    term pxe means "PXE network boot and imaging"
+    term enrollment means "node enrollment into the cluster"
+}
+
+entity Machine {
+    id: string required
+    arch: string required
+    cores: int
+    memoryGB: int
+}
+
+entity BMC {
+    machine: Machine required
+    address: string required
+    protocol: string
+}
+
+entity Image {
+    name: string required
+    os: string required
+    version: string
+}
+
+entity Node {
+    machine: Machine required
+    cluster: string
+    ready: bool
+}
+
+entity ProvisioningRequest {
+    machine: Machine required
+    image: Image required
+    status: string
+}
+
+brain MetalOperator {
+    owns data
+    owns business_logic
+    owns api
+    owns events
+    owns decisions
+}
+
+mind ProvisionMind for ProvisioningRequest {
+    desiredState: string
+    observedState: string
+    nextAction: string
+}
+
+belief MachineHealthy {
+    subject Machine
+    claim "machine passed power-on self test and is reachable via BMC"
+    confidence 0.9
+    source "bmc-probe"
+}
+
+constitution MetalConstitution {
+    rule native: "run directly on bare metal; add no hypervisor layer"
+    rule idempotent: "reconcile machines to the desired image and cluster membership"
+    rule secure_boot: "verify firmware and image signatures before boot"
+}
+
+policy ProvisionPolicy {
+    rule converge: "continuously reconcile machines toward the desired node state"
+    rule drain: "cordon and drain a node before reimaging"
+}
+
+relation Manages BMC -> Machine {
+    power: string
+}
+
+relation Provisions ProvisioningRequest -> Node {
+    via: string
+}
+
+api get "/v1/machines" returns surrealdb
+api post "/v1/provision" returns surrealdb
+
+function agennext.agent.metal.provision(request: ProvisioningRequest) returns bool as surrealdb
+function agennext.agent.metal.enroll(node: Node) returns bool as surrealdb
+
+surrealml HealthScorer for scoring input Machine output Machine

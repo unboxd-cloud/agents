@@ -66,6 +66,31 @@ See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model
 | ses | SES | Postal / Haraka |
 | s3 | S3 | CloudStack primary/secondary storage + S3-compatible object gateway |
 
+## Cloud control plane (CloudStack-compatible)
+The `cloud` service exposes the **Apache CloudStack API as its contract** and
+reconciles requested VMs onto **Kubernetes pods** — CloudStack is the API,
+Kubernetes is the engine. See [ADR-0007](docs/adr/0007-cloudstack-contract-k8s-reconciler.md)
+(complements [ADR-0004](docs/adr/0004-cloudstack-optional.md)).
+
+One agent core runs multiple operators (VM reconciler + pod reaper) over a
+pluggable store (`CLOUD_STORE=mem|file`); `CLOUD_MODE=all|api|operator` splits
+the API and reconciler planes over one shared store.
+
+```bash
+./bin/cloud &   # control plane on :8086 (reconcile loop + HTTP API)
+# deploy a VM (clean REST; async — the operator converges it)
+curl -sXPOST localhost:8086/v1/vms \
+  -d '{"account":"t1","name":"web-1","zoneid":"zone-1","templateid":"tmpl-nginx","serviceofferingid":"so-small"}'
+# ...or deliver end-to-end: deploy and get a Running VM back in one call
+curl -sXPOST 'localhost:8086/v1/vms?wait=true' \
+  -d '{"account":"t1","name":"web-2","zoneid":"zone-1","templateid":"tmpl-nginx","serviceofferingid":"so-small"}'
+# ...or via the CloudStack-compatible query API (existing CloudStack clients)
+curl -s 'localhost:8086/client/api?command=listVirtualMachines&account=t1'
+# cloud workstation: one dev environment (single desk), multiple ports
+curl -sXPOST localhost:8086/v1/workstations \
+  -d '{"account":"t1","name":"dev","ports":[8080,3000]}'
+```
+
 ## Services & binaries (`cmd/`)
 
 | Binary | Role | Port |
@@ -77,6 +102,7 @@ See [`docs/agent-as-data-operating-model.md`](docs/agent-as-data-operating-model
 | `admin` | platform admin panel (htmx chat + APM + BI) | 8080 |
 | `orgconsole` | organization admin console | 8085 |
 | `operator` | CloudStack + Kubernetes operations controller | — |
+| `cloud` | CloudStack-compatible cloud control plane (VMs → k8s pods) | 8086 |
 | `platform` | unified CLI (`compose`, catalog, rate, cloudstack, …) | — |
 
 ## Quick start

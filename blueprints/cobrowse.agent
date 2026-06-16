@@ -1,0 +1,108 @@
+// cobrowse.agent — blueprint for Cobrowse, a shared-browser (co-browsing) agent.
+// It runs a remote browser session that multiple participants join; the host
+// drives, guests follow, and DOM diffs + pointers stream in real time. Session
+// state is published to the Fabric runtime (SurrealDB -> Fabric), so live
+// queries drive every participant's view. Sharing a screen is sensitive, so
+// consent and field masking are first-class in its constitution.
+namespace agennext.agent.cobrowse
+
+vocabulary skills {
+    term cobrowsing means "shared remote browser sessions"
+    term dom_sync means "real-time DOM diff synchronization"
+    term control_handoff means "granting and revoking interactive control"
+}
+
+entity Participant {
+    id: string required
+    name: string
+    role: string required
+}
+
+entity BrowserSession {
+    id: string required
+    host: Participant required
+    url: string
+    live: bool
+}
+
+entity Page {
+    session: BrowserSession required
+    url: string required
+    title: string
+}
+
+entity DOMSnapshot {
+    page: Page required
+    hash: string required
+    at: datetime
+}
+
+entity Pointer {
+    participant: Participant required
+    x: int
+    y: int
+}
+
+entity Invite {
+    session: BrowserSession required
+    token: string required
+    expiresAt: datetime
+}
+
+brain CobrowseBrain {
+    owns data
+    owns business_logic
+    owns api
+    owns events
+    owns live_queries
+    owns decisions
+}
+
+mind SyncMind for BrowserSession {
+    observedState: string
+    nextAction: string
+}
+
+belief SessionActive {
+    subject BrowserSession
+    claim "the shared session has at least one participant and a live page"
+    confidence 0.9
+    source "cobrowse-presence"
+}
+
+constitution CobrowseConstitution {
+    rule consent: "every participant opts in before a session is shared"
+    rule mask: "mask password and payment fields from guests"
+    rule control: "only the host may grant control; revoke it instantly on request"
+    rule ephemeral: "tear down all session state when the last participant leaves"
+}
+
+policy SyncPolicy {
+    rule realtime: "stream DOM diffs over live queries; never ship full snapshots of masked fields"
+    rule fabric: "publish session state to the Fabric runtime as the single source of truth"
+}
+
+relation Joins Participant -> BrowserSession {
+    role: string
+}
+
+relation Renders BrowserSession -> Page {
+    active: bool
+}
+
+relation Syncs Page -> DOMSnapshot {
+    at: datetime
+}
+
+relation Shares Participant -> Pointer {
+    at: datetime
+}
+
+api get "/v1/sessions" returns surrealdb
+api post "/v1/sessions" returns surrealdb
+api post "/v1/sessions/join" returns surrealdb
+
+function agennext.agent.cobrowse.start(session: BrowserSession) returns bool as surrealdb
+function agennext.agent.cobrowse.join(participant: Participant) returns bool as surrealdb
+
+surrealml LatencyScorer for scoring input BrowserSession output BrowserSession

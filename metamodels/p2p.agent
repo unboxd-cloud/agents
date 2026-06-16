@@ -1,0 +1,59 @@
+// p2p.agent — the peer-to-peer tunnel metamodel: peers establish secure,
+// NAT-traversing tunnels directly (or via relays when direct paths fail) that
+// carry sessions of traffic. Models the overlay the platform uses to connect
+// edge nodes, devices, and workstations that have no public address.
+namespace unboxd.meta.p2p
+
+entity Peer {
+    id: string required
+    publicKey: string required
+    endpoint: string
+}
+
+entity Tunnel {
+    id: string required
+    transport: string required
+    established: bool
+}
+
+entity Relay {
+    id: string required
+    region: string
+}
+
+entity Candidate {
+    peer: Peer required
+    address: string required
+    kind: string
+    priority: int
+}
+
+entity Session {
+    tunnel: Tunnel required
+    startedAt: datetime
+    bytesIn: int
+    bytesOut: int
+}
+
+relation ConnectsTo Peer -> Peer {
+    tunnel: string
+}
+
+relation Carries Tunnel -> Session {
+    encrypted: bool
+}
+
+relation Relays Relay -> Tunnel {
+    fallback: bool
+}
+
+relation Offers Peer -> Candidate {
+    at: datetime
+}
+
+vocabulary transports {
+    term wireguard means "WireGuard encrypted tunnel"
+    term quic means "QUIC transport over UDP"
+    term webrtc means "WebRTC data channels with ICE"
+    term ice means "Interactive Connectivity Establishment for NAT traversal"
+}
